@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ElementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ElementRepository::class)
@@ -14,8 +15,14 @@ class Element
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"public"})
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -23,29 +30,38 @@ class Element
     private $label;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $placeholder;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $isrequired;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $tooltype;
+  
 
     /**
-     * @ORM\ManyToOne(targetEntity=Bloc::class, inversedBy="elements")
+     * @ORM\ManyToOne(targetEntity=Model::class, inversedBy="elements")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $bloc;
+    private $model;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getLabel(): ?string
@@ -84,27 +100,23 @@ class Element
         return $this;
     }
 
-    public function getTooltype(): ?string
+ 
+
+    public function getModel(): ?Model
     {
-        return $this->tooltype;
+        return $this->model;
     }
 
-    public function setTooltype(string $tooltype): self
+    public function setModel(?Model $model): self
     {
-        $this->tooltype = $tooltype;
+        $this->model = $model;
 
         return $this;
     }
 
-    public function getBloc(): ?Bloc
-    {
-        return $this->bloc;
-    }
 
-    public function setBloc(?Bloc $bloc): self
-    {
-        $this->bloc = $bloc;
 
-        return $this;
-    }
+  
+
+
 }

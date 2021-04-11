@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -46,7 +47,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\OneToMany(targetEntity=Model::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Model::class, mappedBy="User")
      */
     private $models;
 
@@ -54,6 +55,11 @@ class User implements UserInterface
     {
         $this->models = new ArrayCollection();
     }
+
+    
+  
+
+   
 
     public function getId(): ?int
     {
@@ -133,6 +139,22 @@ class User implements UserInterface
     public function getSalt(): ?string
     {
         return null;
+    }
+
+ 
+
+ 
+
+ 
+
+ 
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->created_at = new Datetime();
     }
 
     /**

@@ -47,4 +47,12 @@ class ModelRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /*public function findByName($name) {
+        $q = $this->getEntityManager()
+        ->createQuery("select m.name from Model m where m.name= :name")
+        ->setParameter('name', $name);
+
+        return $query = $q->getResult();
+    }*/
 }

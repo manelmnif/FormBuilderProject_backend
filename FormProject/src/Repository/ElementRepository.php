@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Element;
+use App\Entity\Model;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,15 @@ class ElementRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findForm($name)  {
+        $q = $this->getEntityManager()
+        ->createQuery("select e.label, e.placeholder, e.isrequired, e.name
+        from App\Entity\Element  e
+        join App\Entity\Model m
+        where e.model = m.id and m.name= :name")
+        ->setParameter('name', $name);
+
+        return $query = $q->getResult();
+    }
 }

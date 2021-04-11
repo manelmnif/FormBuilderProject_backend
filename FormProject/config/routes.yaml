@@ -4,10 +4,10 @@
 api_login_check:
   path: /api/login_check
 
-model_create:
-  path: /register
-  controller: App\Controller\RegistrateController::registration
-  methods: [POST]
+
+
+
+
 
 
 

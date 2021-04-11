@@ -6,6 +6,7 @@ use App\Repository\ModelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ModelRepository::class)
@@ -16,6 +17,7 @@ class Model
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"public"})
      */
     private $id;
 
@@ -25,19 +27,19 @@ class Model
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="models")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="models", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bloc::class, mappedBy="Model")
+     * @ORM\OneToMany(targetEntity=Element::class, mappedBy="Model")
      */
-    private $blocs;
+    private $elements;
 
     public function __construct()
     {
-        $this->blocs = new ArrayCollection();
+        $this->elements = new ArrayCollection();
     }
 
 
@@ -73,29 +75,29 @@ class Model
     }
 
     /**
-     * @return Collection|Bloc[]
+     * @return Collection|Element[]
      */
-    public function getBlocs(): Collection
+    public function getElements(): Collection
     {
-        return $this->blocs;
+        return $this->elements;
     }
 
-    public function addBloc(Bloc $bloc): self
+    public function addElement(Element $element): self
     {
-        if (!$this->blocs->contains($bloc)) {
-            $this->blocs[] = $bloc;
-            $bloc->setModel($this);
+        if (!$this->elements->contains($element)) {
+            $this->elements[] = $element;
+            $element->setModel($this);
         }
 
         return $this;
     }
 
-    public function removeBloc(Bloc $bloc): self
+    public function removeElement(Element $element): self
     {
-        if ($this->blocs->removeElement($bloc)) {
+        if ($this->elements->removeElement($element)) {
             // set the owning side to null (unless already changed)
-            if ($bloc->getModel() === $this) {
-                $bloc->setModel(null);
+            if ($element->getModel() === $this) {
+                $element->setModel(null);
             }
         }
 
