@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Model;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +20,17 @@ use App\Form\UserType;
 
 class SecurityController extends AbstractController
 {
+
+     /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->modelRepository = $userRepository;
+     
+    }
     /**
      * @Route("/login", name="login")
      */
@@ -44,6 +57,13 @@ class SecurityController extends AbstractController
     }
 
       /**
+     * @Route("/register", name="security_registration")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param TokenStorageInterface $tokenStorage
+     * @return RedirectResponse|Response
+     */
+     /**
      * @Route("/register", name="security_registration")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
@@ -93,7 +113,16 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    
+     /**
+     * @Route("/test", name="test")
+     */
+    public function test(UserRepository $userRepository)
+    {
+     
+        
+        return $this->render('security/register.html.twig');
+     
+    }
 
 
 }

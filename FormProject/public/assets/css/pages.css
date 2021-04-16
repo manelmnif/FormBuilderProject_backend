@@ -64,7 +64,7 @@ File: Menu
   background-color: transparent !important;
 }
 .mails .mail-list .list-group-item.active {
-  background-color: #188ae2;
+  background-color: #7fc1fc;
   -webkit-border-radius: 3px;
   border-radius: 3px;
   -moz-border-radius: 3px;
@@ -167,7 +167,7 @@ File: Menu
 }
 .mapael .mapTooltip {
   position: absolute;
-  background-color: #7fc1fc;
+  background-color: #188ae2;
   opacity: 0.95;
   border-radius: 3px;
   padding: 2px 10px;
@@ -210,7 +210,7 @@ File: Menu
   height: 4px;
   width: 48px;
   border-radius: 5px;
-  background-color: #188ae2;
+  background-color: #7fc1fc;
 }
 .about-features-box {
   margin: 20px 0;
@@ -701,8 +701,8 @@ h3.timeline-title {
   width: 100px;
   display: block;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0 0 rgba(0, 0, 0, 0.02);
-  background: #7fc1fc;
-  background: linear-gradient(#188ae2 0%, #188ae2 100%);
+  background: #188ae2;
+  background: linear-gradient(#7fc1fc 0%, #7fc1fc 100%);
   position: absolute;
   top: 19px;
   letter-spacing: 1px;
@@ -714,10 +714,10 @@ h3.timeline-title {
   left: 0;
   top: 100%;
   z-index: -1;
-  border-left: 3px solid #136eb4;
+  border-left: 3px solid #4da9fb;
   border-right: 3px solid transparent;
   border-bottom: 3px solid transparent;
-  border-top: 3px solid #136eb4;
+  border-top: 3px solid #4da9fb;
 }
 .ribbon span:after {
   content: "";
@@ -726,9 +726,9 @@ h3.timeline-title {
   top: 100%;
   z-index: -1;
   border-left: 3px solid transparent;
-  border-right: 3px solid #136eb4;
+  border-right: 3px solid #4da9fb;
   border-bottom: 3px solid transparent;
-  border-top: 3px solid #136eb4;
+  border-top: 3px solid #4da9fb;
 }
 /* =============
    Account Pages
@@ -843,7 +843,7 @@ ul.sitemap li a {
   display: inline-block;
 }
 ul.sitemap li a:hover {
-  color: #7fc1fc;
+  color: #188ae2;
 }
 ul.sitemap ul {
   margin-left: 1.5rem ;
@@ -900,11 +900,11 @@ ul.sitemap ul li a {
   text-transform: uppercase;
 }
 .blog-post .post-title a {
-  color: #188ae2;
+  color: #7fc1fc;
   line-height: 28px;
 }
 .blog-post .post-title a:hover {
-  color: #136eb4;
+  color: #4da9fb;
 }
 .blog-categories-list li {
   display: block;
@@ -1020,7 +1020,7 @@ Real Estate
   z-index: 9;
 }
 .property-detail-wrapper #bx-pager a.active img {
-  border: 1px solid #7fc1fc;
+  border: 1px solid #188ae2;
 }
 .property-detail-wrapper #bx-pager a img {
   padding: 3px;

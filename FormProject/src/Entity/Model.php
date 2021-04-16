@@ -26,11 +26,7 @@ class Model
      */
     private $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="models", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+ 
 
     /**
      * @ORM\OneToMany(targetEntity=Element::class, mappedBy="Model")
@@ -62,17 +58,7 @@ class Model
         return $this;
     }
 
-    public function getUser(): ?user
-    {
-        return $this->user;
-    }
-
-    public function setUser(?user $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
+ 
 
     /**
      * @return Collection|Element[]

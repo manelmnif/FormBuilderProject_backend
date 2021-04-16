@@ -20,7 +20,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/register", name="security_registration")
+     * @Route("/re", name="security_registration")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param TokenStorageInterface $tokenStorage

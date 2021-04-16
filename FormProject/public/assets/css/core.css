@@ -24,7 +24,7 @@ File: Core
 body {
   font-family: 'Varela Round', sans-serif;
   margin: 0;
-  padding-bottom: 60px;
+  padding-bottom: 65px;
   overflow-x: hidden;
   color: #797979;
 }
@@ -73,25 +73,6 @@ a:active {
 a:focus {
   outline: 0;
   text-decoration: none;
-}
-.container {
-  width: auto;
-}
-.container-alt {
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-/* Footer */
-.footer {
-  border-top: 1px solid rgba(152, 166, 173, 0.2);
-  bottom: 0;
-  text-align: left !important;
-  padding: 19px 30px 20px;
-  position: absolute;
-  right: 0;
-  left: 225px;
 }
 #wrapper {
   height: 100%;
@@ -413,7 +394,7 @@ a:focus {
 }
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {
-  background-color: #f3f3f3 !important;
+  background-color: #f7f7f7 !important;
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
@@ -454,10 +435,10 @@ a:focus {
 }
 /* Background colors */
 .bg-custom {
-  background-color: #7fc1fc !important;
+  background-color: #188ae2 !important;
 }
 .bg-primary {
-  background-color: #188ae2 !important;
+  background-color: #7fc1fc !important;
 }
 .bg-success {
   background-color: #4bd396 !important;
@@ -500,7 +481,7 @@ a:focus {
 }
 /* Text colors */
 .text-custom {
-  color: #7fc1fc !important;
+  color: #188ae2 !important;
 }
 .text-white {
   color: #ffffff !important;
@@ -512,7 +493,7 @@ a:focus {
   color: #98a6ad !important;
 }
 .text-primary {
-  color: #188ae2 !important;
+  color: #7fc1fc !important;
 }
 .text-warning {
   color: #f9c851 !important;
@@ -556,10 +537,10 @@ a:focus {
   color: #313a46 !important;
 }
 .label-default {
-  background-color: #7fc1fc;
+  background-color: #188ae2;
 }
 .label-primary {
-  background-color: #188ae2;
+  background-color: #7fc1fc;
 }
 .label-success {
   background-color: #4bd396;
@@ -597,7 +578,7 @@ a:focus {
   padding: 3px 5px;
   font-size: 11px;
   margin-top: 1px;
-  background-color: #7fc1fc;
+  background-color: #188ae2;
 }
 .badge-xs {
   font-size: 9px;
@@ -614,7 +595,7 @@ a:focus {
   color: #313a46 !important;
 }
 .badge-primary {
-  background-color: #188ae2;
+  background-color: #7fc1fc;
 }
 .badge-success {
   background-color: #4bd396;
@@ -686,8 +667,8 @@ a:focus {
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
 .pagination > .active > span:focus {
-  background-color: #7fc1fc;
-  border-color: #7fc1fc;
+  background-color: #188ae2;
+  border-color: #188ae2;
 }
 .pager li > a,
 .pager li > span {
@@ -699,8 +680,8 @@ a:focus {
 .list-group-item.active,
 .list-group-item.active:focus,
 .list-group-item.active:hover {
-  background-color: #7fc1fc;
-  border-color: #7fc1fc;
+  background-color: #188ae2;
+  border-color: #188ae2;
 }
 .list-group-item.active .list-group-item-text,
 .list-group-item.active:focus .list-group-item-text,
@@ -796,10 +777,10 @@ a:focus {
   background-color: rgba(255, 255, 255, 0.4);
 }
 .waves-effect.waves-custom .waves-ripple {
-  background-color: rgba(127, 193, 252, 0.4);
+  background-color: rgba(24, 138, 226, 0.4);
 }
 .waves-effect.waves-primary .waves-ripple {
-  background-color: rgba(24, 138, 226, 0.4);
+  background-color: rgba(127, 193, 252, 0.4);
 }
 .waves-effect.waves-success .waves-ripple {
   background-color: rgba(75, 211, 150, 0.4);
@@ -826,27 +807,23 @@ a:focus {
    Print css
 ============= */
 @media print {
-  .page-title-box,
-  .topbar-left,
-  .hidden-print,
-  .breadcrumb,
+  #topnav,
   .page-title,
-  .footer {
-    display: none;
-    margin: 0;
-    padding: 0;
+  .breadcrumb,
+  .page-title-box,
+  .btn-default.dropdown-toggle {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
-  .left,
-  .right-bar {
-    display: none;
+  .wrapper {
+    padding-top: 0 !important;
   }
-  .content {
-    margin-top: 0 !important;
-    padding-top: 0;
+  .panel {
+    border: 0 !important;
   }
-  .content-page {
-    margin-left: 0;
-    margin-top: 0;
+  .panel .panel-body {
+    padding: 0 !important;
   }
 }
 /* =============
@@ -879,6 +856,7 @@ a:focus {
   display: inline-block;
   margin: 10px 20px;
   opacity: 1;
+  z-index: 1022;
 }
 /* Grid page */
 .grid-structure .grid-container {
