@@ -1,0 +1,105 @@
+body {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.header {
+    padding-bottom: 1rem;
+
+}
+
+.form_builder .nav-sidebar { 
+    width: 100%;
+    padding: 8px 0; 
+   
+}
+
+
+
+.form_builder .nav-sidebar .text-overflow a,
+.form_builder .nav-sidebar .text-overflow .media-body {
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis; 
+}
+
+/* Right-aligned sidebar */
+.form_builder .nav-sidebar.pull-right { 
+    border-right: 0; 
+   
+}
+.form_builder .nav-sidebar.pull-right a {
+    -webkit-border-radius: 0 4px 4px 0; 
+    -moz-border-radius: 0 4px 4px 0; 
+    border-radius: 0 4px 4px 0; 
+}
+
+
+
+
+
+.form_builder ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+.form_builder ul li a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form_builder_field {
+    margin: 20px 10px;
+    padding: 10px;
+
+    width: 100%;
+}
+
+.form_builder .bal_builder {
+    padding: 0 !important;
+}
+
+.margin-left-5 {
+    margin-left: 5px;
+}
+
+.remove_bal_field {
+    cursor: pointer;
+}
+
+
+
+.form-check-input {
+    margin-right: 8px;
+}
+
+.placeholder {
+    width: 100%;
+  
+    margin-bottom: 5px;
+}
+.form_builder_area {
+    width:100%;
+    min-height:50px;
+    position: absolute
+}
+
+
+
+
+.mt-radio {
+    display: block;
+}
+.mt-radio p {
+    display: inline;
+}
+.mt-checkbox {
+    display: block;
+}
+.mt-checkbox p {
+    display: inline;
+}
+
+.add_more_select, .add_more_radio, .add_more_checkbox, .remove_more_select, .remove_more_radio, .remove_more_checkbox {
+    cursor: pointer;
+}
