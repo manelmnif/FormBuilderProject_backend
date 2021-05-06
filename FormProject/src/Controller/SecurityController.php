@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\Model;
+use App\Entity\Test;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,6 +17,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Form\UserType;
+use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Psr\Log\LoggerInterface;
 
 class SecurityController extends AbstractController
 {
@@ -26,10 +29,15 @@ class SecurityController extends AbstractController
      */
     private $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+  /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
         $this->modelRepository = $userRepository;
-     
+        $this->entityManager = $entityManager;
     }
     /**
      * @Route("/login", name="login")
@@ -113,14 +121,25 @@ class SecurityController extends AbstractController
         ]);
     }
 
-     /**
-     * @Route("/test", name="test")
+    /**
+     * @Route(name="test", path="/test", options={"expose"=true})
      */
-    public function test(UserRepository $userRepository)
+    public function test(Request $request, UserRepository $userRepository)
     {
      
+        $name = "pita";
         
-        return $this->render('security/register.html.twig');
+       // $test = new Test();
+       // $test->setName($name);
+        //$model->setUser($user);
+        
+       // $this->entityManager->persist($test);
+        $this->entityManager->flush();
+
+        return new JsonResponse([
+            'message' => "hihi",
+           
+        ]);
      
     }
 

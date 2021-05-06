@@ -46,14 +46,17 @@ class User implements UserInterface
      */
     private $username;
 
+    
+
     /**
-     * @ORM\OneToMany(targetEntity=Model::class, mappedBy="User")
+     * @ORM\OneToMany(targetEntity=Form::class, mappedBy="user")
      */
-    private $models;
+    private $forms;
 
     public function __construct()
     {
-        $this->models = new ArrayCollection();
+
+        $this->forms = new ArrayCollection();
     }
 
     
@@ -166,30 +169,35 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+
+
+ 
+  
+
     /**
-     * @return Collection|Model[]
+     * @return Collection|Form[]
      */
-    public function getModels(): Collection
+    public function getForms(): Collection
     {
-        return $this->models;
+        return $this->forms;
     }
 
-    public function addModel(Model $model): self
+    public function addForm(Form $form): self
     {
-        if (!$this->models->contains($model)) {
-            $this->models[] = $model;
-            $model->setUser($this);
+        if (!$this->forms->contains($form)) {
+            $this->forms[] = $form;
+            $form->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeModel(Model $model): self
+    public function removeForm(Form $form): self
     {
-        if ($this->models->removeElement($model)) {
+        if ($this->forms->removeElement($form)) {
             // set the owning side to null (unless already changed)
-            if ($model->getUser() === $this) {
-                $model->setUser(null);
+            if ($form->getUser() === $this) {
+                $form->setUser(null);
             }
         }
 

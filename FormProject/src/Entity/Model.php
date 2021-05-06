@@ -26,17 +26,11 @@ class Model
      */
     private $name;
 
+    private $user;
+
  
 
-    /**
-     * @ORM\OneToMany(targetEntity=Element::class, mappedBy="Model")
-     */
-    private $elements;
-
-    public function __construct()
-    {
-        $this->elements = new ArrayCollection();
-    }
+    
 
 
 
@@ -60,35 +54,8 @@ class Model
 
  
 
-    /**
-     * @return Collection|Element[]
-     */
-    public function getElements(): Collection
-    {
-        return $this->elements;
-    }
-
-    public function addElement(Element $element): self
-    {
-        if (!$this->elements->contains($element)) {
-            $this->elements[] = $element;
-            $element->setModel($this);
-        }
-
-        return $this;
-    }
-
-    public function removeElement(Element $element): self
-    {
-        if ($this->elements->removeElement($element)) {
-            // set the owning side to null (unless already changed)
-            if ($element->getModel() === $this) {
-                $element->setModel(null);
-            }
-        }
-
-        return $this;
-    }
+   
+    
 
 
 
