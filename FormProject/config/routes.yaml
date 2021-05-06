@@ -4,7 +4,16 @@
 api_login_check:
   path: /api/login_check
 
+fos_js_routing:
+  resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
+index:
+   path: /
+   controller: App\Controller\ElementTypeController::getElementType
+
+indexArray:
+   path: /
+   controller: App\Controller\ElementTypeController::getElementTypeArray
 
 
 

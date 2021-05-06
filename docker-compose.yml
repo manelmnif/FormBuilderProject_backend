@@ -33,8 +33,8 @@ services:
         ports:
             - 8082:80
         volumes: 
-            - ./php/vhosts:/etc/apache2/sites-enabled
-            - ./:/var/www
+            - ./php/vhosts:/etc/apache2/sites-enabled:delegated
+            - ./:/var/www:delegated
         restart: always
         networks:
             - dev
