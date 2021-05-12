@@ -51,8 +51,9 @@
 											</div>
 
 										</th>
-										<th>Name</th>
+										<th>Nom</th>
 										<th>Description</th>
+										<th>Date de création</th>
 
 										<th>Action</th>
 									</tr>
@@ -61,8 +62,10 @@
 
 								<tbody>
 									{% for form in forms %}
+		
 
-										<tr>
+										<tr >
+										
 											<td>
 												<div class="checkbox checkbox-primary m-r-15 m-l-5">
 													<input id="checkbox10" type="checkbox">
@@ -73,24 +76,35 @@
 											</td>
 
 											<td>
+											
 												{{ form.name }}
+												</td>
+												<td>
+										
+											{{ form.description }}
+											</td>
+
+<td>
+											{{ form.date | date("d/m/Y") }}
 											</td>
 
 											<td>
-												<a href="#">{{ form.description }}</a>
-											</td>
+												<a href="#" class="table-action-btn h4"  >
 
-
-											<td>
-												<a href="#" class="table-action-btn h3">
-													<i class="mdi mdi-pencil-box-outline text-success"></i>
+													<i class="mdi mdi-pencil-box-outline text-success" title="Renommer le formulaire" ></i>
 												</a>
-												<a href="#" class="table-action-btn h3">
+											
+												<a href="#" class="table-action-btn h4">
 													<i class="mdi mdi-close-box-outline text-danger"></i>
 												</a>
+												<a href="{{ path('indexArray', {'url':form.url }) }}" class="table-action-btn h4">
+													<i class="mdi mdi-arrow-right-bold-hexagon-outline
+ text-info"></i>
+												</a>
 											</td>
+										
 										</tr>
-
+										
 									{% endfor %}
 								</tbody>
 							</table>
@@ -143,38 +157,67 @@
 				
 				<div id="con-close-modal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                 <div class="modal-dialog">
+					
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                             <h4 class="modal-title">Créer un formulaire</h4>
                                         </div>
+										
+										   {{ form_start(form, {'atr' : { 'action': 'addForm'}} ) }}
+										 
                                         <div class="modal-body">
                                            
                                             <div class="row">
                                                 <div class="col-md-12">
+												                                   
                                                     <div class="form-group">
-                                                        <label for="field-3" class="control-label">Nom</label>
-                                                        <input type="text" class="form-control" id="field-3" placeholder="Label">
+                                                   
+														 {{ form_widget(form.name, {'attr' : {'class' :'form-control', 'placeholder' : 'name' }})}}
+														  {{ form_errors(form.name) }}
                                                     </div>
+												
+												
                                                 </div>
                                             </div>
                                           
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group no-margin">
-                                                        <label for="field-7" class="control-label">Description</label>
-                                                        <textarea class="form-control autogrow" id="field-7" placeholder="Description" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+                                                 
+														 {{ form_widget(form.description, {'attr' : {'class' :'form-control autogrow', 'placeholder' : 'description'}})}}
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> 
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-info waves-effect waves-light">Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
+                                            <button type="submit" class="btn btn-info waves-effect waves-light">Save changes</button>
+                                      
+									    </div>
+										
+                                    </div>
+									
+									{{ form_end(form) }}
+							<ul>
+
+</ul>
+                                </div>
+									 
+                            </div>
+		
 		{% endblock %}
+
+
+		
+	{% endblock %}
+
+	{% block javascript %}
+
+	{{ parent() }}
+<script>
+    $(document).ready(function () {
+	$(form).validate();
+	})
+	</script>
 	{% endblock %}

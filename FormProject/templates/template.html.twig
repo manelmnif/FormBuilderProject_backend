@@ -9,6 +9,7 @@
        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}"/>
 
         <title>Zircos - Responsive Admin Dashboard Template</title>
+      
 
         <!-- Animated css -->
       <link href="{{ asset('plugins/animate/animate.min.css') }}" rel="stylesheet" type="text/css"  />
@@ -44,6 +45,8 @@
         <script src="{{ asset('assets/js/modernizr.min.js') }}"></script>
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <!-- Tooltipster css -->
+        <link rel="stylesheet" href="{{ asset('plugins/tooltipster/tooltipster.bundle.min.css') }}">
 
 
 
@@ -68,7 +71,7 @@
                         <!--</a>-->
                         <!-- Image Logo -->
                         <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png" alt="" height="30">
+                            <img src="{{ asset('assets/images/logo.png') }}" alt="" height="30">
                         </a>
 
                     </div>
@@ -98,7 +101,7 @@
                                     <li>
                                         <a href="#" class="user-list-item">
                                             <div class="avatar">
-                                                <img src="assets/images/users/avatar-2.jpg" alt="">
+                                                <img src="{{ asset('assets/images/users/avatar-2.jpg') }}"  alt="">
                                             </div>
                                             <div class="user-desc">
                                                 <span class="name">Patricia Beach</span>
@@ -110,7 +113,7 @@
                                     <li>
                                         <a href="#" class="user-list-item">
                                             <div class="avatar">
-                                                <img src="assets/images/users/avatar-3.jpg" alt="">
+                                                <img  src="{{ asset('assets/images/users/avatar-3.jpg') }}"  alt="">
                                             </div>
                                             <div class="user-desc">
                                                 <span class="name">Connie Lucas</span>
@@ -122,7 +125,7 @@
                                     <li>
                                         <a href="#" class="user-list-item">
                                             <div class="avatar">
-                                                <img src="assets/images/users/avatar-4.jpg" alt="">
+                                                <img src="{{ asset('assets/images/users/avatar-4.jpg') }}" alt="">
                                             </div>
                                             <div class="user-desc">
                                                 <span class="name">Margaret Becker</span>
@@ -187,7 +190,7 @@
                             </li>
 
                             <li class="dropdown navbar-c-items">
-                                <a href="" class="dropdown-toggle waves-effect waves-light profile" data-toggle="dropdown" aria-expanded="true"><img src="assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
+                                <a href="" class="dropdown-toggle waves-effect waves-light profile" data-toggle="dropdown" aria-expanded="true"><img src="{{ asset('assets/images/users/avatar-4.jpg') }}" alt="user-img" class="img-circle"> </a>
                                 <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
                                     <li class="text-center">
                                         <h5>Hi, John</h5>
@@ -452,7 +455,13 @@
    <!-- jQuery  -->
    {% block javascript %}
    {% endblock %}
+     <!-- Tooltipster js -->
+        <script src="{{ asset('plugins/tooltipster/tooltipster.bundle.min.js') }}" ></script>
+        <script src="{{ asset('assets/pages/jquery.tooltipster.js') }}"></script>
 
+        
+        <script src="{{ asset('plugins/custombox/js/custombox.min.js') }}"></script>
+		<script src="{{ asset('plugins/custombox/js/legacy.min.js') }}"></script>
         <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/detect.js') }}"></script>
@@ -479,6 +488,7 @@
    
 
         <!-- App js -->
+      
         <script src="{{ asset('assets/js/jquery.core.js') }}"></script>
         <script src="{{ asset('assets/js/jquery.app.js') }}"></script>
         <script src="{{ asset('assets/js/jquery.app.js') }}" ></script>
@@ -490,10 +500,12 @@
 
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
- 
+     
+      
 
-  <script src="{{ asset('plugins/custombox/js/custombox.min.js') }}"></script>
-		    <script src="{{ asset('plugins/custombox/js/legacy.min.js') }}"></script>
+      <script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
+
+
 
 
 

@@ -8,12 +8,18 @@ fos_js_routing:
   resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
 index:
-   path: /
+   path: /form/{url}
    controller: App\Controller\ElementTypeController::getElementType
 
-indexArray:
-   path: /
-   controller: App\Controller\ElementTypeController::getElementTypeArray
+
+
+addForm:
+   path: /forms/list
+   controller: App\Controller\FormController::addForm
+
+
+
+
 
 
 

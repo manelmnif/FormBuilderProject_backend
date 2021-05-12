@@ -1,93 +1,98 @@
 {% extends 'template.html.twig' %}
 
 {% block content %}
-{% block body %}
+	{% block body %}
 
 
-
-	<div class="wrapper">
-		<div
-			class="container">
-
-
-			<!-- end page title end breadcrumb -->
+		<div class="wrapper">
+			<div
+				class="container">
 
 
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="card-box ">
-						<div class="row">
-							<div class="col-lg-3 col-md-4">
-								<div class="text-center card-box">
-									<div class="member-card">
-										<a href="javascript:;" data-toggle="modal" data-target="#add-category" class="btn btn-lg btn-danger btn-block waves-effect m-t-20 waves-light">
-											<i class="fa fa-plus"></i>
-											Create New Bloc
-										</a>
-										<div id="external-events" class="m-t-20 nav">
-											<br>
+				<!-- end page title end breadcrumb -->
 
-											   {%  for elementType in elementTypes  %}
 
-											<div id="{{elementType.id}}" class="external-event bg-success form_bal_textfield" data-class="bg-success" style="position: relative; ">
-												<a href="javascript:;">
-													<i class="mdi mdi-message-text-outline m-r-10 vertical-middle"></i>&nbsp; {{ elementType.type }}
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="card-box ">
+							<div class="row">
+								<div class="col-lg-3 col-md-4">
+									<div class="text-center card-box">
+										<div class="member-card">
+
+											<a href="javascript:;" data-toggle="modal" data-target="#add-category" class="btn btn-lg btn-danger btn-block waves-effect m-t-20 waves-light btn-section">
+												<i class="fa fa-plus"></i>
+												Create New Bloc
+											</a>
+											<div id="external-events" class="m-t-20 nav">
+												<br>
+
+												{%  for elementType in elementTypes  %}
+
+													<div id="{{elementType.id}}" class="external-event bg-success form_bal_textfield" data-class="bg-success" style="position: relative; ">
+														<a href="javascript:;">
+															<i class="mdi mdi-message-text-outline m-r-10 vertical-middle"></i>&nbsp;
+															{{ elementType.type }}
+														</div>
+													{% endfor %}
+
+
 												</div>
-											   {% endfor %}
 
-											
 											</div>
 
 										</div>
+										<!-- end card-box -->
 
 									</div>
-									<!-- end card-box -->
+									<!-- end col -->
+
+									<div class="col-md-8 ">
+
+										<div class="card-box form_builder_area ui-sortable">
+											{% set currentPath = path(app.request.attributes.get('_route'),
+                       app.request.attributes.get('_route_params')) %}
+											{% set params= { 'url': currentPath } %}
+
+											{%  for section in sections  %}
+
+												<div data-field=" {{ section.name }}" data-block="{{section.ordre}}" class="block_{{ section.name}} block ">
+													<div class="col-md-12">
+														<div class="form-group ">
+															<div class="pull-right">
+																<a class="table-action-btn h3">
+																	<i class="mdi mdi-close-box-outline text-danger remove_block " data-field="{{ section.name }}"></i>
+																</a>
+															</div>
+														</div><br><div class="jFiler-input-dragDrop block-area ui-sortable " style="width:100%;"></div>
+													</div>
+													</div>
+													{% endfor %}
+													<!-- end col -->
+
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- End row -->
+
 
 								</div>
-								<!-- end col -->
-
-								<div class="col-md-8 ">
-                                
-								<div class="card-box form_builder_area ui-sortable">
-                               
-                                
-
-								
-                                    </div>
-								</div>
-								<!-- end col -->
-
+								<!-- end container -->
 							</div>
-						</div>
-					</div>
-				</div>
-				<!-- End row -->
+
+						{% endblock %}
+						{% block javascript %}
+							<script>
 
 
-			</div>
-			<!-- end container -->
-		</div>
+								$(document).ready(function () {
 
-{% endblock %}
-{% block javascript %}
-<script>
-var urlAjaxValidation = "{{ path('getConstraintByElementType') }}";
+var types = new Array();{% for elementType in elementTypes %}types.push({id:'{{ elementType.id }}', type:'{{ elementType.type }}', multiple:'{{ elementType.multiple }}'}){% endfor %}console.log(types);
 
-  $(document).ready(function(){
-        
-        var types = new Array();
-          {%  for elementType in elementTypes  %}
-          types.push({id:'{{elementType.id}}', type:'{{elementType.type}}', multiple:'{{elementType.multiple}}' } )
-
-
-        {% endfor %}
-    
-        console.log(types);
-
-		var test = {{ elementTypes| json_encode }};
-		console.log(test);
-    });
-	</script>
-{% endblock %}
-	{% endblock %}
-
+var test = {{ elementTypes| json_encode }};
+console.log(test);
+});
+							</script>
+						{% endblock %}
+					{% endblock %}
