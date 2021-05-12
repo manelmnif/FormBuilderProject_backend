@@ -2852,6 +2852,7 @@ input[switch="teal"]:checked + label {
 }
 /* == Form Uploads == */
 .jFiler-input-dragDrop {
+  height : 100%;
   width: 100%;
   background-color: #fafafa;
 }
@@ -3591,3 +3592,5 @@ table.dataTable thead th.sorting_desc:after {
 .google-chart .chart {
   display: inline-block;
 }
+
+

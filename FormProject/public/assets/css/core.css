@@ -924,3 +924,14 @@ a:focus {
   width: 48px;
   margin: 2rem;
 }
+
+input.error,
+select.error,
+textarea.error,
+checkbox.error
+{    border: 2px solid #E30613 !important;
+}
+
+label.error {
+  color: #EF4351 !important;
+}

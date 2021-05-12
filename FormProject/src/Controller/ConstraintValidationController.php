@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Section;
 use App\Repository\ConstraintValidationRepository;
+use App\Repository\FormRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +37,7 @@ class ConstraintValidationController extends AbstractFOSRestController
     }
 
     /**
-     * @Route(name="getConstraintByElementType", path="/", options={"expose"=true}, methods="POST")
+     * @Route(name="getConstraintByElementType", path="/constraint", options={"expose"=true}, methods="POST")
      */
    
 
@@ -56,6 +57,8 @@ class ConstraintValidationController extends AbstractFOSRestController
         return $response;
 
     }
+
+    
 
 
 

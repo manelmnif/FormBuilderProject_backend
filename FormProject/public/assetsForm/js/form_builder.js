@@ -1,6 +1,7 @@
+
+
 $(document).ready(function () {
-
-
+ 
     $('.form_bal_textfield').draggable({
         helper: function () {
             var id = ($(this)).attr('id');
@@ -9,7 +10,7 @@ $(document).ready(function () {
             // var field = $('.element').attr('data-field');
             // console.log(field);
             $.ajax({
-                url: urlAjaxValidation,
+                url: Routing.generate('getConstraintByElementType'),
                 data: {
                     id: id
                 },
@@ -29,43 +30,62 @@ $(document).ready(function () {
 
             })
 
-            return getTextFieldHTML(field)
+            return getTextFieldHTML(field);
         },
-        connectToSortable: '.form_builder_area'
+        connectToSortable: '.block-area'
     })
+
+ 
+   
+    $(document).on('click', '.btn-section', function () {
+
+
+       
+        var url = document.URL;
+        var slugIndex = url.lastIndexOf('/');
+        if (url.substr(slugIndex) !== '') {
+            url = url.substring(slugIndex+1, url.length);
+
+           }
+        
+        
+        var field = generateField();
+        
+        $('.form_builder_area').append('<div data-field="'+ field +
+        '" data-block="" class="block_'+field+' block "><div class="col-md-12"><div class="form-group "><div class="pull-right"><a class="table-action-btn h3"><i class="mdi mdi-close-box-outline text-danger remove_block " data-field="' + field 
+        + '"></i></a></div></div><br><div class="jFiler-input-dragDrop block-area ui-sortable " style="width:100%;" ></div></div><div>');
+        $('.block-area').sortable();
+        
+        
+        updateOrder();
+        var order = $('.block_'+field+'').attr('data-block');
+        console.log(order);
+        $.ajax({
+            
+            url: Routing.generate('createSection'),
+            data: { name :  field,
+                    order: order,
+                    form: url },
+            type: 'POST',
+            
+            
+              
+           })
+           updateOrderAjax();
+           
+    })
+   
 
     $('.form_builder_area').sortable({
-        cursor: 'move',
-
-        stop: function (ev, ui) {}
-    })
-
-
-    $('.form_builder_area').disableSelection()
-
-    $('.btn-block').on({
-        helper: function () {
-            return getBlock();
-        },
-        connectToSortable: '.block_area'
-    })
-
-
-    $('.block_area').sortable({
-        cursor: 'move',
-
-        stop: function (ev, ui) {}
-    })
-
-    $('.block_area').disableSelection()
-
-
-    function getBlock() {
-        html = '<div class="jFiler-input-dragDrop "><div class="jFiler-input-text ui-sortable-handle"><h3>Drag &amp; Drop Elements here</h3><span style="display:inline-block; margin: 15px 0"></span></div></div>'
-
-        return $('<div>').html(html)
-    }
-
+        stop: function( event, ui ) {
+         
+            updateOrder();
+            updateOrderAjax();
+         
+        }
+    });
+    $('.form_builder_area').disableSelection();
+    
     function getTextFieldHTML(field) {
 
 
@@ -80,7 +100,7 @@ $(document).ready(function () {
         + '"><i class="mdi mdi-chevron-down"></i></a><a  class="table-action-btn h3"><i class="mdi mdi-close-box-outline text-danger remove_bal_field" data-field="' + field 
         + '"></i></a></div></td></div></div><div ><div class=" row" ><label id="demo' + field 
         + '" class="control-label labelform">Label</label></div><input type="text" name="' + name 
-        + '" placeholder="' + '" class="form-control " ' + '/></div><br><div class="clearfix element"></div></div><div id="bg-default' + field 
+        + '" placeholder="' + '" class="form-control " ' + '/></div><br></div><div id="bg-default' + field 
         + '" class="collapse" aria-expanded="false" "><div class="portlet-body "><div class="constraint' + field 
         + '"<div class="form-group "><label class="col-sm-3 control-label" for="example-input-small">Label</label><div class="col-sm-6"><input type="text" id="input' + field 
         + '" name="example-input-small" class="form-control input-sm" placeholder="Label" data-field="' + field 
@@ -90,22 +110,45 @@ $(document).ready(function () {
         return $('<div>').addClass('li_' + field + ' form_builder_field').html(html)
     }
 
-    $(document).on('click', '.btn-info', function (e) {
-        console.log('test')
-        e.preventDefault()
-        var label = $('.formlabel').val()
-        console.log(label)
-    })
+   
 
     $(document).on('click', '.remove_bal_field', function (e) {
         console.log(e)
         e.preventDefault()
         var field = $(this).attr('data-field')
-        // console.log(field);
         $(this).closest('.li_' + field).hide('400', function () {
             $('.li_' + field).remove()
         })
     })
+
+    $(document).on('click', '.remove_block', function (e) {
+        
+        var field = $(this).attr('data-field')
+        
+        $(this).closest('.block_' + field).hide('400', function () {
+            $('.block_' + field).remove()
+            updateOrder();
+         
+        })
+        console.log('remove')
+
+        $.ajax({
+            
+            url: Routing.generate('deleteSection'),
+            data: { name :  field },
+            type: 'POST',
+            success: function() {
+
+                updateOrderAjax();
+
+            } 
+         
+            
+           })
+           
+
+       
+})
 
     $(document).on('change', '.form_input_req', function () {
         getPreview()
@@ -133,5 +176,43 @@ $(document).ready(function () {
 
     function generateField() {
         return Math.floor(Math.random() * (100000 - 1 + 1) + 57)
+    }
+
+    function updateOrder() {
+
+       
+        $( '.block' ).each(function() {
+            var field = $(this).attr('data-field');
+            var order = $('.block').index($('.block_'+field+''));
+
+            console.log(order);
+           
+            $('.block_'+field+'')
+            .attr('data-block',  order )
+
+
+          });
+  
+    }
+
+    function updateOrderAjax() {
+
+       
+        $( '.block' ).each(function() {
+            var field = $(this).attr('data-field');
+            var order = $('.block').index($('.block_'+field+''));
+
+            $.ajax({
+            
+                url: Routing.generate('updateOrder'),
+                data: { name :  field,
+                        order: order 
+                     },
+                type: 'POST',
+                 
+               })
+
+          });
+  
     }
 })

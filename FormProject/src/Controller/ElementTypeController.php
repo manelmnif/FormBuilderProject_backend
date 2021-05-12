@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-
+use App\Repository\SectionRepository;
 use App\Repository\ElementTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Symfony\Component\Routing\Annotation\Route;
 
 
 
@@ -14,7 +15,11 @@ class ElementTypeController extends AbstractFOSRestController
 { 
 
 
-  
+  /**
+     * @var SectionRepository
+     */
+    private $sectionRepository;
+
     /**
      * @var ElementTypeRepository
      */
@@ -33,13 +38,20 @@ class ElementTypeController extends AbstractFOSRestController
         $this->entityManager = $entityManager;
     }
 
-    
-    public function getElementType(ElementTypeRepository $elementTypeRepository)
+    // getElementType &  getSectionByForm
+    /**
+     * @Route("/form/{url}", name="indexArray")
+     */
+    public function getElementType(ElementTypeRepository $elementTypeRepository, SectionRepository $sectionRepository, string $url )
     {
         $elementTypes = $elementTypeRepository->findAll();
-
-        return $this->render('index.html.twig', array
-        ('elementTypes' => $elementTypes));
+       
+        $sections = $sectionRepository->getSectionByForm($url);
+        
+        return $this->render('index.html.twig',array
+        ('sections' => $sections,
+        'elementTypes' => $elementTypes));
+        
 
     }
 

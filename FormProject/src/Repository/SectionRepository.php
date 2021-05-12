@@ -47,4 +47,15 @@ class SectionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getSectionByForm($url)  {
+        
+        $q = $this->createQueryBuilder('section')
+        ->join('section.form', 'form')
+        ->where("form.url = :url")
+        ->setParameter('url', $url);
+        
+
+        return  $q->getQuery()->getResult();
+    }
 }
