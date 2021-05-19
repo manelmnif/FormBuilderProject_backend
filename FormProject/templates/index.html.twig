@@ -51,12 +51,12 @@
 
 										<div class="card-box form_builder_area ui-sortable">
 											{% set currentPath = path(app.request.attributes.get('_route'),
-                       app.request.attributes.get('_route_params')) %}
+                                                     app.request.attributes.get('_route_params')) %}
 											{% set params= { 'url': currentPath } %}
 
 											{%  for section in sections  %}
 
-												<div data-field=" {{ section.name }}" data-block="{{section.ordre}}" class="block_{{ section.name}} block ">
+												<div id="sortable" data-field="{{ section.name }}" data-block="{{section.ordre}}" class="block_{{ section.name}} block ">
 													<div class="col-md-12">
 														<div class="form-group ">
 															<div class="pull-right">

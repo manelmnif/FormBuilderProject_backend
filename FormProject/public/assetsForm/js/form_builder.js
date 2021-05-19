@@ -35,12 +35,8 @@ $(document).ready(function () {
         connectToSortable: '.block-area'
     })
 
- 
-   
     $(document).on('click', '.btn-section', function () {
 
-
-       
         var url = document.URL;
         var slugIndex = url.lastIndexOf('/');
         if (url.substr(slugIndex) !== '') {
@@ -48,12 +44,11 @@ $(document).ready(function () {
 
            }
         
-        
         var field = generateField();
         
-        $('.form_builder_area').append('<div data-field="'+ field +
-        '" data-block="" class="block_'+field+' block "><div class="col-md-12"><div class="form-group "><div class="pull-right"><a class="table-action-btn h3"><i class="mdi mdi-close-box-outline text-danger remove_block " data-field="' + field 
-        + '"></i></a></div></div><br><div class="jFiler-input-dragDrop block-area ui-sortable " style="width:100%;" ></div></div><div>');
+        $('.form_builder_area').append('<div id="sortable" data-field="'+ field +
+        '" data-block="" class="block_'+field+' block "><div class="col-md-12"><div class="form-group "><div class="pull-right"><a class="table-action-btn h3"><i class="mdi mdi-close-box-outline text-danger remove_block "data-field="'+field 
+        + '" ></i></a></div></div><br><div class="jFiler-input-dragDrop block-area ui-sortable " style="width:100%;" ></div></div><div>');
         $('.block-area').sortable();
         
         
@@ -67,23 +62,62 @@ $(document).ready(function () {
                     order: order,
                     form: url },
             type: 'POST',
-            
-            
-              
+            /*success: function(data) {
+                $('.block_'+field+'')
+            .attr('data-field',  (data.id) )
+            console.log(data.id);
+                return data;
+                
+            },*/
+                  
            })
-           updateOrderAjax();
+          // updateOrderAjax(false, field);
            
     })
+    $('.block-area').sortable();
    
-
-    $('.form_builder_area').sortable({
-        stop: function( event, ui ) {
-         
+       $('.form_builder_area').sortable({
+        start: function( event, ui ) {
+            
+            var start_pos = ui.item.index();
+            ui.item.data('start_pos', start_pos);
+            
+           
+                
+},
+        update: function( event, ui ) {
+            
             updateOrder();
-            updateOrderAjax();
-         
-        }
+           
+        },
+       
+        stop: function( event, ui ) {
+            var start_pos = ui.item.data('start_pos');
+            console.log(start_pos)
+            var index = ui.item.index();
+                console.log(index);
+                var field = ui.item.attr('data-field');
+            console.log(field);
+            
+
+                $.ajax({
+            
+                    url: Routing.generate('updateOrder'),
+                    data: { 
+                            sortedSection : field,
+                            isDelete: "false",
+                            finalOrderSectionSort: index,
+                            initialOrderSectionSort: start_pos,  
+                         },
+                    type: 'POST',
+                   })
+                       
+},
+        
     });
+
+
+
     $('.form_builder_area').disableSelection();
     
     function getTextFieldHTML(field) {
@@ -123,31 +157,22 @@ $(document).ready(function () {
 
     $(document).on('click', '.remove_block', function (e) {
         
-        var field = $(this).attr('data-field')
+        var field = $(this).attr('data-field');
+        var block = $("div[data-field='" + field +"']");
+        console.log(block);
+        var order = block.attr('data-block');
+        
+        console.log(order);
         
         $(this).closest('.block_' + field).hide('400', function () {
             $('.block_' + field).remove()
             updateOrder();
          
         })
-        console.log('remove')
-
-        $.ajax({
-            
-            url: Routing.generate('deleteSection'),
-            data: { name :  field },
-            type: 'POST',
-            success: function() {
-
-                updateOrderAjax();
-
-            } 
-         
-            
-           })
-           
-
-       
+  
+        updateOrderAjax(true, field, order);
+   
+              
 })
 
     $(document).on('change', '.form_input_req', function () {
@@ -185,34 +210,29 @@ $(document).ready(function () {
             var field = $(this).attr('data-field');
             var order = $('.block').index($('.block_'+field+''));
 
-            console.log(order);
-           
             $('.block_'+field+'')
-            .attr('data-block',  order )
+            .attr('data-block',  (order+1) )
 
 
           });
   
     }
 
-    function updateOrderAjax() {
-
-       
-        $( '.block' ).each(function() {
-            var field = $(this).attr('data-field');
-            var order = $('.block').index($('.block_'+field+''));
+    function updateOrderAjax(isDelete, deletedSection, order) {
 
             $.ajax({
             
                 url: Routing.generate('updateOrder'),
-                data: { name :  field,
-                        order: order 
+                data: { 
+                        name : deletedSection,
+                        isDelete: isDelete,
+                        ordersection: order,
+                  
                      },
                 type: 'POST',
                  
                })
 
-          });
-  
     }
+
 })

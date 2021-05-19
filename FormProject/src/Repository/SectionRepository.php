@@ -53,9 +53,35 @@ class SectionRepository extends ServiceEntityRepository
         $q = $this->createQueryBuilder('section')
         ->join('section.form', 'form')
         ->where("form.url = :url")
+        ->orderBy('section.ordre')
         ->setParameter('url', $url);
         
 
+        return  $q->getQuery()->getArrayResult();
+    }
+
+    public function getSectionByFormId($id)  {
+        
+        $q = $this->createQueryBuilder('section')
+        ->join('section.form', 'form')
+        ->where("form.id = :id")
+        ->orderBy('section.ordre')
+        ->setParameter('id', $id);
+        
+
+        return  $q->getQuery()->getResult();
+    }
+
+
+    public function getSectionsByFormOrder($id, $order)  {
+        
+        $q = $this->createQueryBuilder('section')
+        ->join('section.form', 'form')
+        ->where("form.id = :id ")
+        ->andWhere("section.ordre > :order")
+        ->setParameter('id', $id)
+        ->setParameter('order', $order);
+        
         return  $q->getQuery()->getResult();
     }
 }
