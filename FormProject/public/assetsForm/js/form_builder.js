@@ -6,9 +6,7 @@ $(document).ready(function () {
         helper: function () {
             var id = ($(this)).attr('id');
             var field = generateField();
-            console.log(field);
-            // var field = $('.element').attr('data-field');
-            // console.log(field);
+
             $.ajax({
                 url: Routing.generate('getConstraintByElementType'),
                 data: {
@@ -29,11 +27,52 @@ $(document).ready(function () {
                 error: function (error) {}
 
             })
-
+         
+           
             return getTextFieldHTML(field);
+
+
         },
+       
+
         connectToSortable: '.block-area'
     })
+
+    $('.block-area').sortable({
+        start: function (event, ui) {
+             attr = ($(ui.item));
+             console.log(attr);
+        },
+    
+        receive: function(event, ui) { 
+           elementType = $(ui.item).attr("id");
+
+          },
+        stop: function( event, ui ) {
+
+         var index = ui.item.index();
+         var section = ($(this)).attr('id');
+         var field = $(ui.item).attr("data-field");
+      
+         
+         $.ajax({
+            url: Routing.generate('createElement'),
+            data: {
+                name: field,
+                section: section,
+                elementType: elementType,
+                order: index,
+                label: 'test',
+                placeholder: 'test',
+                class: 'test'
+            },
+            type: 'POST',
+          
+        })
+           
+    }      
+    });
+
 
     $(document).on('click', '.btn-section', function () {
 
@@ -74,7 +113,7 @@ $(document).ready(function () {
           // updateOrderAjax(false, field);
            
     })
-    $('.block-area').sortable();
+   
    
        $('.form_builder_area').sortable({
         start: function( event, ui ) {
@@ -131,7 +170,7 @@ $(document).ready(function () {
 
         html += '<div class="form-group " data-field="' + field 
         + '"><div class="  pull-right"<td ><div><a aria-expanded="false" data-toggle="collapse" class="table-action-btn h3" data-target="#bg-default' + field
-        + '"><i class="mdi mdi-chevron-down"></i></a><a  class="table-action-btn h3"><i class="mdi mdi-close-box-outline text-danger remove_bal_field" data-field="' + field 
+        + '"><i class="mdi mdi-settings-box text-success"></i></a><a  class="table-action-btn h3"><i class="mdi mdi-close-box-outline text-danger remove_bal_field" data-field="' + field 
         + '"></i></a></div></td></div></div><div ><div class=" row" ><label id="demo' + field 
         + '" class="control-label labelform">Label</label></div><input type="text" name="' + name 
         + '" placeholder="' + '" class="form-control " ' + '/></div><br></div><div id="bg-default' + field 
@@ -141,7 +180,9 @@ $(document).ready(function () {
         + '" ></div><br><br><br></div></div></div></div></div>'
 
 
-        return $('<div>').addClass('li_' + field + ' form_builder_field').html(html)
+        return $('<div>').addClass('li_' + field + ' form_builder_field')
+        .attr('data-field', field)
+        .html(html)
     }
 
    
@@ -204,15 +245,13 @@ $(document).ready(function () {
     }
 
     function updateOrder() {
-
-       
+ 
         $( '.block' ).each(function() {
             var field = $(this).attr('data-field');
             var order = $('.block').index($('.block_'+field+''));
 
             $('.block_'+field+'')
             .attr('data-block',  (order+1) )
-
 
           });
   

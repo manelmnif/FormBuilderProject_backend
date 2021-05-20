@@ -12,7 +12,6 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Console\Output\OutputInterface;
 use Psr\Log\LoggerInterface;
 
 
@@ -76,25 +75,7 @@ class SectionController extends AbstractFOSRestController
         ]);
     }
 
-    /**
-     * @Route(name="deleteSection", path="/deletesection", options={"expose"=true}, methods="POST" )
-     */
-    public function deleteSection(Request $request, SectionRepository $sectionRepository)
-    {
-        $section = $request->get('name');
-        $section = $sectionRepository->findOneBy([
-            'name' => $section,
-        ]);
-
-
-        $this->getDoctrine()->getManager()->remove($section);
-        $this->getDoctrine()->getManager()->flush();
-
-        return new JsonResponse([
-            'message' => "ok",
-
-        ]);
-    }
+    // update order after deleting section or sorting section 
 
     /**
      * @Route(name="updateOrder", path="/updateorder", options={"expose"=true}, methods="POST")

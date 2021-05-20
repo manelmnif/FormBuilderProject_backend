@@ -35,10 +35,7 @@ class Element
      */
     private $placeholder;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $isrequired;
+    
 
     /**
      * @ORM\Column(type="integer")
@@ -121,17 +118,6 @@ class Element
         return $this;
     }
 
-    public function getIsrequired(): ?bool
-    {
-        return $this->isrequired;
-    }
-
-    public function setIsrequired(bool $isrequired): self
-    {
-        $this->isrequired = $isrequired;
-
-        return $this;
-    }
 
     public function getOrdre(): ?int
     {
