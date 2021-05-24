@@ -82,17 +82,5 @@
 							</div>
 
 						{% endblock %}
-						{% block javascript %}
-							<script>
-
-
-								$(document).ready(function () {
-
-var types = new Array();{% for elementType in elementTypes %}types.push({id:'{{ elementType.id }}', type:'{{ elementType.type }}', multiple:'{{ elementType.multiple }}'}){% endfor %}console.log(types);
-
-var test = {{ elementTypes| json_encode }};
-console.log(test);
-});
-							</script>
-						{% endblock %}
+						
 					{% endblock %}

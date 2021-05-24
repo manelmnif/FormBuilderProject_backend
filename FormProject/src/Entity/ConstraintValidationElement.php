@@ -28,7 +28,7 @@ class ConstraintValidationElement
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Element::class, inversedBy="constraintValidationElements")
+     * @ORM\ManyToOne(targetEntity=Element::class, inversedBy="constraintValidationElements", cascade={"persist"})
      */
     private $element;
 

@@ -41,6 +41,18 @@ class ConstraintValidationRepository extends ServiceEntityRepository
         return  $q->getQuery()->getArrayResult();
     }
 
+    public function findConstraintByElementTypeTest($type)  {
+        
+        $q = $this->createQueryBuilder('validation')
+        ->select('validation')
+        ->join('validation.elementTypes', 'elementType')
+        ->where("elementType.id = :type")
+        ->setParameter('type', $type);
+        
+
+        return  $q->getQuery()->getResult();
+    }
+
     // /**
     //  * @return ConstraintValidation[] Returns an array of ConstraintValidation objects
     //  */
