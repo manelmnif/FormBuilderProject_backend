@@ -49,6 +49,7 @@ class Element
 
     /**
      * @ORM\ManyToOne(targetEntity=Section::class, inversedBy="elements")
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $section;
 
@@ -227,13 +228,26 @@ class Element
         return $this;
     }
 
- 
+    public function getConstraintValidationByType()
+    {
+        return $this->getElementType()->getConstraintValidation()->getValues();
+    }
 
-  
+    public function getConstraintValidationByElement($validation)
+    {
+        
+        $validations =  $this->getConstraintValidationElements()->getValues();
 
+        foreach( $validations as $item){
 
+            if ($item->getConstraintValidation()->getId() == $validation->getId()){
+                return $item;
+            }
 
-  
+        }
+
+        return null;
+    }
 
 
 }

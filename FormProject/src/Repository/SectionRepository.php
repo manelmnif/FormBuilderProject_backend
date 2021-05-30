@@ -54,10 +54,11 @@ class SectionRepository extends ServiceEntityRepository
         ->join('section.form', 'form')
         ->where("form.url = :url")
         ->orderBy('section.ordre')
+
         ->setParameter('url', $url);
         
 
-        return  $q->getQuery()->getArrayResult();
+        return  $q->getQuery()->getResult();
     }
 
     public function getSectionByFormId($id)  {

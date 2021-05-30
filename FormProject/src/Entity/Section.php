@@ -36,6 +36,7 @@ class Section
 
     /**
      * @ORM\OneToMany(targetEntity=Element::class, mappedBy="section")
+     * @ORM\OrderBy({"ordre" = "asc"})
      */
     private $elements;
 

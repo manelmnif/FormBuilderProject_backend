@@ -29,11 +29,13 @@ class ConstraintValidationElement
 
     /**
      * @ORM\ManyToOne(targetEntity=Element::class, inversedBy="constraintValidationElements", cascade={"persist"})
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $element;
 
     /**
      * @ORM\ManyToOne(targetEntity=ConstraintValidation::class, inversedBy="constraintElement")
+     * 
      */
     private $constraintValidation;
 

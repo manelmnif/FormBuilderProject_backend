@@ -48,15 +48,59 @@ class ElementRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    public function findForm($name)  {
-        $q = $this->getEntityManager()
-        ->createQuery("select e.label, e.placeholder, e.isrequired, e.name
-        from App\Entity\Element  e
-        join App\Entity\Model m
-        where e.model = m.id and m.name= :name")
-        ->setParameter('name', $name);
-
-        return $query = $q->getResult();
+    // appel delete 
+    public function getElementBySectionOrder($id, $order)  {
+        
+        $q = $this->createQueryBuilder('element')
+        ->join('element.section', 'section')
+        ->where("section.id = :id ")
+        ->andWhere("element.ordre > :order")
+        ->setParameter('id', $id)
+        ->setParameter('order', $order);
+        
+        return  $q->getQuery()->getResult();
     }
+
+     // appel create
+     public function getElementsBySectionOrder($id, $order)  {
+        
+        $q = $this->createQueryBuilder('element')
+        ->join('element.section', 'section')
+        ->where("section.id = :id ")
+        ->andWhere("element.ordre >= :order")
+        ->setParameter('id', $id)
+        ->setParameter('order', $order);
+        
+        return  $q->getQuery()->getResult();
+    }
+
+    public function getElementBySectionId($id)  {
+        
+        $q = $this->createQueryBuilder('element')
+        ->join('element.section', 'section')
+        ->where("section.id = :id")
+        ->orderBy('element.ordre')
+        ->setParameter('id', $id);
+        
+
+        return  $q->getQuery()->getResult();
+    }
+
+    public function getElementsBySection($idSection)  {
+        
+        $q = $this->createQueryBuilder('element')
+        ->join('element.section', 'section')
+        ->where("section.id = :idSection")
+        ->orderBy('element.ordre')
+        ->setParameter('idSection', $idSection);
+        
+
+        return  $q->getQuery()->getArrayResult();
+    }
+
+    
+
+    
+
+   
 }

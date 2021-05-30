@@ -2,20 +2,24 @@
 
 namespace App\Controller;
 
+use App\Repository\ConstraintValidationRepository;
+use App\Repository\ElementRepository;
 use App\Repository\SectionRepository;
 use App\Repository\ElementTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Routing\Annotation\Route;
 
 
 
 
 class ElementTypeController extends AbstractFOSRestController
-{ 
+{
 
 
-  /**
+    /**
      * @var SectionRepository
      */
     private $sectionRepository;
@@ -25,12 +29,12 @@ class ElementTypeController extends AbstractFOSRestController
      */
     private $elementTypeRepository;
 
-     /**
+    /**
      * @var EntityManagerInterface
      */
     private $entityManager;
 
-    
+
 
     public function __construct(ElementTypeRepository $elementTypeRepository, EntityManagerInterface $entityManager)
     {
@@ -42,22 +46,24 @@ class ElementTypeController extends AbstractFOSRestController
     /**
      * @Route("/form/{url}", name="indexArray")
      */
-    public function getElementType(ElementTypeRepository $elementTypeRepository, SectionRepository $sectionRepository, string $url )
+    public function getElementType(ElementTypeRepository $elementTypeRepository, SectionRepository $sectionRepository, string $url, ElementRepository $elementRepository, ConstraintValidationRepository $constraintValidationRepository)
     {
+        $type = null;
         $elementTypes = $elementTypeRepository->findAll();
-       
         $sections = $sectionRepository->getSectionByForm($url);
-        
-        return $this->render('index.html.twig',array
-        ('sections' => $sections,
-        'elementTypes' => $elementTypes));
-        
-
-    }
-
-
-
-  
+        //$elements = $elementRepository->findAll();
     
-  
+        //$constraints = $constraintValidationRepository->findAll();
+
+
+
+
+
+        return $this->render('index.html.twig', array(
+            'sections' => $sections,
+            'elementTypes' => $elementTypes,
+            //'elements' => $elements,
+            //'constraints' =>$constraints,
+        ));
+    }
 }
