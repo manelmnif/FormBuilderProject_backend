@@ -89,7 +89,20 @@ class FormController extends AbstractFOSRestController
     }
 
   
- 
+   /**
+     * @Route("/visualiseForm/{url}", name="visualiseForm")
+     */
+    public function visualiseForm( SectionRepository $sectionRepository, string $url,  FormRepository $formRepository)
+    {
+    
+        $form = $formRepository->findOneBy(array('url' => $url));
+        $sections = $sectionRepository->getSectionByForm($url);
+
+        return $this->render('formulaire/visualiseForm.html.twig', array(
+            'sections' => $sections,
+            'form' => $form,
+        ));
+    }
  
     }
 

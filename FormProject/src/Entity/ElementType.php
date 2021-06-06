@@ -48,6 +48,16 @@ class ElementType
      */
     private $constraintValidation;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $baliseHtml;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $typeHtml;
+
     public function __construct()
     {
         $this->element = new ArrayCollection();
@@ -166,6 +176,30 @@ class ElementType
     public function removeConstraintValidation(ConstraintValidation $constraintValidation): self
     {
         $this->constraintValidation->removeElement($constraintValidation);
+
+        return $this;
+    }
+
+    public function getBaliseHtml(): ?string
+    {
+        return $this->baliseHtml;
+    }
+
+    public function setBaliseHtml(string $baliseHtml): self
+    {
+        $this->baliseHtml = $baliseHtml;
+
+        return $this;
+    }
+
+    public function getTypeHtml(): ?string
+    {
+        return $this->typeHtml;
+    }
+
+    public function setTypeHtml(?string $typeHtml): self
+    {
+        $this->typeHtml = $typeHtml;
 
         return $this;
     }

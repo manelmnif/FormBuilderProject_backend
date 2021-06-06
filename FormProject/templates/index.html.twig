@@ -2,38 +2,48 @@
 
 {% block content %}
     {% block body %}
-
+     
         <div class="wrapper">
+ 
+
             <div class="container">
 
-                <!-- end page title end breadcrumb -->
-
+          
+               <!-- <div class="input-group">
+                <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker">
+                <span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span>
+            </div> -->
+            
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="card-box ">
+                       
                             <div class="row">
                                 <div class="col-lg-3 col-md-4">
-                                    <div class="text-center card-box">
+                                    <div class="text-center card-box" style="position: fixed; width: 309px; left:5%; top:40%;">
                                         <div class="member-card">
 
                                             <a href="javascript:;" data-toggle="modal" data-target="#add-category" class="btn btn-lg btn-danger btn-block waves-effect m-t-20 waves-light btn-section">
                                                 <i class="fa fa-plus"></i>
                                                 Create New Bloc                                                 
+                                                                                                                                            
+                                                                                            
                                             </a>
                                             <div id="external-events" class="m-t-20 nav">
                                                 <br>
 
                                                     {% for elementType in elementTypes %}
 
-                                                        <div id="{{ elementType.id }}" class="external-event bg-success form_bal_textfield" data-class="bg-success" style="position: relative; ">
+                                                        <div data-elementType="{{ elementType.type }}" data-type="{{ elementType.typeHtml }}" balise="{{ elementType.baliseHtml }}" id="{{ elementType.id }}" class="external-event bg-success form_bal_textfield" data-class="bg-success" style="position: relative; ">
                                                             <a href="javascript:;">
                                                                 <i class="mdi mdi-message-text-outline m-r-10 vertical-middle"></i>
                                                                 &nbsp;
-                                                                                                                                  
+                                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                
+                                                                                                                                
                                                                 {{ elementType.type }}
                                                             </div>
+                                                        
                                                         {% endfor %}
-
                                                     </div>
 
                                                 </div>
@@ -41,34 +51,37 @@
                                             </div>
                                         <!-- end card-box -->
 
-                                        </div>
+                                    </div>
                                         <!-- end col -->
 
                                         <div class="col-md-8 ">
 
                                             <div class="card-box form_builder_area ui-sortable">
+
+
                                                 {% set currentPath = path(app.request.attributes.get('_route'),
                                                      app.request.attributes.get('_route_params')) %}
-                                                {% set params= { 'url': currentPath } %}
-
+                                                {% set url = app.request.attributes.get('_route_params')['url'] %}
+                                             
                                                 {% for section in sections %}
 
                                                     <div id="sortable" data-field="{{ section.name }}" data-block="{{ section.ordre }}" class="block_{{ section.name }} block ">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 block_hover" data-field="{{ section.name }}">
                                                             <div class="form-group ">
+                                                                   <h2 class="contentedit" contenteditable="">Titre de la section [edit]</h2>
                                                                 <div class="pull-right">
                                                                     <a class="table-action-btn h3">
-                                                                        <i class="mdi mdi-close-box-outline text-danger remove_block " data-field="{{ section.name }}"></i>
+                                                                        <i class="mdi mdi-close-box-outline text-danger remove_block removehover_{{ section.name }}" data-field="{{ section.name }}"></i>
                                                                     </a>
                                                                 </div>
                                                             </div>
                                                             <br>
-                                                                <div id="{{ section.id }}" class="jFiler-input-dragDrop block-area ui-sortable " style="width:100%;">
+                                                                <div id="{{ section.id }}" class="section-box block-area ui-sortable block_hover_{{ section.name }} " data-field="{{ section.name }}" >
 
                                                                     {% for element in section.elements %}
 
-                                                                        <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" style="z-index: auto; width: 314px; right: auto; height: 118px; bottom: auto;" order-elmt="{{ element.ordre }}">
-                                                                            <div class="form-group " data-field="{{ element.name }}">
+                                                                        <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" >
+                                                                            <div class="form-group" data-field="{{ element.name }}">
                                                                                 <div class="  pull-right">
                                                                                     <div>
                                                                                         <a class="table-action-btn h3">
@@ -81,13 +94,18 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div>
-                                                                                <div class=" row">
-                                                                                    <label id="label{{ element.name }}" class="control-label labelform">
+
+                                                                                <div class="form-group m-l-15 form_elmt">
+                                                                                    <p id="label{{ element.name }}" class="control-label labelform">
                                                                                         {{ element.label }}
 
-                                                                                    </label>
-
-                                                                                    <input id="placeholder{{ element.name }}" type="text" name="" placeholder="{{ element.placeholder }}" class="form-control "></div>
+                                                                            </p> 
+                                                                                    <div class=" row">
+                                                                                        <div class="col-md-12">
+                                                                                            <input id="placeholder{{ element.name }}" type="{{ element.elementType.typeHtml }}" name="" placeholder="{{ element.placeholder }}" class="form-control "></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                  
                                                                                 </div>
                                                                                 <br>
 
@@ -96,35 +114,41 @@
                                                                                             <div class="modal-content">
                                                                                                 <div class="modal-header">
                                                                                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                                                                        ×
-                                                                                                                                                                                                                																									
-                                                                                                                                                                                                            
+                                                                                                        ×                                                                                                        
                                                                                                     </button>
                                                                                                     <h4 class="modal-title">
                                                                                                         Parametrage du champ 
-                                                                                                                                                                                                                																									
+                                                                                                                                                                                                                                                                                                                                                                                                                                																									
+                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                    
                                                                                                                                                                                                             
                                                                                                     </h4>
                                                                                                 </div>
-                                                                                                <div class=" modal-body{{ element.name }} custom-modal-text text-left">
-                                                                                                    <form id="form_{{ element.name }}" class="modal-body-form{{ element.name }}">
+                                                                                                <form   name="validationform" id="form_{{ element.name }}" class="modal-body-form{{ element.name }}">
+
+                                                                                                <div class=" modal-body modal-body{{ element.name }} custom-modal-text text-left">
+
                                                                                                         <div class="col-md-12">
                                                                                                             <div class="form-group">
                                                                                                                 <label id="{{ element.name }}" for="name">
                                                                                                                     Label
-                                                                                                                                                                                                                                        																												
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                																												
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                        
                                                                                                                                                                                                                                     
                                                                                                                 </label>
-                                                                                                                <input type="text" class="form-control" id="inputLabel{{ element.name }}" placeholder="{{ element.label }}"></div>
+                                                                                                                <input  required type="text" class="form-control " id="inputLabel{{ element.name }}" value="{{ element.label }}"></div>
                                                                                                             </div>
                                                                                                             <div class="col-md-12">
                                                                                                                 <div class="form-group">
                                                                                                                     <label id="{{ element.name }}" for="name">
                                                                                                                         Placeholder
-                                                                                                                                                                                                                                                																													
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                																													
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                                                                    
                                                                                                                                                                                                                                             
                                                                                                                     </label>
-                                                                                                                    <input type="text" class="form-control" id="inputPlaceholder{{ element.name }}" placeholder="{{ element.placeholder }}"></div>
+                                                                                                                    <input type="text" class="form-control" id="inputPlaceholder{{ element.name }}" value="{{ element.placeholder }}"></div>
                                                                                                                 </div>
 
                                                                                                                 {% set  validations = element.getConstraintValidationByType %}
@@ -133,7 +157,8 @@
                                                                                                                 {% for validation in validations %}
 
                                                                                                                     {% set  validationValues = element.getConstraintValidationByElement(validation) %}
-                                                                                                                     
+                                                                                                                 
+
                                                                                                                     {% if validation.html != 'checkbox' %}
 
                                                                                                                         <div class="col-md-12">
@@ -148,7 +173,7 @@
                                                                                                                         {% else %}
                                                                                                                             <div class="col-md-12">
                                                                                                                                 <div class="checkbox checkbox-primary">
-                                                                                                                                    <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}" type="checkbox">
+                                                                                                                                    <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}" type="checkbox" {% if validationValues is not null %} {% if validationValues.value == '1' %} checked {% endif %} {% endif %}>
                                                                                                                                         <label for="checkbox1">
                                                                                                                                             {{ validation.contrainte }}
                                                                                                                                         </label>
@@ -161,18 +186,22 @@
                                                                                                                         <div class="modal-footer">
                                                                                                                             <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
                                                                                                                                 Close
-                                                                                                                                                                                                                                                            																																
-                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            																																
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
                                                                                                                             </button>
 
-                                                                                                                            <button elementtype="{{ element.elementType.id }}" type="button" class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}" data-dismiss="modal">
+                                                                                                                            <button elementtype="{{ element.elementType.id }}" type="submit"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}" data-dismiss="modal" >
                                                                                                                                 Save changes
-                                                                                                                                                                                                                                                            																																
-                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            																																
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                                            
                                                                                                                             </button>
                                                                                                                         </div>
-                                                                                                                    </form>
-                                                                                                                </div>
+                                                                                                                   
+                                                                                                                </div>   </form>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
@@ -184,16 +213,63 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
+
                                                                             {% endfor %}
                                                                         <!-- end col -->
-
-                                                                        </div>
+                                                                
+                                                                    
                                                                     </div>
+
                                                                 </div>
                                                             </div>
-                                                        <!-- End row -->
 
-                                                        {% endblock %}
+                                                          
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- End row -->
+                                                </div>
+
+                                            
+                                        </div>
+
+
+
+                                        
+                                        </div>
+                                        
+
+                                    </div>
+                                    <div class="icon-bar">
+                          
+                                <a href="{{ path('visualiseForm', {'url':url }) }}"><i class="fa fa-eye"></i></a> 
+                                <a href="#"><i class="fa fa-save"></i></a> 
+                              
+                              </div>
+                                </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
 
                                                     {% endblock %}
-                                                    
+
+                                                {% endblock %}
+                                                
+                                                {% block javascript %}
+
+
+                                                <script>
+                                                    $(document).ready(function () {
+                                                    $(validationform).validate();
+                                                    })
+                                                    </script>
+                                                    {% endblock %}
+                                                
+                                                

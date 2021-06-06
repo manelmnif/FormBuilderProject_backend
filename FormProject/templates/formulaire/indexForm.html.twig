@@ -172,7 +172,7 @@
                                                 <div class="col-md-12">
 												                                   
                                                     <div class="form-group">
-												<label for="name">Nom</label>
+												<label >Nom</label>
 														 {{ form_widget(form.name, {'attr' : {'class' :'form-control', 'placeholder' : 'name' }})}}
 												
                                                     </div>
@@ -214,14 +214,13 @@
 
 	{% block javascript %}
 
-	{{ parent() }}
+
 <script>
     $(document).ready(function () {
 	$(form).validate();
 	})
 	</script>
 	{% endblock %}
-
 
 
 

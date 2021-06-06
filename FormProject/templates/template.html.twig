@@ -13,8 +13,19 @@
 
         <!-- Animated css -->
       <link href="{{ asset('plugins/animate/animate.min.css') }}" rel="stylesheet" type="text/css"  />
+      
+      <!-- Date Picker -->
+
+      <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
+      <link href="{{ asset('plugins/timepicker/bootstrap-timepicker.min.css') }}"  rel="stylesheet" />
+      <link href="{{ asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet" />
+      <link href="{{ asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
+      <link href="{{ asset('plugins/clockpicker/css/bootstrap-clockpicker.min.css') }}" rel="stylesheet" />
+      <link href="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
 
         <!-- App css -->
+        
+        <link href="{{ asset('assets/css/jquery.toolbar.css') }}" rel="stylesheet" />
        <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/core.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/components.css') }}" rel="stylesheet" type="text/css" />
@@ -43,7 +54,7 @@
         <![endif]-->
 
         <script src="{{ asset('assets/js/modernizr.min.js') }}"></script>
-
+   
   
      
 
@@ -451,12 +462,11 @@
                  {% endblock %} <!-- end container -->
         </div>
         <!-- end wrapper -->
+
    <!-- jQuery  -->
-   {% block javascript %}
-   {% endblock %}
+  
    
 
-        
 
         <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
@@ -477,14 +487,17 @@
     <!-- page specific js -->
         <script  src="{{ asset('assets/pages/jquery.property-add.init.js') }}"></script>
 
+
+
 <!-- BEGIN PAGE SCRIPTS -->
+
         <script src="{{ asset('plugins/moment/moment.js') }}"></script>
         <script src="{{ asset('plugins/fullcalendar/js/fullcalendar.min.js') }}"></script>
         <script src="{{ asset('assets/pages/jquery.fullcalendar.js') }}"></script>
    
 
         <!-- App js -->
-      
+        <script src="{{ asset('assets/js/jquery.toolbar.js') }}"></script>
         <script src="{{ asset('assets/js/jquery.core.js') }}"></script>
         <script src="{{ asset('assets/js/jquery.app.js') }}"></script>
         <script src="{{ asset('assets/js/jquery.app.js') }}" ></script>
@@ -499,9 +512,9 @@
      
       
 
-      <script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
-
-
+       <script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
+  
+    
 
 
 
@@ -551,7 +564,19 @@ function closeNav() {
 </script>
 
 
+            <!-- Date Picker -->
 
+        <script src="{{ asset('assets/pages/jquery.form-pickers.init.js') }}"></script>
+    <script src="{{ asset('plugins/moment/moment.js') }}" ></script>
+    <script src="{{ asset('plugins/timepicker/bootstrap-timepicker.js')}}" ></script>
+    <script src="{{ asset('plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}" ></script>
+    <script src="{{ asset('plugins/clockpicker/js/bootstrap-clockpicker.min.js')}}" ></script>
+    <script src="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.js')}}" ></script>
+    <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+
+   
+{% block javascript %}
+{% endblock %}
 
  
   

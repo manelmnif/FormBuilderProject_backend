@@ -142,7 +142,9 @@ class ElementController extends AbstractFOSRestController
     }
 
 
-    /**
+   
+
+       /**
      * @Route(name="updateSettingsElement", path="/updatesettingselement", options={"expose"=true}, methods="POST")
      */
     public function updateSettingsElement(Request $request, ElementRepository $elementRepository, ElementTypeRepository $elementTypeRepository, constraintValidationRepository $constraintValidationRepository, ConstraintValidationElementRepository $constraintValidationElementRepository)
@@ -178,6 +180,7 @@ class ElementController extends AbstractFOSRestController
 
 
         $exist = false;
+  
         foreach ($values as $value) {
             if (array_key_exists($value['name'], $constraints)) {
 
@@ -215,7 +218,7 @@ class ElementController extends AbstractFOSRestController
         ]);
     }
 
-    // update order after deleting section or sorting section 
+    // update order after deleting element or sorting element 
 
     /**
      * @Route(name="updateElementOrder", path="/updateorderelement", options={"expose"=true}, methods="POST")
@@ -245,42 +248,7 @@ class ElementController extends AbstractFOSRestController
 
             $this->getDoctrine()->getManager()->flush();
         }
-        // order element after sort
-        /*else {
-            $finalOrderElementSort = $request->get('finalOrderElementSort');
-            $initialOrderElementSort = $request->get('initialOrderElementSort');
-            $sortedElement = $request->get('sortedElement');
-            $sortedElement = $elementRepository->findOneBy([
-                'name' => $sortedElement,
-            ]);
-
-            $sectionId = $sortedElement->getSection()->getId();
-            $elements = $elementRepository->getElementBySectionId($sectionId);
-
-            // top
-            if ($initialOrderElementSort > $finalOrderElementSort) {
-                foreach ($elements as $element) {
-
-                    if ($element->getOrdre() < $initialOrderElementSort && $element->getOrdre() >= $finalOrderElementSort) {
-                        $element->setOrdre($element->getOrdre() + 1);
-                        $this->entityManager->persist($element);
-                    }
-                }
-            }
-            //down
-            else {
-                foreach ($elements as $element) {
-                    if ($element->getOrdre() > $initialOrderElementSort && $element->getOrdre() <= $finalOrderElementSort) {
-                        $element->setOrdre($element->getOrdre() - 1);
-                        $this->entityManager->persist($element);
-                    }
-                }
-            }
-
-            $sortedElement->setOrdre($finalOrderElementSort);
-            $this->entityManager->persist($sortedElement);
-            $this->getDoctrine()->getManager()->flush();
-        }*/
+      
 
         return new JsonResponse([
             'message' => "ok",

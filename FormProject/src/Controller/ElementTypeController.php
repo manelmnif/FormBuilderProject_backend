@@ -8,8 +8,6 @@ use App\Repository\SectionRepository;
 use App\Repository\ElementTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-use phpDocumentor\Reflection\Types\Integer;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Routing\Annotation\Route;
 
 

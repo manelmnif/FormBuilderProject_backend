@@ -49,10 +49,11 @@ body {
 }
 
 .form_builder_field {
-    margin: 20px 10px;
-    padding: 10px;
+    
 
-    width: 100%;
+    width: 80% !important;
+    height: 75px !important;
+
 }
 
 .form_builder .bal_builder {
@@ -80,10 +81,9 @@ body {
 }
 .form_builder_area {
     width:100%;
-    min-height:50px;
+    min-height:10px;
     position: absolute
 }
-
 
 
 
@@ -103,3 +103,70 @@ body {
 .add_more_select, .add_more_radio, .add_more_checkbox, .remove_more_select, .remove_more_radio, .remove_more_checkbox {
     cursor: pointer;
 }
+
+.divbutton {
+    height: 30px;
+    background: #000;
+}
+
+button {
+    display: none;
+}
+
+.placeholder {
+
+    width: 100%;
+    background-color: rgb(226, 231, 226);
+    border: 1px dashed #666;
+    margin-bottom: 100px;
+    
+    
+}
+
+.section-box {
+    border: 2px solid #f3f3f3;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    background-clip: padding-box;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+    min-height: 100px !important; 
+    
+    
+  }
+
+  .form_elmt {
+      margin-bottom: -15px;
+  }
+
+  .icon-bar {
+    width: 50px;
+    background-color: rgb(54,64,78);
+    position: fixed;
+    right: 50px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+  }
+  
+  .icon-bar a {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 20px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+  }
+  
+  .icon-bar a:hover {
+    background-color: rgb(151, 171, 197);
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+  }
+  
+
