@@ -2,16 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Form;
+use App\Entity\FormData;
 use App\Repository\ConstraintValidationRepository;
 use App\Repository\ElementRepository;
 use App\Repository\SectionRepository;
 use App\Repository\ElementTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
-
-
+use App\Entity\Section;
+use App\Form\SectionType;
+use Proxies\__CG__\App\Entity\Form as EntityForm;
 
 class ElementTypeController extends AbstractFOSRestController
 {
@@ -44,24 +47,19 @@ class ElementTypeController extends AbstractFOSRestController
     /**
      * @Route("/form/{url}", name="indexArray")
      */
-    public function getElementType(ElementTypeRepository $elementTypeRepository, SectionRepository $sectionRepository, string $url, ElementRepository $elementRepository, ConstraintValidationRepository $constraintValidationRepository)
+    public function getElementType(Form $form, Request $request, ElementTypeRepository $elementTypeRepository, SectionRepository $sectionRepository, string $url, ElementRepository $elementRepository, ConstraintValidationRepository $constraintValidationRepository)
     {
-        $type = null;
+        //$this->denyAccessUnlessGranted('[UPDATE_ELEMENTS]', $form);
+        if ($form->getStatus() == '1') {
+            throw $this->createAccessDeniedException();
+        }
         $elementTypes = $elementTypeRepository->findAll();
         $sections = $sectionRepository->getSectionByForm($url);
-        //$elements = $elementRepository->findAll();
-    
-        //$constraints = $constraintValidationRepository->findAll();
-
-
-
-
 
         return $this->render('index.html.twig', array(
             'sections' => $sections,
             'elementTypes' => $elementTypes,
-            //'elements' => $elements,
-            //'constraints' =>$constraints,
+            
         ));
     }
 }

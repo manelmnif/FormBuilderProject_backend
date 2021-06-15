@@ -930,9 +930,9 @@ input.error,
 select.error,
 textarea.error,
 checkbox.error
-{    border: 2px solid #E30613 !important;
+{    border: 2px solid #dd6d75 !important;
 }
 
 label.error {
-  color: #EF4351 !important;
+  color: #dd6d75 !important;
 }

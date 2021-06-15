@@ -13,9 +13,9 @@ index:
 
 
 
-addForm:
-   path: /forms/list
-   controller: App\Controller\FormController::addForm
+
+
+
 
 
 

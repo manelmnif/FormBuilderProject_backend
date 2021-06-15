@@ -1,0 +1,96 @@
+{% extends 'template.html.twig' %}
+
+{% block content %}
+	{% block body %}
+   
+    <div class="container">
+
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+              
+                  <br>
+                    <h4 class="page-title">{{ form.name }}</h4>
+      <br>
+            </div>
+        </div>
+        <!-- end page title end breadcrumb -->
+        {% set currentPath = path(app.request.attributes.get('_route'),
+        app.request.attributes.get('_route_params')) %}
+   {% set url = app.request.attributes.get('_route_params')['url'] %}
+
+        <form  action="{{ path('setElementsValues', {'url':url }) }}" method="post" id="dataValue"  class="validate" name="validationform" action="#" novalidate="">
+        <!-- Basic Form Wizard -->
+        {% for section in sections %}
+        <div class="row">
+            <div  class="col-md-12">
+                <div class="card-box">
+            <h4 class="m-t-0 header-title"><b>Titre Section</b></h4>
+                <div class="p-20">
+                <div class="row">
+                {% for element in section.elements %}
+               
+                                       
+         
+            <div  class="col-md-6">
+            {% set  validations = element.getConstraintValidationByType %}
+            
+           
+                                            <div class="form-group">
+                                                <label>{{element.label}}</label>
+                                                <input  name="{{element.label}}" {% for validation in validations %}
+                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                          
+                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}
+                                    {% endfor %} 
+                                   id="validationform[{{element.label}}]" type="text" class="form-control inputerror"  placeholder="{{element.placeholder}}" >
+                                            </div>
+                                       
+                                        </div>
+                                     
+                                    
+                                   {% endfor %}
+                                </div>
+                                </div>       
+                 </div>
+            </div>
+        </div>
+    {% endfor %}
+        <div class="form-group text-right m-b-0">
+   
+    <button type="reset" class="btn btn-default waves-effect m-l-5">
+        Annuler
+    </button>
+
+<button class="btn btn-primary waves-effect waves-light addValueForm" data-target="#custom-width-modal">Valider</button>
+
+</div>
+</form>
+
+
+        <!-- End row -->
+
+
+ 
+
+    </div>
+
+ 
+    
+            {% endblock %}
+{% endblock %}
+{% block javascript %}
+
+
+<script>
+    $(document).ready(function () {
+    $(validationform).validate();
+  
+
+    })
+    </script>
+    <script>
+
+       
+    </script>
+    {% endblock %}

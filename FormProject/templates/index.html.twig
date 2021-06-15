@@ -2,6 +2,7 @@
 
 {% block content %}
     {% block body %}
+   
      
         <div class="wrapper">
  
@@ -16,9 +17,14 @@
             
                 <div class="row">
                     <div class="col-sm-12">
-                       
-                            <div class="row">
+                  
+                            <div class="row">  
                                 <div class="col-lg-3 col-md-4">
+                                {% set currentPath = path(app.request.attributes.get('_route'),
+                                app.request.attributes.get('_route_params')) %}
+                           {% set url = app.request.attributes.get('_route_params')['url'] %}
+                            
+                                
                                     <div class="text-center card-box" style="position: fixed; width: 309px; left:5%; top:40%;">
                                         <div class="member-card">
 
@@ -57,20 +63,17 @@
                                         <div class="col-md-8 ">
 
                                             <div class="card-box form_builder_area ui-sortable">
+                             
 
-
-                                                {% set currentPath = path(app.request.attributes.get('_route'),
-                                                     app.request.attributes.get('_route_params')) %}
-                                                {% set url = app.request.attributes.get('_route_params')['url'] %}
                                              
                                                 {% for section in sections %}
-
+                                               
                                                     <div id="sortable" data-field="{{ section.name }}" data-block="{{ section.ordre }}" class="block_{{ section.name }} block ">
                                                         <div class="col-md-12 block_hover" data-field="{{ section.name }}">
                                                             <div class="form-group ">
-                                                                   <h2 class="contentedit" contenteditable="">Titre de la section [edit]</h2>
-                                                                <div class="pull-right">
-                                                                    <a class="table-action-btn h3">
+                                                                  <input id="{{section.name}}" class="titre">
+                                                            <div class="pull-right">
+                                                            <a class="table-action-btn h3">
                                                                         <i class="mdi mdi-close-box-outline text-danger remove_block removehover_{{ section.name }}" data-field="{{ section.name }}"></i>
                                                                     </a>
                                                                 </div>
@@ -85,7 +88,7 @@
                                                                                 <div class="  pull-right">
                                                                                     <div>
                                                                                         <a class="table-action-btn h3">
-                                                                                            <i class="mdi mdi-settings-box text-success" id="openModalButton" data-toggle="modal" data-target="#con-close-modal_{{ element.name }}" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"></i>
+                                                                                            <i class="mdi mdi-settings-box text-success btn-elmt" id="openModalButton" data-toggle="modal" data-target="#con-close-modal_{{ element.name }}" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"></i>
                                                                                         </a>
                                                                                         <a class="table-action-btn h3">
                                                                                             <i class="mdi mdi-close-box-outline text-danger remove_bal_field" data-field="{{ element.name }}"></i>
@@ -117,11 +120,7 @@
                                                                                                         ×                                                                                                        
                                                                                                     </button>
                                                                                                     <h4 class="modal-title">
-                                                                                                        Parametrage du champ 
-                                                                                                                                                                                                                                                                                                                                                                                                                                																									
-                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                            
+                                                                                                        Parametrage du champ                                                                                                        
                                                                                                     </h4>
                                                                                                 </div>
                                                                                                 <form   name="validationform" id="form_{{ element.name }}" class="modal-body-form{{ element.name }}">
@@ -155,26 +154,31 @@
 
                                                                                                                 {% set i = 0 %}
                                                                                                                 {% for validation in validations %}
+                                                                                                                
 
                                                                                                                     {% set  validationValues = element.getConstraintValidationByElement(validation) %}
-                                                                                                                 
 
                                                                                                                     {% if validation.html != 'checkbox' %}
-
+                                                                                                                  
                                                                                                                         <div class="col-md-12">
                                                                                                                             <div class="form-group">
                                                                                                                                 <label class="control-label">
                                                                                                                                     {{ validation.contrainte }}
 
                                                                                                                                 </label>
-                                                                                                                                <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}{{ i }}" elementtype="{{ element.elementType.id }}" data-field="{{ element.name }}" type="input" class="form-control input"></div>
-
+                                                                                                                                <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}{{ i }}" elementtype="{{ element.elementType.id }}" data-field="{{ element.name }}" type="input" class="form-control input contrainte{{element.name}}">
+                                                                                                                            <label  class="error text-error " for="form_name" style =" display :none; ">la valeur de maxlength doit être supérieur à la valeur de minlength!</label>
+                                                                                                                        <label  class="error number-error " for="form_name" style =" display :none; ">la valeur de max doit être supérieur à la valeur de min!</label>
+                                                                                                                    </div>
+                                                                                                                            
                                                                                                                             </div>
                                                                                                                         {% else %}
                                                                                                                             <div class="col-md-12">
                                                                                                                                 <div class="checkbox checkbox-primary">
+                                                                                                                               
                                                                                                                                     <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}" type="checkbox" {% if validationValues is not null %} {% if validationValues.value == '1' %} checked {% endif %} {% endif %}>
-                                                                                                                                        <label for="checkbox1">
+                                                                                                                                    
+                                                                                                                                    <label for="checkbox1">
                                                                                                                                             {{ validation.contrainte }}
                                                                                                                                         </label>
                                                                                                                                     </div>
@@ -192,7 +196,7 @@
                                                                                                                                                                                                                                                             
                                                                                                                             </button>
 
-                                                                                                                            <button elementtype="{{ element.elementType.id }}" type="submit"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}" data-dismiss="modal" >
+                                                                                                                            <button elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
                                                                                                                                 Save changes
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             																																
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
@@ -213,8 +217,11 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-
+                                                                              
                                                                             {% endfor %}
+                                                                        
+
+                                                                            
                                                                         <!-- end col -->
                                                                 
                                                                     
@@ -232,7 +239,8 @@
                                                 </div>
 
                                             
-                                        </div>
+                                        	
+                                            </div>
 
 
 
@@ -244,18 +252,19 @@
                                     <div class="icon-bar">
                           
                                 <a href="{{ path('visualiseForm', {'url':url }) }}"><i class="fa fa-eye"></i></a> 
-                                <a href="#"><i class="fa fa-save"></i></a> 
+                                <a  type="submit"><i class="fa fa-save"></i></a> 
                               
                               </div>
                                 </div>
-
+                              
                                 </div>
 
                             </div>
-
+                         
                         </div>
 
-                    </div>
+                    </div>	
+                  
 
 
                                                     {% endblock %}
@@ -266,9 +275,9 @@
 
 
                                                 <script>
-                                                    $(document).ready(function () {
+                                                   /* $(document).ready(function () {
                                                     $(validationform).validate();
-                                                    })
+                                                    })*/
                                                     </script>
                                                     {% endblock %}
                                                 

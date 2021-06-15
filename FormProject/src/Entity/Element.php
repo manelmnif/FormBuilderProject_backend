@@ -64,9 +64,11 @@ class Element
     private $constraintValidationElements;
 
     /**
-     * @ORM\OneToMany(targetEntity=ElementData::class, mappedBy="value")
+     * @ORM\OneToMany(targetEntity=ElementData::class, mappedBy="element")
      */
     private $elementData;
+
+   
 
     public function __construct()
     {
@@ -210,7 +212,7 @@ class Element
     {
         if (!$this->elementData->contains($elementData)) {
             $this->elementData[] = $elementData;
-            $elementData->setValue($this);
+            //$elementData->setValue($this);
         }
 
         return $this;
@@ -221,7 +223,7 @@ class Element
         if ($this->elementData->removeElement($elementData)) {
             // set the owning side to null (unless already changed)
             if ($elementData->getValue() === $this) {
-                $elementData->setValue(null);
+               // $elementData->setValue(null);
             }
         }
 

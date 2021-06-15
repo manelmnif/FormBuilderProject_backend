@@ -47,7 +47,6 @@ class SectionController extends AbstractFOSRestController
     }
 
 
-
     /**
      * @Route(name="createSection", path="/createsection", options={"expose"=true}, methods="POST")
      */
@@ -64,6 +63,7 @@ class SectionController extends AbstractFOSRestController
         $section->setName($name);
         $section->setForm($form);
         $section->setOrdre($order);
+        $section->setTitle('test');
 
         $this->entityManager->persist($section);
         $this->entityManager->flush();
@@ -150,6 +150,27 @@ class SectionController extends AbstractFOSRestController
         ]);
     }
 
+  /**
+     * @Route(name="setTitleSection", path="/settitlesection", options={"expose"=true}, methods="POST")
+     */
+    public function setTitleSection(Request $request, SectionRepository $sectionRepository)
+    {
+
+        $name = $request->request->get('name');
+        $section = $sectionRepository->findOneBy([
+            'name' => $name,
+        ]);
+        $title = $request->request->get('title');
+        $section->setTitle($title);
+        
+        $this->entityManager->persist($section);
+        $this->entityManager->flush();
+
+        return new JsonResponse([
+            'message' => "titre ajouté",
+
+        ]);
+    }
 
     
 }

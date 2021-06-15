@@ -98,6 +98,28 @@ class ElementRepository extends ServiceEntityRepository
         return  $q->getQuery()->getArrayResult();
     }
 
+    public function getElements()  {
+        
+        $q = $this->createQueryBuilder('element')
+        ->select('element.label');
+    
+
+        return  $q->getQuery()->getArrayResult();
+    }
+
+    public function getElementBySection($id)  {
+        
+        $q = $this->createQueryBuilder('element')
+        ->join('element.section', 'section')
+        ->where("section.id = :id")
+        ->orderBy('element.ordre')
+
+        ->setParameter('id', $id);
+        
+
+        return  $q->getQuery()->getResult();
+    }
+
     
 
     

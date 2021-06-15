@@ -16,7 +16,7 @@
         </div>
         <!-- end page title end breadcrumb -->
 
-        <form  name="validationform" action="#" novalidate="">
+        <form  onsubmit="return false" class="validate" name="validationform" action="#" novalidate="">
         <!-- Basic Form Wizard -->
         {% for section in sections %}
         <div class="row">
@@ -24,41 +24,43 @@
                 <div class="card-box">
             <h4 class="m-t-0 header-title"><b>Titre Section</b></h4>
                 <div class="p-20">
-               
+                <div class="row">
                 {% for element in section.elements %}
                
-                                        <div class="row">
-            <div  class="col-md-3">
-            </div>
+                                       
+         
             <div  class="col-md-6">
             {% set  validations = element.getConstraintValidationByType %}
+            
            
                                             <div class="form-group">
                                                 <label>{{element.label}}</label>
                                                 <input  {% for validation in validations %}
                                             {% set  validationValues = element.getConstraintValidationByElement(validation) %}
-                                        {{ validation.contrainte }} 
+                                          
+                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}
                                     {% endfor %} 
-                                    type="text" class="form-control"  placeholder="{{element.placeholder}}">
+                                   name="validationform[{{element.label}}]" type="text" class="form-control inputerror"  placeholder="{{element.placeholder}}">
                                             </div>
                                        
                                         </div>
-                                        <div  class="col-md-3">
-            </div>
+                                     
                                     
-                                    </div> {% endfor %}
+                                   {% endfor %}
+                                </div>
                                 </div>       
                  </div>
             </div>
         </div>
     {% endfor %}
         <div class="form-group text-right m-b-0">
-    <button class="btn btn-primary waves-effect waves-light" type="submit">
-        Submit
-    </button>
+   
     <button type="reset" class="btn btn-default waves-effect m-l-5">
-        Cancel
+        Annuler
     </button>
+
+<button class="btn btn-primary waves-effect waves-light valid" data-target="#custom-width-modal">Valider</button>
+
 </div>
 </form>
 
@@ -66,11 +68,29 @@
         <!-- End row -->
 
 
+ 
 
+    </div>
 
+    <div id="custom-width-modal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none; padding-right: 17px;">
+                                <div class="modal-dialog" style="width:55%;">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="custom-width-modalLabel">Votre formulaire est valide!</h4>
+                                        </div>
+                                        <div class="modal-body">
 
-    </div> <!-- end container -->
-
+                                            <p>Est ce que vous souhaitez le publier?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Annuler</button>
+                                            <button id="{{form.id}}" type="button" class="btn btn-primary waves-effect waves-light publish" data-dismiss="modal">Publier</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div>
+    
             {% endblock %}
 {% endblock %}
 {% block javascript %}
@@ -79,7 +99,48 @@
 <script>
     $(document).ready(function () {
     $(validationform).validate();
+  
+
     })
     </script>
-    {% endblock %}
+    <script>
+
+         /*$(document).ready(function () {
+        $(document).on('click', '.btntest', function () {
+        $.ajax({
+            url: Routing.generate('getElements'),
+          
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                for (let i = 0; i < data.elements.length ; i++){
+                $(validationform).validate({
+                   
+                       rules: 
+                       {  
+                       
+                         'form['+data.elements[i].label+']' : 
+                        
+                         {
+                 
+                           required: true
+                         }
+                       }
+                   
+                   
+                   });
+                   }
+        
+            }
+            
+               
+                
+                })
+         
+           
+                })
+     
     
+        })*/
+    </script>
+    {% endblock %}

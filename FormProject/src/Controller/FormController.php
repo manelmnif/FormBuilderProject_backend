@@ -11,7 +11,11 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\FormType;
+use App\Repository\ElementRepository;
 use App\Repository\UserRepository;
+use Proxies\__CG__\App\Entity\Form as EntityForm;
+use Symfony\Component\Form\Form as FormForm;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 class FormController extends AbstractFOSRestController
@@ -53,8 +57,9 @@ class FormController extends AbstractFOSRestController
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function getForm( FormRepository $formRepository, Request $request, UserRepository $userRepository, SectionRepository $sectionRepository)
+    public function getForm(FormRepository $formRepository, Request $request, UserRepository $userRepository, SectionRepository $sectionRepository)
     {
+        
         //getFormsByUser
         $id = 1;
         $forms = $formRepository->getForms($id);
@@ -90,19 +95,99 @@ class FormController extends AbstractFOSRestController
 
   
    /**
-     * @Route("/visualiseForm/{url}", name="visualiseForm")
+     * @Route(name="visualiseForm", path="/visualiseForm/{url}", options={"expose"=true}, methods="GET")
      */
-    public function visualiseForm( SectionRepository $sectionRepository, string $url,  FormRepository $formRepository)
+    public function visualiseForm( ElementRepository $elementRepository, SectionRepository $sectionRepository, string $url,  FormRepository $formRepository)
     {
     
         $form = $formRepository->findOneBy(array('url' => $url));
         $sections = $sectionRepository->getSectionByForm($url);
+        $elements = $elementRepository->findAll();
 
         return $this->render('formulaire/visualiseForm.html.twig', array(
             'sections' => $sections,
             'form' => $form,
+            'elements' => $elements
         ));
     }
+
+     /**
+     * @Route(name="publishForm", path="/publishForm", options={"expose"=true}, methods="POST")
+     */
+    public function publishForm(  Request $request,  FormRepository $formRepository)
+    {
+        $id = $request->request->get('id');
+        $form = $formRepository->findOneBy(array('id' => $id));
+        $form->setStatus('1');
+
+        $this->entityManager->persist($form);
+        $this->entityManager->flush();
+
+
+        return new JsonResponse([
+            'message' => "form publié",
+            ]);
+    }
+
+      /**
+     * @Route(name="deleteForm", path="/deleteForm", options={"expose"=true}, methods="POST")
+     */
+    public function deleteForm(Request $request,  FormRepository $formRepository)
+    {
+       $id = $request->request->get('id');
+       $form = $formRepository->findOneBy(array('id' => $id));
+       $this->getDoctrine()->getManager()->remove($form);
+       $this->entityManager->flush();
+
+       return new JsonResponse([
+        'message' => "form deleted",
+        ]);
+
+
+    }
+
+    /**
+     * @Route(name="updateForm", path="/updateForm", options={"expose"=true}, methods="POST")
+     */
+    public function updateForm(Request $request,  FormRepository $formRepository)
+    {
+
+       $id = $request->request->get('id');
+       $name = $request->request->get('name');
+       $decription = $request->request->get('description');
+
+       $form = $formRepository->findOneBy(array('id' => $id));
+       $form->setName($name);
+       $form->setDescription($decription);
+       
+       $this->entityManager->persist($form);
+       $this->entityManager->flush();
+       
+       return new JsonResponse([
+        'message' => "form updated",
+        ]);
+
+
+    }
+     /**
+     * @Route(name="getPublishedForms", path="/formspublished/list")
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function getpublishedForms( FormRepository $formRepository, Request $request, UserRepository $userRepository, SectionRepository $sectionRepository)
+    {
+        //getFormsByUser
+        $id = 1;
+        $forms = $formRepository->getForms($id);
+      
+
+        return $this->render('formulaire/publishedForm.html.twig',array
+        ('forms' => $forms,
+       ));
+
+    }
+
+  
  
     }
 

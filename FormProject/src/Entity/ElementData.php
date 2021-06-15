@@ -20,7 +20,7 @@ class ElementData
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Element::class, inversedBy="elementData")
+     * @ORM\Column(type="string", length=255)
      */
     private $value;
 
@@ -34,6 +34,11 @@ class ElementData
      */
     private $formData;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Element::class, inversedBy="elementData")
+     */
+    private $element;
+
     public function __construct()
     {
         $this->elementDataMultiples = new ArrayCollection();
@@ -44,12 +49,12 @@ class ElementData
         return $this->id;
     }
 
-    public function getValue(): ?Element
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
-    public function setValue(?Element $value): self
+    public function setValue(string $value): self
     {
         $this->value = $value;
 
@@ -94,6 +99,18 @@ class ElementData
     public function setFormData(?FormData $formData): self
     {
         $this->formData = $formData;
+
+        return $this;
+    }
+
+    public function getElement(): ?Element
+    {
+        return $this->element;
+    }
+
+    public function setElement(?Element $element): self
+    {
+        $this->element = $element;
 
         return $this;
     }

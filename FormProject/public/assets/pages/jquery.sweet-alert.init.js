@@ -113,13 +113,13 @@
         //Success
         $('#success-alert').click(function () {
             swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this imaginary file!",
+                title: "Votre formulaire est valide!",
+                text: "Vous souhaitez le publier?",
                 type: "success",
                 showCancelButton: true,
                 cancelButtonClass: 'btn-default btn-md waves-effect',
                 confirmButtonClass: 'btn-success btn-md waves-effect waves-light',
-                confirmButtonText: 'Success!'
+                confirmButtonText: 'Publier!'
             });
         });
 

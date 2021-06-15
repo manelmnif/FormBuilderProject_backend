@@ -255,4 +255,27 @@ class ElementController extends AbstractFOSRestController
 
         ]);
     }
+
+    /**
+     * @Route(name="getElements", path="/getElements", options={"expose"=true}, methods="GET")
+     */
+    public function getElements( ElementRepository $elementRepository)
+    {
+    
+     
+        $elements = $elementRepository->getElements();
+
+        $json = json_encode(array(
+            'elements' => $elements,
+          
+        ));
+
+        $response = new JsonResponse();
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent($json);
+        return $response;
+    
+
+    
+    }
 }

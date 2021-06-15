@@ -6,7 +6,7 @@ use App\Repository\FormDataRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity(repositoryClass=FormDataRepository::class)
  */
@@ -25,7 +25,9 @@ class FormData
     private $name;
 
     /**
-     * @ORM\Column(type="date")
+     * @var \DateTime $date
+     * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $date;
 

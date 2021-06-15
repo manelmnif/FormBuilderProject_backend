@@ -1,3 +1,5 @@
+
+
 $(document).ready(function () {
   
     $('.form_bal_textfield').draggable({
@@ -22,15 +24,19 @@ $(document).ready(function () {
                     for (let i = 0; i < data.constraint.length; i++) {
                         if (data.constraint[i].contrainte != 'required') {
 
-                            $('.modal-body-form' + field + '').append('<div class="col-md-12"><div class="form-group"><label class="control-label" >' + data.constraint[i].contrainte + '</label>' + '<input name="' + data.constraint[i].id + '" id="inputConstraint' + field + '' + i + '" elementType="' + id + '" data-field="' + field + '" type="' + data.constraint[i].html + '" class="contrainte'+field+' form-control ' + data.constraint[i].html + ' id="" placeholder=""></div></div> ');
+                            $('.modal-body-form' + field + '').append('<div class="col-md-12"><div class="form-group"><label class="control-label" >' + data.constraint[i].contrainte + '</label>' + '<input name="' + data.constraint[i].id + '" id="inputConstraint' + field + '' + i + '" elementType="' + id + '" data-field="' + field +
+                            
+                            '" type="' + data.constraint[i].html + '" class="contrainte'+field+' form-control ' + data.constraint[i].html + '" id="" placeholder=""> <label  class=" error text-error "  style="display :none;">la valeur de maxlength doit être supérieur à la valeur de minlength!</label><label  class="error number-error " for="form_name" style =" display :none; ">la valeur de max doit être supérieur à la valeur de min!</label></div></div></div> ');
                         } else {
                             $('.modal-body-form' + field + '').append('<div class="col-md-12"><div class="checkbox checkbox-primary">' + '<input type="checkbox" name="' + data.constraint[i].id + '" id="inputConstraint' + field + '" value="1" ><label for="checkbox1">Required</label></div></div> ');
 
                         }
                     }
-                    $('.modal-body-form' + field + '').append('<div class="modal-footer"><button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>' + '<button  elementType="' + id + '" type="button" class="btn btn-info waves-effect waves-light btnElmt" data-field="' + field + '" >Save changes</button> ' + '</div>');
+                    $('.modal-body-form' + field + '').append('<div class="modal-footer"><button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>' + '<button  elementTypeName="' + elementType + '" elementType="' + id + '" type="button" class="btn btn-info waves-effect waves-light btnElmt" data-field="' + field + '"  >Save changes</button> ' + '</div>');
                 },
-                error: function (error) {}
+                error: function (error) {
+                    
+                }
             })
 
             
@@ -57,7 +63,7 @@ $(document).ready(function () {
         
         ' block "><div class="col-md-12 block_hover" data-field="' + field +
         
-        '" ><h2 class="contentedit" contenteditable="">Titre de la section [edit]</h2><div class="form-group "><div class="pull-right"><a class="table-action-btn h3"><i style="display : none;" class=" mdi mdi-close-box-outline text-danger remove_block removehover_'+field+' "data-field="' + field +
+        '" ><input><div class="form-group "><div class="pull-right"><a class="table-action-btn h3"><i style="display : none;" class=" mdi mdi-close-box-outline text-danger remove_block removehover_'+field+' "data-field="' + field +
         
         '" ></i></a></div></div><br><div  class="section-box block-area ui-sortable block_hover_'+field+' " data-field="' + field +
         
@@ -294,11 +300,11 @@ $(document).ready(function () {
     
     '"></i></a></div></td></div></div><div ><div class="form-group m-l-15 form_elmt" ><p id="label' + field +
     
-    '" class="control-label labelform">Label</p> <div class=" row"><div class="col-md-12"><div class="input-group"><'+balise+' id="datepicker" type="'+type+'" name="' + name + '" placeholder="placeholder" class="form-control " ' +
+    '" class="control-label labelform">Label</p> <div class=" row"><div class="col-md-12"><div class="input-group"><'+balise+' id="" type="'+type+'" name="' + name + '" placeholder="placeholder" class="form-control datepicker" ' +
     
     '/><span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span></div></div></div></div><br></div></div></div></div></div>' +
     
-    '<div id="con-close-modal_' + field + '" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;" ><div class="modal-dialog"><div class="modal-content"><div class="modal-header">' +
+    '<div id="con-close-modal_' + field + '" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;" ><div class="modal-dialog"><div class="modal-content "><div class="modal-header">' +
     
     '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' + '<h4 class="modal-title">Parametrage du champ </h4></div><div class=" modal-body' + field + ' custom-modal-text text-left"><form id="form_' 
     
@@ -343,7 +349,9 @@ $(document).ready(function () {
             
             '/></div></div></div><br></div></div></div></div></div>' +
             
-            '<div id="con-close-modal_' + field + '" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;" ><div class="modal-dialog"><div class="modal-content"><div class="modal-header">' +
+            '<div id="con-close-modal_' + field + '" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;" ><div class="modal-dialog "><div class="modal-content modal-dialog' + field +
+            
+            '"><div class="modal-header">' +
             
             '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>' + '<h4 class="modal-title">Parametrage du champ </h4></div><div class=" modal-body' + field + ' custom-modal-text text-left"><form id="form_' 
             
@@ -352,9 +360,10 @@ $(document).ready(function () {
             + '<div class="col-md-12"><div class="form-group"><label id="' + field + '" for="name">Placeholder</label>' + '<input type="text" class="form-control" id="inputPlaceholder' + field + '" placeholder="Placeholder">' + '</div></div></div></form></div></div>'
         }
 
-    
-
+        
+       
         return $('<div>').addClass('li_' + field + ' form_builder_field elmt elmt_hover  elmt_hover_'+field+'').attr('data-field', field).html(html)
+
     }
 
 
@@ -412,9 +421,17 @@ $(document).ready(function () {
 
     $(document).on('keyup', '.formlabel', function () {})
 
+    $(document).on('click', '#openModalButton', function () {
+        $('.btnElmt').removeAttr('data-dismiss');
+
+
+    })
+
     $(document).on('click', '.btnElmt', function () {
         var field = $(this).attr('data-field');
         var elementType = $(this).attr('elementType');
+        var type = $(this).attr('elementTypeName');
+        console.log(type);
 
         var label = document.getElementById('inputLabel' + field).value
         document.getElementById('label' + field).innerHTML = label;
@@ -426,21 +443,40 @@ $(document).ready(function () {
         var formData = $('#form_' + field + '').serializeArray();
         console.log(formData);
 
-
-
-        //console.log(formData[0].value);
-        //console.log(formData[1].value);
-        //console.log(formData[0].value < formData[1].value);
-        if( formData[0].value < formData[1].value  ) 
+       
+      
+  
+        if ( (parseInt(formData[0].value)) < (parseInt(formData[1].value)) && (type == "Text Field" || type == "Text Area")  ) 
+        
         {
- 
-           console.log('error');
+            $('.text-error').css("display", "block");
             $('.contrainte'+field+'').addClass('error');
-            //$(this).removeAttr('data-dismiss','modal');
+         
         }
 
-        else {
-          
+     else if ( (parseInt(formData[1].value)) < (parseInt(formData[0].value)) && type == "Number" )
+     {
+        $('.contrainte'+field+'').addClass('error');
+        console.log('error');
+        $('.number-error').css("display", "block");
+     }
+        else 
+        {   
+         
+            $('.contrainte'+field+'').removeClass('error');
+            $('.number-error').css("display", "none");
+            $('.text-error').css("display", "none");
+            var test = $(this).attr('data-dismiss');
+            console.log(test);
+            if ( test == undefined) {
+
+            $(this).attr('data-dismiss','modal');
+            //second click
+            $(this).trigger('click');
+            }
+            console.log('1');
+
+           
             $.ajax({
                 url: Routing.generate('updateSettingsElement'),
                 data: {
@@ -451,10 +487,17 @@ $(document).ready(function () {
                     value: formData
                 },
                 type: 'POST',
+               
               
            
             })
+            
+            
         }
+
+    
+          
+         
       
 
       
@@ -501,7 +544,7 @@ $(document).ready(function () {
     }
 
     function updateElementOrderAjax(isDelete, deletedElement, order) {
-
+        
         $.ajax({
             url: Routing.generate('updateElementOrder'),
             data: {
@@ -510,8 +553,153 @@ $(document).ready(function () {
                 orderElement: order
 
             },
-            type: 'POST'
+            type: 'POST',
+           
 
         })
     }
+  
+    $(document).on('focusout', '.titre', function () {
+        field =  $(this).attr('id');
+        titre = document.getElementById(field).value;
+        
+        request = $.ajax({
+
+            url: Routing.generate('setTitleSection'),
+            data: {
+                name: field,
+                title: titre
+            },
+            type: 'POST'
+        })
+    })
+
+    
+
+   
+
+ 
+// visualise Form
+// show modal when form is valid
+  $(document).on('click', '.valid', function () {
+    if ($(validationform).validate().checkForm()){
+        
+        $('#custom-width-modal').modal('toggle');
+    }
+    else {
+        $(this).removeAttr('data-toggle');
+    }  
+    })
+
+    $(document).on('click', '.publish', function () {
+             id =  $(this).attr('id');
+        $.ajax({
+
+            url: Routing.generate('publishForm'),
+            data: {
+                id: id
+            },
+            type: 'POST'
+        })
+
+    })
+
+    // manage forms
+
+    $(document).on('click', '.remove_form', function (e) {
+
+        var id = $(this).attr('id');
+     
+        $(this).closest('.form_' +id).hide('400', function () {
+            $('.form_' +id).remove()
+        })
+
+        $.ajax({
+
+            url: Routing.generate('deleteForm'),
+            data: {
+                id: id,
+                
+            },
+            type: 'POST'
+        })
+
+    })
+
+    $(document).on('click', '.edit', function (e) {
+
+        var id = $(this).attr('id');
+
+        var name = document.getElementById('name_' + id+'').value;
+        var description = document.getElementById('description_' + id+'').value;
+        $.ajax({
+
+            url: Routing.generate('updateForm'),
+            data: {
+                id: id,
+                name: name,
+                description: description
+                
+            },
+            type: 'POST',
+            success: function(data){
+                setTimeout(function(){// wait 
+                    location.reload(); // then reload the page.(3)
+               }); 
+             }
+        })
+
+    })
+
+    //Form Data Value
+
+ /*$(document).on('click', '.addValueForm', function (e) {
+
+    var formData = $('#dataValue').serializeArray();
+    var array = [];
+ 
+    $('form input').each(function(index, e) {
+        array.push($(this).attr('id'));
+        console.log($(this).attr('id'));
+      });
+      console.log(array);
+  
+ 
+    console.log(formData);
+    $.ajax({
+
+        url: Routing.generate('setElementsValues'),
+        data: {
+            
+            values: formData
+           
+            
+        },
+        type: 'POST',
+        success: function(data){
+           
+         }
+    })
+
+
+    })*/
+
+  /*  function getSerialize(form)
+{
+ var selected = $('form input:checked');
+ var serialized = '';
+ selected.each(function(){
+ 	if(serialized != '')serialized += '&';
+ 	serialized += $(this).attr('name') + '=' + $(this).attr('id');
+ });
+ return serialized;
+}*/
+
+    
+
+    
+
+
+
+    
 })

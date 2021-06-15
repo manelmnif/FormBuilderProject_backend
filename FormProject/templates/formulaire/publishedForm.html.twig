@@ -1,0 +1,107 @@
+{% extends 'template.html.twig' %}
+
+{% block content %}
+    {% block body %}
+        <div class="container">
+
+            <!-- Page-Title -->
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <br>
+                        <br>
+                            <h4 class="page-title">
+                               Formulaires Publiés
+                            </h4>
+                            <br></div>
+                        </div>
+                        <!-- end page title end breadcrumb -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card-box">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <form role="form">
+                                                <div class="form-group search-box">
+                                                    <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
+                                                        <button type="submit" class="btn btn-search">
+                                                            <i class="fa fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                          
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-hover mails m-0 table table-actions-bar">
+                                                <thead>
+
+                                                    <tr>
+
+                                                        <th>
+                                                            Nom
+                                                        </th>
+                                                        <th>
+                                                            Description
+                                                        </th>
+                                                        <th>
+                                                            Date de création
+                                                        </th>
+
+                                                        <th>
+                                                            Action
+                                                        </th>
+                                                    </tr>
+
+                                                </thead>
+
+                                                <tbody>
+                                                    {% for form in forms %}
+                                                    {%  if form.status == '1' %}
+
+                                                            <tr class="form_{{ form.id }}">
+
+                                                                <td>
+
+                                                                    {{ form.name }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ form.description }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ form.date | date("d/m/Y") }}
+                                                                </td>
+
+                                                                <td>  
+                                                              
+																	<a href="{{ path('createData', {'url':form.url }) }}" class="table-action-btn h4">
+																<i class="mdi mdi-database text-info"></i>
+															</a>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    <!-- end table responsive -->
+                                    </div>
+                                    <!-- end card-box -->
+
+                                            {% endblock %}
+
+                                        {% endblock %}
+
+                                        {% block javascript %}
+
+                                            <script>
+                                                $(document).ready(function () {
+                                                $(form).validate();
+                                                })
+	</script>
+                                        {% endblock %}
+                                        
