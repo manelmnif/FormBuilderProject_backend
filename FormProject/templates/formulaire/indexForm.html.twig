@@ -1,8 +1,11 @@
 {% extends 'template.html.twig' %}
+{% block title %}Mes Formulaires{% endblock %}
 
 {% block content %}
     {% block body %}
+   
         <div class="container">
+    
 
             <!-- Page-Title -->
             <div class="row">
@@ -64,12 +67,8 @@
 
                                                 <tbody>
                                                     {% for form in forms %}
-												
 
-												
-                                                    
-
-                                                            <tr class="form_{{ form.id }}">
+                                                            <tr id="{{form.id}}" class="form_{{ form.id }}">
 
                                                                 <td>
 
@@ -85,28 +84,24 @@
                                                                 </td>
 
                                                                 <td>
-                                                                {% if is_granted('EDIT', form) %}
-                                                                    <a href="#" class="table-action-btn h4">
-
-                                                                        <i class="mdi mdi-pencil-box-outline text-success"  id="openModalButton" data-toggle="modal" data-target="#con-close-modal_{{form.id}}" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"></i>
-
-                                                         
+                                                              
+                                                                    <a  href="#" class="table-action-btn h4" data-toggle="tooltip" title="Modifier" data-placement="top">
+                                                                        <i  class="mdi mdi-pencil-box-outline text-success"  id="openModalButton" data-toggle="modal" data-target="#con-close-modal_{{form.id}}" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"></i>
                                                                     </a>
-                                                                    {% endif %}
-                                                                        {% if is_granted('DELETE', form) %}
-                                                                    <a href="#" class="table-action-btn h4 remove_form" id="{{ form.id }}">
-                                                                        <i class="mdi mdi-close-box-outline text-danger"></i>
+
+                                                                    <a href="#" class="table-action-btn h4 " id="{{ form.id }}" data-toggle="tooltip" title="Supprimer" data-placement="top">
+                                                                        <i  class="mdi mdi-close-box-outline text-danger"  data-toggle="modal" data-target="#panel-modal_{{form.id}}" ></i>
                                                                     </a>
-                                                                     {% endif %}
+                                                              
                                                                      {% if is_granted('UPDATE_ELEMENTS', form) %}
-                                                                    <a href="{{ path('indexArray', {'url':form.url }) }}" class="table-action-btn h4">
+                                                                    <a href="{{ path('indexArray', {'url':form.url }) }}" class="table-action-btn h4" data-toggle="tooltip" title="Créer" data-placement="top">
                                                                         <i class="mdi mdi-arrow-right-bold-hexagon-outline
                                                                              text-info"></i>
                                                                     </a>
                                                                      {% endif %}
                                                                      {% if is_granted('CREATE_DATA', form) %}
-																	<a href="{{ path('createData', {'url':form.url }) }}" class="table-action-btn h4">
-																<i class="mdi mdi-database text-info"></i>
+																	<a  href="{{ path('getData', {'url':form.url }) }}" class="table-action-btn h4" data-toggle="tooltip" title="Créer Data" data-placement="top">
+																<i  class="mdi mdi-database text-info"></i>
 															</a>
                                                         {% endif %}
 
@@ -118,20 +113,50 @@
                                                     {% endfor %}
                                                 </tbody>
                                             </table>
+                                            
+                                       
+                                   
+                                       
                                         </div>
                                     <!-- end table responsive -->
                                     </div>
+                                    <div class="navigation text-right">
+                                    {{ knp_pagination_render(forms) }}
+                                </div>
                                     <!-- end card-box -->
-
+        <!-- Modal Delete-->
+        {% for form in forms %}
+        <div id="panel-modal_{{form.id}}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-right: 17px;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content p-0 b-0">
+                                        <div class="panel panel-color panel-primary">
+                                            <div class="panel-heading">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="display:block;">×</button>
+                                                <h3 class="panel-title">ATTENTION</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <p>Cette action est irréversible. Êtes-vous sûr de bien vouloir supprimer ce formulaire?</p>
+                                            </div>
+                                        
+                                        <center><p><button class="cancel btn btn-lg btn-default btn-md waves-effect btn-sm m-b-5" tabindex="2" style="display: inline-block;" data-dismiss="modal">Annuler</button> 
+                                            
+                                        <a href="{{ path('deleteForm', {'id':form.id }) }}" class="confirm btn btn-lg btn-danger btn-md waves-effect waves-light btn-sm m-b-5 remove_form" >Supprimer</a>
+                                      
+                                </p></center>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div>
+        {% endfor %}
                                                    
-                                                <!-- Modal -->
-                                                {% for form in forms %}
+                                                <!-- Modal Edit-->
+                                               {% for form in forms %}
                                                 <div id="con-close-modal_{{form.id}}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                                     <div class="modal-dialog">
 
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="display:block;">
                                                                     ×
                                                                 </button>
                                                                 <h4 class="modal-title">
@@ -139,7 +164,7 @@
                                                                 </h4>
                                                             </div>
 
-                                                            	<form novalidate="novalidate" name="form">									 
+                                                            	<form id="form_{{form.id}}" novalidate="novalidate" name="form">									 
                                                                                                     
                                                             <div class="modal-body">
 
@@ -173,7 +198,7 @@
                                                             <div class="modal-footer">
 
                                                                 <button id="{{form.id}}" type="submit" class="edit btn btn-info waves-effect waves-light">
-                                                                    Save changes
+                                                                    Enregistrer
                                                                 </button>
 
                                                             </div>
@@ -192,7 +217,7 @@
 
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="display:block;">
                                                                     ×
                                                                 </button>
                                                                 <h4 class="modal-title">
@@ -200,7 +225,7 @@
                                                                 </h4>
                                                             </div>
 
-                                                            {{ form_start(form, {'atr' : { 'action': 'getForms' }}
+                                                            {{ form_start(form, {'atr' : { 'name':'form' ,'action': 'getForms' }}
                                                             ) }}
                                                             										 
                                                                                                     
@@ -238,7 +263,7 @@
                                                             <div class="modal-footer">
 
                                                                 <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                                    Save changes
+                                                                    Enregistrer
                                                                 </button>
 
                                                             </div>
@@ -259,8 +284,14 @@
 
                                             <script>
                                                 $(document).ready(function () {
-                                                $(form).validate();
-                                                })
+                                       
+                                                $('form').each(function() {   // <- selects every <form> on page
+                                                    $(this).validate();
+                                                 
+                                                }); 
+                                                
+                                                 });  
+
 	</script>
-                                        {% endblock %}
+ {% endblock %}
                                         

@@ -31,6 +31,7 @@ class Section
 
     /**
      * @ORM\ManyToOne(targetEntity=Form::class, inversedBy="sections")
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $form;
 

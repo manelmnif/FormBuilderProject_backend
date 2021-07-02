@@ -936,3 +936,9 @@ checkbox.error
 label.error {
   color: #dd6d75 !important;
 }
+
+.titre{
+border: none;
+font-family: Georgia, serif;
+font-size: 20px;
+}

@@ -1,0 +1,174 @@
+{% extends 'template.html.twig' %}
+{% block title %}Modification - Data{% endblock %}
+{% block content %}
+	{% block body %}
+   
+    <div class="container">
+
+        <!-- Page-Title -->
+        <div class="row">
+            <div class="col-sm-12">
+              
+                  <br>
+                    <h4 class="page-title">{{ form.name }}</h4>
+      <br>
+            </div>
+        </div>
+        <!-- end page title end breadcrumb -->
+        {% set currentPath = path(app.request.attributes.get('_route'),
+        app.request.attributes.get('_route_params')) %}
+     {% set url = app.request.attributes.get('_route_params')['url'] %}
+     {% set idFormData = app.request.attributes.get('_route_params')['idFormData'] %}
+
+        <form  action="{{ path('editElementsValues', {'url':url,'idFormData': idFormData}) }}" method="post" id="dataValue"  class="validate" name="validationform" novalidate="">
+        <!-- Basic Form Wizard -->
+        {% for section in sections %}
+        <div class="row">
+            <div  class="col-md-12">
+                <div class="card-box">
+            <h4 class="m-t-0 header-title"><b>Titre Section</b></h4>
+                <div class="p-20">
+                <div class="row">
+                {% for element in section.elements %}
+               
+                                       
+                {% if element.elementType.type == "Text Field" %}
+            <div  class="col-md-6">
+            {% set  validations = element.getConstraintValidationByType %}
+            {% set  elementDataValues = element.elementData %}
+            {% for elementDataValue in elementDataValues %}
+           {% if elementDataValue.formData.id == idFormData %}
+           
+                                            <div class="form-group">
+                                                <label>{{element.label}}</label>
+                                                <input  value="{{elementDataValue }}" name="{{element.id}}" {% for validation in validations %}
+                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                          
+                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                    {% endfor %} 
+                                   id="validationform[{{element.label}}]" type="text" class="form-control inputerror"  placeholder="{{element.placeholder}}" >
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                        </div>
+                                    {% endif %}
+
+                                     {% if element.elementType.type == "Text Area" %}
+                                    <div  class="col-md-6">
+                                    {% set  validations = element.getConstraintValidationByType %}
+                                    
+                                   
+                                                                    <div class="form-group">
+                                                                        <label>{{element.label}}</label>
+                                                                        <textarea  name="{{element.id}}" {% for validation in validations %}
+                                                                    {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                  
+                                                                {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}
+                                                            {% endfor %} 
+                                                        id="validationform[{{element.label}}]" type="text" class="form-control inputerror"  placeholder="{{element.placeholder}}"></textarea>
+                                                                    </div>
+                                                               
+                                                                </div>
+                                                            {% endif %}
+
+                                                    
+                                                                                    {% if element.elementType.type == "Date" %}
+                                                                                    <div  class="col-md-6">
+                                                                                    {% set  validations = element.getConstraintValidationByType %}
+                                                                                
+                                                                                   
+                                                                                                                    <div class="form-group">
+                                                                                                                        <label>{{element.label}}</label>
+                                                                                                                            <div class="input-group">
+                                                                                                                        <input name="{{element.id}}" {% for validation in validations %}
+                                                                                                                    {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                  
+                                                                                                                {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                                            {% endfor %} 
+                                                                                                        id="validationform[{{element.label}}]" class="form-control inputerror datepick" type="text" ><span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span></div>
+                                                                                                                    </div>
+                                                                                                               
+                                                                                                                </div>
+                                                                                                            {% endif %}
+                                                                                                            {% if element.elementType.type == "Checkbox" %}
+                                                                             
+                                                                                                            <div  class="col-md-6">
+                                                                                                            {% set  validations = element.getConstraintValidationByType %}
+                                                                                                                                            <div class="form-group">
+                                                                                                                                             
+                                                                                                                                                    <div class="checkbox checkbox-primary">
+                                                                                                                                                <input id="validationform[{{element.label}}]" {% for validation in validations %}
+                                                                                                                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                                          
+                                                                                                                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                                                                    {% endfor %} 
+                                                                                                                                name="{{element.id}}" class="form-control inputerror" type="checkbox" > <label>{{element.label}}</label></div>     
+                                                                                                                                       
+                                                                                                                                        </div>
+                                                                                                                                    {% endif %}
+                                                                                                                                    {% if element.elementType.type == "Number" %}
+                                                                                                                                    <div  class="col-md-6">
+                                                                                                                                    {% set  validations = element.getConstraintValidationByType %}
+                                                                                                                                    
+                                                                                                                                   
+                                                                                                                                                                    <div class="form-group">
+                                                                                                                                                                        <label>{{element.label}}</label>
+                                                                                                                                                                        <input  name="{{element.id}}" {% for validation in validations %}
+                                                                                                                                                                    {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                                                                  
+                                                                                                                                                                {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                                                                                            {% endfor %} 
+                                                                                                                                                           id="validationform[{{element.label}}]" type="number" class="form-control inputerror"  placeholder="{{element.placeholder}}" >
+                                                                                                                                                                    </div>
+                                                                                                                                                               
+                                                                                                                                                                </div>
+                                                                                                                                                            {% endif %}
+                                                                                
+                                     
+                                     
+                                    
+                                   {% endfor %}
+                                </div>
+                                </div>       
+                 </div>
+            </div>
+        </div>
+    {% endfor %}
+        <div class="form-group text-right m-b-0">
+   
+    <button type="reset" class="btn btn-default waves-effect m-l-5">
+        Annuler
+    </button>
+
+<button class="btn btn-primary waves-effect waves-light addValueForm" data-target="#custom-width-modal">Valider</button>
+
+</div>
+</form>
+
+
+        <!-- End row -->
+
+
+ 
+
+    </div>
+
+ 
+    
+            {% endblock %}
+{% endblock %}
+{% block javascript %}
+
+
+<script>
+    $(document).ready(function () {
+    $(validationform).validate();
+  
+
+    })
+    </script>
+    <script>
+
+       
+    </script>
+    {% endblock %}

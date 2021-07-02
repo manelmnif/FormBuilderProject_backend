@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\MultipleElementType;
+use App\Entity\MultipleElement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method MultipleElementType|null find($id, $lockMode = null, $lockVersion = null)
- * @method MultipleElementType|null findOneBy(array $criteria, array $orderBy = null)
- * @method MultipleElementType[]    findAll()
- * @method MultipleElementType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MultipleElement|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MultipleElement|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MultipleElement[]    findAll()
+ * @method MultipleElement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MultipleElementTypeRepository extends ServiceEntityRepository
+class MultipleElementRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, MultipleElementType::class);
+        parent::__construct($registry, MultipleElement::class);
     }
 
     // /**
-    //  * @return MultipleElementType[] Returns an array of MultipleElementType objects
+    //  * @return MultipleElement[] Returns an array of MultipleElement objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class MultipleElementTypeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?MultipleElementType
+    public function findOneBySomeField($value): ?MultipleElement
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.exampleField = :val')

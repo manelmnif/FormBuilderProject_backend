@@ -25,11 +25,26 @@ class FormRepository extends ServiceEntityRepository
         $q = $this->createQueryBuilder('f')
         ->join('f.user', 'user')
         ->where("user.id = :id")
+        ->orderBy('f.id' ,'DESC')
         ->setParameter('id', $id);
         
 
         return  $q->getQuery()->getResult();
     }
+
+    public function getPublishedForms($id)  {
+        
+        $q = $this->createQueryBuilder('f')
+        ->join('f.user', 'user')
+        ->where("user.id = :id")
+        ->andWhere("f.status = 1")
+        ->orderBy('f.id' ,'DESC')
+        ->setParameter('id', $id);
+        
+
+        return  $q->getQuery()->getResult();
+    }
+
 
     // /**
     //  * @return Form[] Returns an array of Form objects

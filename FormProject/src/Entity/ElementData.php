@@ -31,11 +31,13 @@ class ElementData
 
     /**
      * @ORM\ManyToOne(targetEntity=FormData::class, inversedBy="elementData")
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $formData;
 
     /**
      * @ORM\ManyToOne(targetEntity=Element::class, inversedBy="elementData")
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $element;
 
@@ -113,5 +115,9 @@ class ElementData
         $this->element = $element;
 
         return $this;
+    }
+
+    public function __toString() {
+        return (string) $this->value;
     }
 }

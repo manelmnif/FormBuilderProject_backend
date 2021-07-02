@@ -168,5 +168,15 @@ button {
     border-radius: 15px;
     -moz-border-radius: 15px;
   }
-  
+
+  .btnright {
+    position: fixed;
+    right: 50px;
+  }
+
+  .btnvisualise {
+    right: 100%;
+    position: fixed;
+  }
+
 

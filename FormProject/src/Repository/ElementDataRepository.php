@@ -47,4 +47,14 @@ class ElementDataRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getElementDataByElementId($idElement)  {
+        
+        $q = $this->createQueryBuilder('elementData')
+        ->where("elementData.element.id = :idElement")
+        ->setParameter('idElement', $idElement);
+        
+
+        return  $q->getQuery()->getResult();
+    }
+
 }

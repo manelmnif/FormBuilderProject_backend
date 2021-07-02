@@ -1,5 +1,5 @@
 {% extends 'template.html.twig' %}
-
+{% block title %}Visualisation Formulaire{% endblock %}
 {% block content %}
 	{% block body %}
    
@@ -19,59 +19,212 @@
         <form  onsubmit="return false" class="validate" name="validationform" action="#" novalidate="">
         <!-- Basic Form Wizard -->
         {% for section in sections %}
-        <div class="row">
+      
+        <div class="row section sectionVisualise">
             <div  class="col-md-12">
                 <div class="card-box">
-            <h4 class="m-t-0 header-title"><b>Titre Section</b></h4>
+            <h4 class="m-t-0 header-title"><b>{{section.title}}</b></h4>
+               
+                
+        
                 <div class="p-20">
-                <div class="row">
+                <div class="row form">
+               
                 {% for element in section.elements %}
                
                                        
-         
+         {% if element.elementType.type == "Text Field" %}
             <div  class="col-md-6">
             {% set  validations = element.getConstraintValidationByType %}
             
            
                                             <div class="form-group">
-                                                <label>{{element.label}}</label>
+                                                <label value="{{element.label}}">{{element.label}}</label>{% for validation in validations %}
+                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}{% if validationValues is not null %}{% if validation.contrainte == "required" and  validationValues.value =="1" %}<span class="text-danger">*</span>{% endif %}{% endif %}{% endfor %}
                                                 <input  {% for validation in validations %}
                                             {% set  validationValues = element.getConstraintValidationByElement(validation) %}
-                                          
-                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}
+                                            
+                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                       
                                     {% endfor %} 
+                              
                                    name="validationform[{{element.label}}]" type="text" class="form-control inputerror"  placeholder="{{element.placeholder}}">
                                             </div>
                                        
                                         </div>
+                                    {% endif %}
+
+                                    {% if element.elementType.type == "Text Area" %}
+                                    <div  class="col-md-6">
+                                    {% set  validations = element.getConstraintValidationByType %}
+                                    
+                                   
+                                                                    <div class="form-group">
+                                                                        <label>{{element.label}}</label>{% for validation in validations %}
+                                                                        {% set  validationValues = element.getConstraintValidationByElement(validation) %}{% if validationValues is not null %}{% if validation.contrainte == "required" and  validationValues.value =="1" %}<span class="text-danger">*</span>{% endif %}{% endif %}{% endfor %}
+                                                                        <textarea  {% for validation in validations %}
+                                                                    {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                  
+                                                                {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                            {% endfor %} 
+                                                        name="validationform[{{element.label}}]" type="text" class="form-control inputerror"  placeholder="{{element.placeholder}}"></textarea>
+                                                                    </div>
+                                                               
+                                                                </div>
+                                                            {% endif %}
+                                                            {% if element.elementType.type == "Date" %}
+                                                            <div  class="col-md-6">
+                                                            {% set  validations = element.getConstraintValidationByType %}
+                                                        
+                                                           
+                                                                                            <div class="form-group">
+                                                                                                <label>{{element.label}}</label>{% for validation in validations %}
+                                                                                                {% set  validationValues = element.getConstraintValidationByElement(validation) %}{% if validationValues is not null %}{% if validation.contrainte == "required" and  validationValues.value =="1" %}<span class="text-danger">*</span>{% endif %}{% endif %}{% endfor %}
+                                                                                                    <div class="input-group">
+                                                                                                <input {% for validation in validations %}
+                                                                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                          
+                                                                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                    {% endfor %} 
+                                                                                name="validationform[{{element.label}}]" class="form-control inputerror datepick" type="text" ><span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span></div>
+                                                                                            </div>
+                                                                                       
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                    {% if element.elementType.type == "Checkbox" %}
+                                                                             
+                                                                                    <div  class="col-md-6">
+                                                                                    {% set  validations = element.getConstraintValidationByType %}
+                                                                                
+                                                                                   
+                                                                                                                    <div class="form-group">
+                                                                                                                     
+                                                                                                                            <div class="checkbox checkbox-primary">
+                                                                                                                        <input {% for validation in validations %}
+                                                                                                                    {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                  
+                                                                                                                {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                                            {% endfor %} 
+                                                                                                        name="validationform[{{element.label}}]" class="form-control inputerror" type="checkbox" > <label>{{element.label}}</label></div>
+                                                                                                               
+                                                                                                               
+                                                                                                                </div></div>
+                                                                                                            {% endif %}
+                                                                                                            {% if element.elementType.type == "Multiple Checkbox" %}
+                                                                                                           
+                                                                                    <div  class="col-md-6">
+                                                                                    {% set  validations = element.getConstraintValidationByType %}
+                                                                                
+                                                                                   
+                                                                                                                    <div class="form-group">
+                                                                                                                <label>{{element.label}}</label>
+                                                                                                                    {% set  multipleElements = element.multipleElements %}
+                                                                                                                    {% for multipleElement in multipleElements %}
+                                                                                                                            <div class="checkbox checkbox-primary">
+                                                                                                                        <input {% for validation in validations %}
+                                                                                                                    {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                  
+                                                                                                                {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                                            {% endfor %} 
+                                                                                                        name="validationform[{{element.label}}]" class="form-control inputerror" type="checkbox" > <label>{{multipleElement.value}}</label></div>
+                                                                                                               
+                                                                                                        {% endfor %}
+                                                                                                                </div></div>
+                                                                                                            
+
+                                                                                                            {% endif %}
+                                                                                                            {% if element.elementType.type == "Number" %}
+                                                                                                            <div  class="col-md-6">
+                                                                                                            {% set  validations = element.getConstraintValidationByType %}
+                                                                                                            
+                                                                                                           
+                                                                                                                                            <div class="form-group">
+                                                                                                                                                <label>{{element.label}}</label>{% for validation in validations %}
+                                                                                                                                                {% set  validationValues = element.getConstraintValidationByElement(validation) %}{% if validationValues is not null %}{% if validation.contrainte == "required" and  validationValues.value =="1" %}<span class="text-danger">*</span>{% endif %}{% endif %}{% endfor %}
+                                                                                                                                                <input  {% for validation in validations %}
+                                                                                                                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                                          
+                                                                                                                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                                                                    {% endfor %} 
+                                                                                                                                   name="validationform[{{element.label}}]" type="number" class="form-control inputerror"  placeholder="{{element.placeholder}}">
+                                                                                                                                            </div>
+                                                                                                                                       
+                                                                                                                                        </div>
+                                                                                                                                    {% endif %}
+                                                                                                                                    {% if element.elementType.type == "E-mail" %}
+                                                                                                                                    <div  class="col-md-6">
+                                                                                                                                    {% set  validations = element.getConstraintValidationByType %}
+                                                                                                                                    
+                                                                                                                                   
+                                                                                                                                                                    <div class="form-group">
+                                                                                                                                                                        <label value="{{element.label}}">{{element.label}}</label>{% for validation in validations %}
+                                                                                                                                                                    {% set  validationValues = element.getConstraintValidationByElement(validation) %}{% if validationValues is not null %}{% if validation.contrainte == "required" and  validationValues.value =="1" %}<span class="text-danger">*</span>{% endif %}{% endif %}{% endfor %}
+                                                                                                                                                                        <input  {% for validation in validations %}
+                                                                                                                                                                    {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                                                                    
+                                                                                                                                                                {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                                                                                               
+                                                                                                                                                            {% endfor %} 
+                                                                                                                                                      
+                                                                                                                                                           name="validationform[{{element.label}}]" type="text" class="form-control inputerror"  placeholder="{{element.placeholder}}" email="true">
+                                                                                                                                                                    </div>
+                                                                                                                                                               
+                                                                                                                                                                </div>
+                                                                                                                                                            {% endif %}
+                                                                                                                                                            {% if element.elementType.type == "Dropdown List" %}
+                                                                                                                                                            <div  class="col-md-6">
+                                                                                                                                                            {% set  validations = element.getConstraintValidationByType %}
+                                                                                                                                                            
+                                                                                                                                                           
+                                                                                                                                                                                            <div class="form-group">
+                                                                                                                                                                                                <label value="{{element.label}}">{{element.label}}</label>{% for validation in validations %}
+                                                                                                                                                                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}{% if validationValues is not null %}{% if validation.contrainte == "required" and  validationValues.value =="1" %}<span class="text-danger">*</span>{% endif %}{% endif %}{% endfor %}
+                                                                                                                                                                                                <select title="select"  {% for validation in validations %}
+                                                                                                                                                                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                                                                                            
+                                                                                                                                                                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                                                                                                                       
+                                                                                                                                                                                    {% endfor %} 
+                                                                                                                                                                              
+                                                                                                                                                                                name="validationform[{{element.label}}]"  class="form-control inputerror"  >
+                                                                                                                                                                                {% set  multipleElements = element.multipleElements %}
+                                                                                                                                                                         {% for multipleElement in multipleElements %}
+                                                                                                                                                                            <option>{{multipleElement.value}}</option>
+                                                                                                                                                                            {% endfor %}
+                                                                                                                                                                                </select>
+                                                                                                                                                                                            </div>
+                                                                                                                                                                                       
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    {% endif %}
+                                                         
                                      
                                     
-                                   {% endfor %}
-                                </div>
-                                </div>       
+                                                                                                                                {% endfor %}    
+                                </div>   
+                                </div>   
+                       
                  </div>
             </div>
         </div>
     {% endfor %}
-        <div class="form-group text-right m-b-0">
    
-    <button type="reset" class="btn btn-default waves-effect m-l-5">
+    {% set currentPath = path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) %}
+{% set url = app.request.attributes.get('_route_params')['url'] %}
+
+<a  type="button" href="{{ path('indexArray', {'url':form.url }) }}" class="btn btn-primary waves-effect m-l-5" >
+Retour
+</a>
+    <button type="reset" class="btn btn-default waves-effect m-l-5 annuler btnvisualise" style="position:relative; left:81%;">
         Annuler
     </button>
 
-<button class="btn btn-primary waves-effect waves-light valid" data-target="#custom-width-modal">Valider</button>
+<button id="{{form.id}}" class="btn btn-success waves-effect waves-light valider btnvisualise" data-target="#custom-width-modal" style="position:relative; left:81%;">Valider</button>
 
-</div>
+
 </form>
-
-
         <!-- End row -->
-
-
- 
-
     </div>
-
     <div id="custom-width-modal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none; padding-right: 17px;">
                                 <div class="modal-dialog" style="width:55%;">
                                     <div class="modal-content">
@@ -85,7 +238,8 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Annuler</button>
-                                            <button id="{{form.id}}" type="button" class="btn btn-primary waves-effect waves-light publish" data-dismiss="modal">Publier</button>
+
+                                            <a  type="button" href="{{ path('publishForm', {'id':form.id }) }}" class="btn btn-primary waves-effect waves-light" >Publier</a>
                                         </div>
                                     </div><!-- /.modal-content -->
                                 </div><!-- /.modal-dialog -->
@@ -95,52 +249,119 @@
 {% endblock %}
 {% block javascript %}
 
-
 <script>
     $(document).ready(function () {
     $(validationform).validate();
-  
+    })
+</script>
+<script>
+    $(document).ready(function () {
+    $(validationform).validate();
+    if(($('.sectionVisualise').length) ==0){
+$('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 errorMessage"><div class="alert alert-icon alert-danger alert-dismissible fade in" role="alert"><button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+        '<span aria-hidden="true">×</span></button><i class="mdi mdi-block-helper"></i>Votre formulaire est vide! veillez le remplir avec des sections!</div></div><div class="col-md-1"></div>');
+      
+        $('.valider').attr("disabled", true);
+        $('.annuler').attr("disabled", true);
+    }
+
+    labels=[];
+    $('label').each(function(){
+      labels.push($(this).text());
+     
+    });
+      
+      function checkValue(arr){
+        var status = 'Not exist';
+       
+        for(var i=0; i<arr.length-1; i++){
+            for(var j=1; j<arr.length; j++){
+         if(arr[i]==arr[j]){
+             status='exist';
+             break;
+         }
+
+            }
+        }
+      console.log(status)
+      if (status=='exist'){
+
+    $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 warningmessage"><div class="alert alert-icon alert-warning alert-dismissible fade in" role="alert"><button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+        '<span aria-hidden="true">×</span></button><i class="mdi mdi-alert"></i>Il existe deux champs ou plus qui ont le même label!</div></div><div class="col-md-1"></div>');
+      }
+        return status;
+      }
+      checkValue(labels);
+      
+      // visualise Form
+// show modal when form is valid
+  $(document).on('click', '.valider', function () {
+  if($('.warningmessage').length!=0)
+  $('.warningmessage').remove();
+         
+    checkValue(labels);
+ var empty = 'false'
+    $('.form').each(function () {
+        // if section empty
+        if($.trim($(this).html())==''){
+            empty='true';
+            return;
+        }       
+    });
+    console.log($('.alert').length)
+    if(empty=='true' ){
+       
+        $('.errorMessage').remove();
+        
+    $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 errorMessage"><div class="alert alert-icon alert-danger alert-dismissible fade in" role="alert"><button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+        '<span aria-hidden="true">×</span></button><i class="mdi mdi-block-helper"></i>Votre formulaire comporte au moins une section vide! veillez la/les remplir avec des champs ou bien la/les supprimer!</div></div><div class="col-md-1"></div>');
+        
+    }
+
+    else if ($(validationform).validate().checkForm() ){
+       
+        $('#custom-width-modal').modal('toggle');
+    }
+    else {
+        $(this).removeAttr('data-toggle');
+    } 
 
     })
-    </script>
-    <script>
+    $('.inputerror').each(function(){
+        var inputNumber = $(this).attr('input_only_number');
+        if(inputNumber=="1"){
+            $(this).keypress(function(event){
+     if (event.keyCode <= 47 || event.keyCode > 57) {
+        if (event.which != 8) {
+            event.returnValue = false;
+        }
+    }
+    if (event.which <= 47 || event.which > 57) {
+        if (event.which != 8) {
+            return false;
+        }
+    }
+});
+        }
+    });
 
-         /*$(document).ready(function () {
-        $(document).on('click', '.btntest', function () {
-        $.ajax({
-            url: Routing.generate('getElements'),
-          
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                for (let i = 0; i < data.elements.length ; i++){
-                $(validationform).validate({
-                   
-                       rules: 
-                       {  
-                       
-                         'form['+data.elements[i].label+']' : 
-                        
-                         {
-                 
-                           required: true
-                         }
-                       }
-                   
-                   
-                   });
-                   }
-        
+    function ForceNumericOnly() {
+        // return this.each(function() {
+        $(this).keypress(function(e) {
+            if (event.keyCode <= 47 || event.keyCode > 57) {
+                if (event.keyCode != 8) {
+                    event.returnValue = false;
+                }
             }
-            
-               
-                
-                })
-         
-           
-                })
-     
-    
-        })*/
+            if (event.which <= 47 || event.which > 57) {
+                if (event.which != 8) {
+                    return false;
+                }
+            }
+        });
+        // });
+    };
+    })
     </script>
+  
     {% endblock %}

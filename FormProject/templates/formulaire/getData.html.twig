@@ -1,7 +1,8 @@
 {% extends 'template.html.twig' %}
-
+{% block title %}Data - list{% endblock %}
 {% block content %}
     {% block body %}
+    
         <div class="container">
 
             <!-- Page-Title -->
@@ -16,7 +17,25 @@
                             <br></div>
                         </div>
                         <!-- end page title end breadcrumb -->
-
+                        <div class="card-box">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <form role="form">
+                                    <div class="form-group search-box">
+                                        <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
+                                            <button type="submit" class="btn btn-search">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" href="{{ path('createData', {'url':form.url }) }}" >
+                                        <i class="md md-add"></i>
+                                        Remplir mon formulaire
+                                    </a>
+                                </div>
+                            </div>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card-box">
@@ -28,9 +47,10 @@
                                         </div>
 
                                         <div class="table-responsive">
+                                    
                                             <table class="table table-hover mails m-0 table table-actions-bar">
                                                 <thead>
-
+                                                 
                                                     <tr>
                                                         <th>
                                                             nom du formulaire
@@ -38,43 +58,105 @@
                                                         <th>
                                                            date 
                                                         </th>
-                                                
-                                                    {% for element in elements %}
+                                                        {% for element in elements %}
                                                         <th>
                                                             {{ element.label }}
                                                         </th>
-                                                    {% endfor %}
-                                                       
+                                                    {% endfor %}  
+                                                    <th>
+                                                     Action
+                                                     </th>
                                                     </tr>
 
                                                 </thead>
-
+                                                
                                                 <tbody>
+                                                 
+                                                   
                                                     {% for dataForm in dataForms %}
                                                   
 
-                                                            <tr >
+                                                            <tr class="form_{{dataForm.id}}">
                                                        
                                                                 <td>
 
                                                                     {{ dataForm.name }}
                                                                 </td>
-                                                             
+                                                                <td>
+
+                                                                    {{ dataForm.date | date("d/m/Y") }}
+                                                                </td>
+                                                                   {% for element in elements %}
+                                                                    
+                                                   
+                                                   
                                                               
+                                                                <td>
+                                                                    {% set  elementDataValues = element.elementData %}
+                                                                    {% for elementDataValue in elementDataValues %}
+                                                                   {% if elementDataValue.formData.id == dataForm.id %}
+                                                                    {{elementDataValue }}
+                                                                {% endif %}
+                                                                {% endfor %}
+                                                                </td>
+                                                          
+                                                        {% endfor %}
+                                                        <td>
+                                                            <a href="#" class="table-action-btn h4 " id="{{ dataForm.id }}" data-toggle="tooltip" title="Supprimer" data-placement="top">
+                                                        <i  class="mdi mdi-close-box-outline text-danger"  data-toggle="modal" data-target="#panel-modal_{{dataForm.id}}" ></i>
+                                                    </a>
+                                                    <a  href="{{ path('editData', {'url':form.url,'idFormData': dataForm.id }) }}" class="table-action-btn h4" data-toggle="tooltip" title="Modifier" data-placement="top">
 
+                                                <i  class="mdi mdi-pencil-box-outline text-success" ></i>
 
+                                 
+                                            </a>
+                                                        </td>
+                                                      
+                                                
                                                             </tr>
                                                           
-                                                    {% endfor %}
+                                                       
+                                                        {% endfor %}
                                                 </tbody>
+                                            
                                             </table>
+                                  
                                         </div>
                                     <!-- end table responsive -->
                                     </div>
                                     <!-- end card-box -->
+                                     <!-- Modal Delete-->
+        {% for dataForm in dataForms %}
+        <div id="panel-modal_{{dataForm.id}}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-right: 17px;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content p-0 b-0">
+                                        <div class="panel panel-color panel-primary">
+                                            <div class="panel-heading">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="display:block;">×</button>
+                                                <h3 class="panel-title">ATTENTION</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <p>Cette action est irréversible. Êtes-vous sûr de bien vouloir supprimer ce formulaire?</p>
+                                            </div>
+                                        
+                                        <center><p><button class="cancel btn btn-lg btn-default btn-md waves-effect btn-sm m-b-5" tabindex="2" style="display: inline-block;" data-dismiss="modal">Annuler</button> 
+                                            
+                                        <a href="{{ path('deleteFormData', {'id':dataForm.id }) }}" class="confirm btn btn-lg btn-danger btn-md waves-effect waves-light btn-sm m-b-5 remove_form" >Supprimer</a>
+                                      
+                                </p></center>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div>
+        {% endfor %}
 
                                             {% endblock %}
 
                                         {% endblock %}
-
-                                    
+                                        {% block javascript %}
+                                        <script>
+                                            $(document).ready(function(){
+                                              $('[data-toggle="tooltip"]').tooltip();   
+                                            });
+                                            </script>       {% endblock %}

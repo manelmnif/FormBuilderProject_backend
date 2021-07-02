@@ -36,6 +36,11 @@ class FormData
      */
     private $elementData;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $refForm;
+
     public function __construct()
     {
         $this->elementData = new ArrayCollection();
@@ -96,6 +101,18 @@ class FormData
                 $elementData->setFormData(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRefForm(): ?int
+    {
+        return $this->refForm;
+    }
+
+    public function setRefForm(int $refForm): self
+    {
+        $this->refForm = $refForm;
 
         return $this;
     }

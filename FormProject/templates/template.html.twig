@@ -8,13 +8,32 @@
 
        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}"/>
 
-        <title>Zircos - Responsive Admin Dashboard Template</title>
+      <title>{% block title %}{% endblock %}</title>
+          <!-- App css -->
+        
       
-<!-- Sweet Alert --> 
-<link  href="{{ asset('plugins/bootstrap-sweetalert/sweet-alert.css') }}" rel="stylesheet" type="text/css" />
+          <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+          <link href="{{ asset('assets/css/core.css') }}" rel="stylesheet" type="text/css" />
+          <link href="{{ asset('assets/css/components.css') }}" rel="stylesheet" type="text/css" />
+          <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
+          <link href="{{ asset('assets/css/pages.css') }}" rel="stylesheet" type="text/css" />
+          <link href="{{ asset('assets/css/menu.css') }}" rel="stylesheet" type="text/css" />
+          <link href="{{ asset('assets/css/menu_sm.css') }}" rel="stylesheet" type="text/css" />
+          <link href="{{ asset('assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
+          <link href="{{ asset('plugins/switchery/switchery.min.css') }}" rel="stylesheet"  />
+    
+          <link href="{{ asset('plugins/fullcalendar/css/fullcalendar.min.css') }}" rel="stylesheet"  />
+    
+          <link rel="stylesheet" href="{{ asset('assetsForm/css/tether.min.css') }}"/>
+          <link rel="stylesheet" href="{{ asset('assetsForm/css/font-awesome/css/font-awesome.min.css') }}"/>
+          <link rel="stylesheet" href="{{ asset('assetsForm/css/form_builder.css') }}"/>
+      <!-- Tooltipster css -->
+      <link rel="stylesheet" href="{{ asset('plugins/tooltipster/tooltipster.bundle.min.css') }}">
+   
 
         <!-- Animated css -->
       <link href="{{ asset('plugins/animate/animate.min.css') }}" rel="stylesheet" type="text/css"  />
+
       
       <!-- Date Picker -->
 
@@ -25,24 +44,7 @@
       <link href="{{ asset('plugins/clockpicker/css/bootstrap-clockpicker.min.css') }}" rel="stylesheet" />
       <link href="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
 
-        <!-- App css -->
-        
-        <link href="{{ asset('assets/css/jquery.toolbar.css') }}" rel="stylesheet" />
-       <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/core.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/components.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/pages.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/menu.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/menu_sm.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('plugins/switchery/switchery.min.css') }}" rel="stylesheet"  />
   
-        <link href="{{ asset('plugins/fullcalendar/css/fullcalendar.min.css') }}" rel="stylesheet"  />
-  
-        <link rel="stylesheet" href="{{ asset('assetsForm/css/tether.min.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assetsForm/css/font-awesome/css/font-awesome.min.css') }}"/>
-        <link rel="stylesheet" href="{{ asset('assetsForm/css/form_builder.css') }}"/>
 
           <!-- Jquery filer css -->
         <link href="{{ asset('plugins/jquery.filer/css/jquery.filer.css') }}" rel="stylesheet" />
@@ -57,11 +59,9 @@
 
         <script src="{{ asset('assets/js/modernizr.min.js') }}"></script>
    
-  
-     
-
-
-
+    
+       
+    {% block style %}{% endblock %}
     </head>
 
 
@@ -112,9 +112,7 @@
                                     </li>
                                     <li>
                                         <a href="#" class="user-list-item">
-                                            <div class="avatar">
-                                                <img src="{{ asset('assets/images/users/avatar-2.jpg') }}"  alt="">
-                                            </div>
+                                         
                                             <div class="user-desc">
                                                 <span class="name">Patricia Beach</span>
                                                 <span class="desc">There are new settings available</span>
@@ -240,12 +238,12 @@
                         <ul class="navigation-menu">
 
                             <li class="has-submenu">
-                                <a href="{{ path('getForms')}}"><i class="mdi mdi-view-dashboard"></i>Mes Formulaires</a>
+                                <a href="{{ path('getForms')}}"><i class="fa fa-wpforms"></i>Mes Formulaires</a>
                             
                             </li>
 
                             <li class="has-submenu">
-                                <a href="{{ path('getPublishedForms')}}"><i class="mdi mdi-layers"></i>Formulaires Publiés</a>
+                                <a href="{{ path('getPublishedForms')}}"><i class="fa fa-share-alt"></i>Formulaires Publiés</a>
                             </li> 
                         </ul>
                         <!-- End navigation menu -->
@@ -259,6 +257,34 @@
 
 
         <div class="wrapper">
+        {% for message in app.flashes('success') %}
+    <div class="col-md-1"></div>
+        <div class="col-md-10">
+        <div class="alert alert-icon alert-success alert-dismissible fade in" role="alert">
+                                        <button style="display :block;" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="false">×</span>
+                                        </button>
+                                        <i class="mdi mdi-check-all"></i>
+                                        {{ message }}
+                                    </div></div>
+                                <div class="col-md-1"></div>
+                         
+       
+    {% endfor %}
+    {% for message in app.flashes('failure') %}
+<div class="col-md-2"></div>
+    <div class="col-md-8">
+    <div class="alert alert-icon alert-danger alert-dismissible fade in" role="alert">
+                                        <button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        <i class="mdi mdi-block-helper"></i>
+                                       {{ message }}
+                                    </div></div>
+                                <div class="col-md-2"></div>
+                     
+   
+{% endfor %}
             {% block content %}
                  {% endblock %} <!-- end container -->
         </div>
@@ -268,7 +294,8 @@
 
    <!-- jQuery  -->
   
-   
+
+
 
 
         <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
@@ -281,10 +308,9 @@
         <script src="{{ asset('assets/js/jquery.scrollTo.min.js') }}"></script>
         <script src="{{ asset('plugins/switchery/switchery.min.js') }}"></script>
 
-
-              <!-- Sweet Alert -->
-<script src="{{ asset('assets/pages/jquery.sweet-alert.init.js') }}"></script>
-<script src="{{ asset('plugins/bootstrap-sweetalert/sweet-alert.min.js') }}" ></script>
+ <!-- App js -->
+<script src="{{ asset('assets/js/jquery.core.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.app.js') }}"></script>
 
          <!-- Jquery-Ui -->
         <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
@@ -292,23 +318,27 @@
           <!-- Jquery filer js -->
         <script src="{{ asset('plugins/jquery.filer/js/jquery.filer.min.js') }}" ></script>
 
+    <!-- Tooltipster js -->
+<script src="{{ asset('plugins/tooltipster/tooltipster.bundle.min.js') }}" ></script>
+<script src="{{ asset('assets/pages/jquery.tooltipster.js') }}" ></script>
+
     <!-- page specific js -->
         <script  src="{{ asset('assets/pages/jquery.property-add.init.js') }}"></script>
 
-
+ 
 
 <!-- BEGIN PAGE SCRIPTS -->
 
         <script src="{{ asset('plugins/moment/moment.js') }}"></script>
         <script src="{{ asset('plugins/fullcalendar/js/fullcalendar.min.js') }}"></script>
         <script src="{{ asset('assets/pages/jquery.fullcalendar.js') }}"></script>
-   
 
-        <!-- App js -->
-        <script src="{{ asset('assets/js/jquery.toolbar.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery.core.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery.app.js') }}"></script>
-        <script src="{{ asset('assets/js/jquery.app.js') }}" ></script>
+      
+
+
+
+       
+   
          <script src="{{ asset('assetsForm/js/jquery-ui.min.js') }}"></script>
          <script src="{{ asset('assetsForm/js/tether.min.js') }}"></script>
          
@@ -367,11 +397,13 @@ function closeNav() {
 
 
 
-
   
 </script>
 
 
+<!-- Tooltipster js -->
+<script src="{{ asset('plugins/tooltipster/tooltipster.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/pages/jquery.tooltipster.js') }}"></script>
             <!-- Date Picker -->
 
         <script src="{{ asset('assets/pages/jquery.form-pickers.init.js') }}"></script>
@@ -381,6 +413,16 @@ function closeNav() {
     <script src="{{ asset('plugins/clockpicker/js/bootstrap-clockpicker.min.js')}}" ></script>
     <script src="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.js')}}" ></script>
     <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+                                       
+    $('form').each(function() {   // <- selects every <form> on page
+        $(this).validate();
+     
+    }); 
+    
+     });  
+    </script>
 
 {% block javascript %}
 {% endblock %}

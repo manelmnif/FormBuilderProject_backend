@@ -53,12 +53,13 @@ class ElementController extends AbstractFOSRestController
     /**
      * @Route(name="createElement", path="/createelement", options={"expose"=true}, methods="POST")
      */
-    public function createElement(Request $request, SectionRepository $sectionRepository, ElementTypeRepository $elementTypeRepository, ElementRepository $elementRepository)
+    public function createElement(Request $request, SectionRepository $sectionRepository, ElementTypeRepository $elementTypeRepository, ElementRepository $elementRepository, constraintValidationRepository $constraintValidationRepository)
     {
+        
         $elementExist = $request->request->get('elementExist');
         $name = $request->request->get('name');
         $section = $sectionRepository->findOneBy([
-            'id' => $request->request->get('section'),
+            'name' => $request->request->get('section'),
         ]);
         $elementType = $elementTypeRepository->findOneBy([
             'id' => $request->request->get('elementType'),
@@ -68,8 +69,10 @@ class ElementController extends AbstractFOSRestController
         $placeholder = $request->request->get('placeholder');
         $class = $request->request->get('class');
 
+       
         $elements = $elementRepository->findAll();
         $elementExist = 'false';
+        //verifier si elmt existe
         foreach ($elements as $e) {
             if ($e->getName() == $name) {
                 $elementExist = 'true';
@@ -91,6 +94,20 @@ class ElementController extends AbstractFOSRestController
 
             $this->entityManager->persist($element);
 
+            
+            $constraints = $constraintValidationRepository->findConstraintByElementTypeTest($elementType);
+            foreach($constraints as $constraint){
+          if($constraint->getId()!=4){
+         
+                $constraintValidationElement = new ConstraintValidationElement();
+                $constraintValidationElement->setElement($element);
+                $constraintValidationElement->setConstraintValidation($constraint);
+                $constraintValidationElement->setValue("");
+                $constraintValidationElement->setMessage("Test");
+                $this->entityManager->persist($constraintValidationElement);
+            }
+            }
+
             $sectionId = $element->getSection()->getId();
             $elements = $elementRepository->getElementsBySectionOrder($sectionId, $order);
 
@@ -100,7 +117,9 @@ class ElementController extends AbstractFOSRestController
                 $this->entityManager->persist($elmt);
             }
             $this->entityManager->flush();
-        } else {
+        } 
+        //if elmt exist traitement de l'ordre 
+        else {
             $finalOrderElementSort = $request->get('finalOrderElementSort');
             $initialOrderElementSort = $request->get('initialOrderElementSort');
             $sortedElement = $request->get('sortedElement');
@@ -132,8 +151,12 @@ class ElementController extends AbstractFOSRestController
             }
 
             $sortedElement->setOrdre($finalOrderElementSort);
+
+            
+           
             $this->entityManager->persist($sortedElement);
             $this->getDoctrine()->getManager()->flush();
+          
         }
 
         return new JsonResponse([
@@ -160,7 +183,7 @@ class ElementController extends AbstractFOSRestController
         $element->setPlaceholder($placeholder);
 
         $this->entityManager->persist($element);
-        $this->entityManager->flush();
+       // $this->entityManager->flush();
 
         $elementType = $elementTypeRepository->findOneBy([
             'id' => $request->request->get('elementType'),
@@ -180,7 +203,7 @@ class ElementController extends AbstractFOSRestController
 
 
         $exist = false;
-  
+  if($values != []){
         foreach ($values as $value) {
             if (array_key_exists($value['name'], $constraints)) {
 
@@ -193,23 +216,12 @@ class ElementController extends AbstractFOSRestController
                 $constraintValidationElement->setValue($value['value']);
                 $constraintValidationElement->setMessage('test');
 
+                
+
                 $this->entityManager->persist($constraintValidationElement);
             }
         }
-        // $values ne contient pas la veleur de required si elle n'est pas coché ( serializeArray() dans js ne prend pas la valeur de required=0)  
-        // ce traitement est fais pour persister une ligne dans la base de donné pour required == 0 , ceci est necessaire pour le traitement de uplaoad constraints si non ca prend null et ca bugg 
-        if ($exist == false) {
-            $constraintValidationElement = new ConstraintValidationElement();
-            $constraintValidationElement->setElement($element);
-            $constraintValidationElement->setConstraintValidation($constraintValidationRepository->findOneBy([
-                'id' => 4,
-            ]));
-            $constraintValidationElement->setValue(0);
-            $constraintValidationElement->setMessage('test');
-
-            $this->entityManager->persist($constraintValidationElement);
-        }
-
+    }
         $this->entityManager->flush();
 
         return new JsonResponse([

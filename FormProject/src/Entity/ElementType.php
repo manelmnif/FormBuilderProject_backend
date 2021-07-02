@@ -38,10 +38,6 @@ class ElementType
      */
     private $element;
 
-    /**
-     * @ORM\OneToMany(targetEntity=MultipleElementType::class, mappedBy="elementType")
-     */
-    private $multipleElementTypes;
 
     /**
      * @ORM\ManyToMany(targetEntity=ConstraintValidation::class, inversedBy="elementTypes")
@@ -134,27 +130,7 @@ class ElementType
         return $this->multipleElementTypes;
     }
 
-    public function addMultipleElementType(MultipleElementType $multipleElementType): self
-    {
-        if (!$this->multipleElementTypes->contains($multipleElementType)) {
-            $this->multipleElementTypes[] = $multipleElementType;
-            $multipleElementType->setElementType($this);
-        }
 
-        return $this;
-    }
-
-    public function removeMultipleElementType(MultipleElementType $multipleElementType): self
-    {
-        if ($this->multipleElementTypes->removeElement($multipleElementType)) {
-            // set the owning side to null (unless already changed)
-            if ($multipleElementType->getElementType() === $this) {
-                $multipleElementType->setElementType(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|ConstraintValidation[]

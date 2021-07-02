@@ -1,5 +1,5 @@
 {% extends 'template.html.twig' %}
-
+{% block title %}Formilaires Publiés{% endblock %}
 {% block content %}
     {% block body %}
         <div class="container">
@@ -75,8 +75,18 @@
                                                                 </td>
 
                                                                 <td>  
-                                                              
-																	<a href="{{ path('createData', {'url':form.url }) }}" class="table-action-btn h4">
+                                                                    <a  href="#" class="table-action-btn h4" data-toggle="tooltip" title="Modifier" data-placement="top">
+
+                                                                <i  class="mdi mdi-pencil-box-outline text-success"  id="openModalButton" data-toggle="modal" data-target="#con-close-modal_{{form.id}}" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"></i>
+
+                                                 
+                                                            </a>
+                                                          
+                                                         
+                                                            <a href="#" class="table-action-btn h4 " id="{{ form.id }}" data-toggle="tooltip" title="Supprimer" data-placement="top">
+                                                        <i  class="mdi mdi-close-box-outline text-danger"  data-toggle="modal" data-target="#panel-modal_{{form.id}}" ></i>
+                                                    </a>
+																	<a href="{{ path('getData', {'url':form.url }) }}" class="table-action-btn h4" data-toggle="tooltip" title="créer Data" data-placement="top">
 																<i class="mdi mdi-database text-info"></i>
 															</a>
 
@@ -88,9 +98,100 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                       
                                     <!-- end table responsive -->
                                     </div>
+                                    <div class="navigation text-right">
+                                        {{ knp_pagination_render(forms) }}
+                                    </div>
                                     <!-- end card-box -->
+                                            <!-- Modal Delete-->
+        {% for form in forms %}
+        <div id="panel-modal_{{form.id}}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-right: 17px;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content p-0 b-0">
+                                        <div class="panel panel-color panel-primary">
+                                            <div class="panel-heading">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="display:block;">×</button>
+                                                <h3 class="panel-title">ATTENTION</h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <p>Cette action est irréversible. Êtes-vous sûr de bien vouloir supprimer ce formulaire?</p>
+                                            </div>
+                                        
+                                        <center><p><button class="cancel btn btn-lg btn-default btn-md waves-effect btn-sm m-b-5" tabindex="2" style="display: inline-block;" data-dismiss="modal">Annuler</button> 
+                                            
+                                        <a href="{{ path('deletePublishedForm', {'id':form.id }) }}" class="confirm btn btn-lg btn-danger btn-md waves-effect waves-light btn-sm m-b-5 remove_form" >Supprimer</a>
+                                      
+                                </p></center>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div>
+        {% endfor %}
+                                                   
+                                                <!-- Modal Edit-->
+                                               {% for form in forms %}
+                                                <div id="con-close-modal_{{form.id}}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                    <div class="modal-dialog">
+
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="display:block;">
+                                                                    ×
+                                                                </button>
+                                                                <h4 class="modal-title">
+                                                                    Modifier le formulaire
+                                                                </h4>
+                                                            </div>
+
+                                                            	<form id="form_{{form.id}}" novalidate="novalidate" name="form">									 
+                                                                                                    
+                                                            <div class="modal-body">
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                Nom
+                                                                            </label>
+                                                                            <input id="name_{{form.id}}" type="text" name="form[name]" required="required" class="form-control" placeholder="name" value="{{form.name}}">
+                                                                            												
+                                                                                                                                
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group no-margin">
+                                                                            <label for="name">
+                                                                                Description
+                                                                            </label>
+                                                                            <textarea id="description_{{form.id}}" name="form[description]" required="required" class="form-control autogrow" placeholder="description" >{{form.description}}</textarea>
+                                                                                                                                
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+
+                                                                <button id="{{form.id}}" type="submit" class="edit btn btn-info waves-effect waves-light">
+                                                                    Enregistrer
+                                                                </button>
+
+                                                            </div>
+
+                                                        </form></div>
+
+                                                        <input type="hidden" id="form__token" name="form[_token]" value="IOOpiUYR2Tw8Bgg1fL47WkNjmxdxjBPCOcV0ML6DXRs">
+                                                        <ul></ul>
+                                                    </div>
+
+                                                </div>
+                                                {% endfor %}
 
                                             {% endblock %}
 

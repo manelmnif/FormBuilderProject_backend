@@ -47,4 +47,14 @@ class FormDataRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getFormsDataByForm($refForm)  {
+        
+        $q = $this->createQueryBuilder('formData')
+        ->where("formData.refForm = :refForm")
+        ->setParameter('refForm', $refForm);
+        
+
+        return  $q->getQuery()->getResult();
+    }
 }

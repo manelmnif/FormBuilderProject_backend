@@ -64,9 +64,15 @@ class Element
     private $constraintValidationElements;
 
     /**
-     * @ORM\OneToMany(targetEntity=ElementData::class, mappedBy="element")
+     * @ORM\OneToMany(targetEntity=ElementData::class, mappedBy="element", fetch="EXTRA_LAZY")
+     * 
      */
     private $elementData;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MultipleElement::class, mappedBy="element")
+     */
+    private $multipleElements;
 
    
 
@@ -74,6 +80,7 @@ class Element
     {
         $this->constraintValidationElements = new ArrayCollection();
         $this->elementData = new ArrayCollection();
+        $this->multipleElements = new ArrayCollection();
     }
 
   
@@ -250,6 +257,57 @@ class Element
 
         return null;
     }
+
+    public function getDataValuesByElement($element)
+    {
+        
+        $values =  $this->getElementData();
+
+        foreach( $values as $value){
+
+            if ($value->getElement() == $element){
+                return $value;
+            }
+
+        }
+
+        return null;
+    }
+
+   
+  
+
+
+
+  /**
+   * @return Collection|MultipleElement[]
+   */
+  public function getMultipleElements(): Collection
+  {
+      return $this->multipleElements;
+  }
+
+  public function addMultipleElement(MultipleElement $multipleElement): self
+  {
+      if (!$this->multipleElements->contains($multipleElement)) {
+          $this->multipleElements[] = $multipleElement;
+          $multipleElement->setElement($this);
+      }
+
+      return $this;
+  }
+
+  public function removeMultipleElement(MultipleElement $multipleElement): self
+  {
+      if ($this->multipleElements->removeElement($multipleElement)) {
+          // set the owning side to null (unless already changed)
+          if ($multipleElement->getElement() === $this) {
+              $multipleElement->setElement(null);
+          }
+      }
+
+      return $this;
+  }
 
 
 }
