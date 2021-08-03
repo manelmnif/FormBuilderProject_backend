@@ -1,5 +1,5 @@
 {% extends 'template.html.twig' %}
-{% block title %}Formilaires Publiés{% endblock %}
+{% block title %}Formulaires Partagés{% endblock %}
 {% block content %}
     {% block body %}
         <div class="container">
@@ -11,7 +11,7 @@
                     <br>
                         <br>
                             <h4 class="page-title">
-                               Formulaires Publiés
+                               Formulaires partagés
                             </h4>
                             <br></div>
                         </div>
@@ -20,19 +20,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="card-box">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <form role="form">
-                                                <div class="form-group search-box">
-                                                    <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
-                                                        <button type="submit" class="btn btn-search">
-                                                            <i class="fa fa-search"></i>
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                          
-                                        </div>
+                                 
 
                                         <div class="table-responsive">
                                             <table class="table table-hover mails m-0 table table-actions-bar">
@@ -41,17 +29,21 @@
                                                     <tr>
 
                                                         <th>
-                                                            Nom
+                                                            Titre
                                                         </th>
                                                         <th>
                                                             Description
                                                         </th>
                                                         <th>
+                                                            Nombre de saisies
+                                                        </th>
+                                                        <th>
                                                             Date de création
                                                         </th>
 
+
                                                         <th>
-                                                            Action
+                                                            Actions
                                                         </th>
                                                     </tr>
 
@@ -67,15 +59,18 @@
 
                                                                     {{ form.name }}
                                                                 </td>
-                                                                <td>
+                                                                <td style="max-width: 350px;">
                                                                     {{ form.description }}
+                                                                </td>
+                                                                <td style=" width: 167px;">
+                                                                    {{ form.number }}
                                                                 </td>
                                                                 <td>
                                                                     {{ form.date | date("d/m/Y") }}
                                                                 </td>
 
-                                                                <td>  
-                                                                    <a  href="#" class="table-action-btn h4" data-toggle="tooltip" title="Modifier" data-placement="top">
+                                                                <td style="min-width:114px;">  
+                                                                    <a  href="#" class="table-action-btn h3" data-toggle="tooltip" title="Modifier les informations" data-placement="top">
 
                                                                 <i  class="mdi mdi-pencil-box-outline text-success"  id="openModalButton" data-toggle="modal" data-target="#con-close-modal_{{form.id}}" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"></i>
 
@@ -83,12 +78,14 @@
                                                             </a>
                                                           
                                                          
-                                                            <a href="#" class="table-action-btn h4 " id="{{ form.id }}" data-toggle="tooltip" title="Supprimer" data-placement="top">
-                                                        <i  class="mdi mdi-close-box-outline text-danger"  data-toggle="modal" data-target="#panel-modal_{{form.id}}" ></i>
-                                                    </a>
-																	<a href="{{ path('getData', {'url':form.url }) }}" class="table-action-btn h4" data-toggle="tooltip" title="créer Data" data-placement="top">
+                                                           
+																	<a href="{{ path('getData', {'url':form.url }) }}" class="table-action-btn h3" data-toggle="tooltip" title="Créer des données" data-placement="top">
 																<i class="mdi mdi-database text-info"></i>
 															</a>
+
+                                                            <a href="#" class="table-action-btn h3 " id="{{ form.id }}" data-toggle="tooltip" title="Supprimer" data-placement="top">
+                                                        <i  class="mdi mdi-delete text-danger"  data-toggle="modal" data-target="#panel-modal_{{form.id}}" ></i>
+                                                    </a>
 
                                                                 </td>
 
@@ -141,7 +138,7 @@
                                                                     ×
                                                                 </button>
                                                                 <h4 class="modal-title">
-                                                                    Modifier le formulaire
+                                                                    Modifier les informations du formulaire
                                                                 </h4>
                                                             </div>
 
@@ -154,9 +151,9 @@
 
                                                                         <div class="form-group">
                                                                             <label>
-                                                                                Nom
+                                                                                Titre
                                                                             </label>
-                                                                            <input id="name_{{form.id}}" type="text" name="form[name]" required="required" class="form-control" placeholder="name" value="{{form.name}}">
+                                                                            <input id="name_{{form.id}}" type="text" name="form[name]" required="required" class="form-control" placeholder="Titre du formulaire" value="{{form.name}}">
                                                                             												
                                                                                                                                 
                                                                         </div>
@@ -170,7 +167,7 @@
                                                                             <label for="name">
                                                                                 Description
                                                                             </label>
-                                                                            <textarea id="description_{{form.id}}" name="form[description]" required="required" class="form-control autogrow" placeholder="description" >{{form.description}}</textarea>
+                                                                            <textarea id="description_{{form.id}}" name="form[description]" required="required" class="form-control autogrow" placeholder="Description du formulaire" >{{form.description}}</textarea>
                                                                                                                                 
                                                                         </div>
                                                                     </div>

@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Repository\FormRepository;
 use App\Repository\ElementTypeRepository;
 use App\Entity\Section;
+use App\Repository\FormDataRepository;
 use App\Repository\SectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -63,7 +64,11 @@ class SectionController extends AbstractFOSRestController
         $section->setName($name);
         $section->setForm($form);
         $section->setOrdre($order);
-        $section->setTitle('test');
+        $section->setTitle('Titre de la section');
+
+        $form= $section->getForm();
+        $form->setValidate('0'); 
+        $this->entityManager->persist($form);   
 
         $this->entityManager->persist($section);
         $this->entityManager->flush();
@@ -80,7 +85,7 @@ class SectionController extends AbstractFOSRestController
     /**
      * @Route(name="updateOrder", path="/updateorder", options={"expose"=true}, methods="POST")
      */
-    public function updateOrder(Request $request, SectionRepository $sectionRepository, LoggerInterface $logger)
+    public function updateOrder(FormDataRepository $formDataRepository, Request $request, SectionRepository $sectionRepository, LoggerInterface $logger)
     {
         $logger->info('I just got the logger');
         $isDelete = $request->get('isDelete');
@@ -95,6 +100,16 @@ class SectionController extends AbstractFOSRestController
 
 
             $this->getDoctrine()->getManager()->remove($section);
+            //remove formData after removing element
+            /*$form= $section->getForm()->getId();
+            $formsData = $formDataRepository->getFormsDataByForm($form);
+            
+            foreach($formsData as $formData){
+                $this->getDoctrine()->getManager()->remove($formData);
+            }*/
+            $form= $section->getForm();
+            $form->setValidate('0');  
+            $this->entityManager->persist($form); 
             $formId = $section->getForm()->getId();
             $sections = $sectionRepository->getSectionsByFormOrder($formId, $order);
 

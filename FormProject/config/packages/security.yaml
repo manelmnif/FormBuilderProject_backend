@@ -24,12 +24,13 @@ security:
                 login_path: login
                 check_path: login
                 provider: my_provider
+                default_target_path: getForms
                
                
                 
             logout:
                 path: logout
-                target: index
+                target: login
 
             remember_me:
                 secret:   '%kernel.secret%'

@@ -2,16 +2,33 @@
 {% block title %}Visualisation Formulaire{% endblock %}
 {% block content %}
 	{% block body %}
+    <div class="col-md-12" style="right: -25px;">
+
+    <div class="col-md-10">
+<h3 class="page-title">Visualisation du formulaire</h3><br></div>
+<br><br>
+    
+    <div class="card-box" style="width:1282px;">
+    
+    <div class="row">
+    <div class="col-md-8">
+<h4 class="page-title">{{form.name}}</h4>
+<br>
+    
    
+<p>{{form.description}}</p>
+</div>
+
+
+</div>
+</div></div>
+</div>
     <div class="container">
 
         <!-- Page-Title -->
         <div class="row">
             <div class="col-sm-12">
-              
-                  <br>
-                    <h4 class="page-title">{{ form.name }}</h4>
-      <br>
+            
             </div>
         </div>
         <!-- end page title end breadcrumb -->
@@ -21,8 +38,8 @@
         {% for section in sections %}
       
         <div class="row section sectionVisualise">
-            <div  class="col-md-12">
-                <div class="card-box">
+            <div  class="col-md-12" style="right: 48px;">
+                <div class="card-box" style="width:1282px;">
             <h4 class="m-t-0 header-title"><b>{{section.title}}</b></h4>
                
                 
@@ -33,8 +50,8 @@
                 {% for element in section.elements %}
                
                                        
-         {% if element.elementType.type == "Text Field" %}
-            <div  class="col-md-6">
+         {% if element.elementType.type == "Text" %}
+            <div  class="{{element.classe}}">
             {% set  validations = element.getConstraintValidationByType %}
             
            
@@ -43,8 +60,8 @@
                                             {% set  validationValues = element.getConstraintValidationByElement(validation) %}{% if validationValues is not null %}{% if validation.contrainte == "required" and  validationValues.value =="1" %}<span class="text-danger">*</span>{% endif %}{% endif %}{% endfor %}
                                                 <input  {% for validation in validations %}
                                             {% set  validationValues = element.getConstraintValidationByElement(validation) %}
-                                            
-                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if  validation.contrainte != "input_only_number" %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if  validation.contrainte != "required" %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
                                        
                                     {% endfor %} 
                               
@@ -55,7 +72,7 @@
                                     {% endif %}
 
                                     {% if element.elementType.type == "Text Area" %}
-                                    <div  class="col-md-6">
+                                      <div  class="{{element.classe}}">
                                     {% set  validations = element.getConstraintValidationByType %}
                                     
                                    
@@ -73,7 +90,7 @@
                                                                 </div>
                                                             {% endif %}
                                                             {% if element.elementType.type == "Date" %}
-                                                            <div  class="col-md-6">
+                                                            <div  class="{{element.classe}}">
                                                             {% set  validations = element.getConstraintValidationByType %}
                                                         
                                                            
@@ -86,55 +103,53 @@
                                                                                           
                                                                                         {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
                                                                                     {% endfor %} 
-                                                                                name="validationform[{{element.label}}]" class="form-control inputerror datepick" type="text" ><span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span></div>
+                                                                                name="validationform[{{element.label}}]" class="form-control inputerror datepick" type="text" placeholder="{{element.placeholder}}" ><span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span></div>
                                                                                             </div>
                                                                                        
                                                                                         </div>
                                                                                     {% endif %}
                                                                                     {% if element.elementType.type == "Checkbox" %}
                                                                              
-                                                                                    <div  class="col-md-6">
+                                                                                    <div  class="{{element.classe}}">
                                                                                     {% set  validations = element.getConstraintValidationByType %}
-                                                                                
-                                                                                   
                                                                                                                     <div class="form-group">
                                                                                                                      
                                                                                                                             <div class="checkbox checkbox-primary">
-                                                                                                                        <input {% for validation in validations %}
+                                                                                                                        <input name="{{element.id}}" id="validationform[{{element.label}}]" {% for validation in validations %}
                                                                                                                     {% set  validationValues = element.getConstraintValidationByElement(validation) %}
                                                                                                                   
                                                                                                                 {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
                                                                                                             {% endfor %} 
-                                                                                                        name="validationform[{{element.label}}]" class="form-control inputerror" type="checkbox" > <label>{{element.label}}</label></div>
+                                                                                                         class="form-control inputerror" type="checkbox" > <label>{{element.label}}</label></div>     
                                                                                                                
-                                                                                                               
-                                                                                                                </div></div>
+                                                                                                                </div>
                                                                                                             {% endif %}
                                                                                                             {% if element.elementType.type == "Multiple Checkbox" %}
                                                                                                            
-                                                                                    <div  class="col-md-6">
-                                                                                    {% set  validations = element.getConstraintValidationByType %}
-                                                                                
-                                                                                   
-                                                                                                                    <div class="form-group">
-                                                                                                                <label>{{element.label}}</label>
-                                                                                                                    {% set  multipleElements = element.multipleElements %}
-                                                                                                                    {% for multipleElement in multipleElements %}
-                                                                                                                            <div class="checkbox checkbox-primary">
-                                                                                                                        <input {% for validation in validations %}
-                                                                                                                    {% set  validationValues = element.getConstraintValidationByElement(validation) %}
-                                                                                                                  
-                                                                                                                {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
-                                                                                                            {% endfor %} 
-                                                                                                        name="validationform[{{element.label}}]" class="form-control inputerror" type="checkbox" > <label>{{multipleElement.value}}</label></div>
-                                                                                                               
-                                                                                                        {% endfor %}
-                                                                                                                </div></div>
-                                                                                                            
-
-                                                                                                            {% endif %}
+                                                                                                            <div  class="{{element.classe}}">
+                                                                                                            {% set  validations = element.getConstraintValidationByType %}
+                                                                                                        
+                                                                                                           
+                                                                                                                                            <div class="form-group">
+                                                                                                                                        <label>{{element.label}}</label>
+                                                                                                                                            {% set  multipleElements = element.multipleElements %}
+                                                                                                                                            {% for multipleElement in multipleElements %}
+                                                                                                                                                    <div class="checkbox checkbox-primary">
+                                                                                                                                                <input name="{{multipleElement.id}}" {% for validation in validations %}
+                                                                                                                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                                          
+                                                                                                                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                                                                    {% endfor %} 
+                                                                                                                                name="validationform[{{element.label}}]" class="form-control inputerror" type="checkbox" > <label>{{multipleElement.value}}</label></div>
+                                                                                                                                       
+                                                                                                                                {% endfor %}
+                                                                                                                                        </div></div>
+                                                                                                                                    {% endif %}
+                                                                                                                                    
+                        
+                                                  
                                                                                                             {% if element.elementType.type == "Number" %}
-                                                                                                            <div  class="col-md-6">
+                                                                                                            <div  class="{{element.classe}}">
                                                                                                             {% set  validations = element.getConstraintValidationByType %}
                                                                                                             
                                                                                                            
@@ -152,7 +167,7 @@
                                                                                                                                         </div>
                                                                                                                                     {% endif %}
                                                                                                                                     {% if element.elementType.type == "E-mail" %}
-                                                                                                                                    <div  class="col-md-6">
+                                                                                                                                    <div  class="{{element.classe}}">
                                                                                                                                     {% set  validations = element.getConstraintValidationByType %}
                                                                                                                                     
                                                                                                                                    
@@ -171,8 +186,8 @@
                                                                                                                                                                
                                                                                                                                                                 </div>
                                                                                                                                                             {% endif %}
-                                                                                                                                                            {% if element.elementType.type == "Dropdown List" %}
-                                                                                                                                                            <div  class="col-md-6">
+                                                                                                                                                            {% if element.elementType.type == "Dropdown List" and element.multiple == "Unique" %}
+                                                                                                                                                            <div  class="{{element.classe}}">
                                                                                                                                                             {% set  validations = element.getConstraintValidationByType %}
                                                                                                                                                             
                                                                                                                                                            
@@ -196,10 +211,22 @@
                                                                                                                                                                                        
                                                                                                                                                                                         </div>
                                                                                                                                                                                     {% endif %}
-                                                         
-                                     
-                                    
-                                                                                                                                {% endfor %}    
+                                                                                                                                                                                    {% if element.elementType.type == "Dropdown List" and element.multiple == "Multiple" %}
+                                                                                                                                                                                    <div  class="{{element.classe}}">
+                                                                                                                                                                                    
+                                                                                                                                                                                    <div class="form-group">
+                                                                                                                                                                                    <label value="{{element.label}}">{{element.label}}</label>
+                                                                                                                                                                                    <select data-placeholder="" multiple="" class="chosen-select" tabindex="-1" style="display: none;">
+                                                                                                                                                                                      <option value=""></option>
+                                                                                                                                                                                      {% set  multipleElements = element.multipleElements %}
+                                                                                                                                                                         {% for multipleElement in multipleElements %}
+                                                                                                                                                                            <option>{{multipleElement.value}}</option>
+                                                                                                                                                                            {% endfor %}
+                                                                                                                                                                                    </select><div class="chosen-container chosen-container-multi chosen-container-active" title="" style="width: 350px;">
+                                                                                                                                                                         </div>
+                                                                                                                                                                                  </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                                {% endif %}                                                                                                                                                {% endfor %}    
                                 </div>   
                                 </div>   
                        
@@ -212,14 +239,14 @@
     app.request.attributes.get('_route_params')) %}
 {% set url = app.request.attributes.get('_route_params')['url'] %}
 
-<a  type="button" href="{{ path('indexArray', {'url':form.url }) }}" class="btn btn-primary waves-effect m-l-5" >
-Retour
+<a  type="button" href="{{ path('indexArray', {'url':form.url }) }}" class="btn btn-primary waves-effect m-l-5" style="position:relative; left:74%;">
+Modifier le formulaire
 </a>
-    <button type="reset" class="btn btn-default waves-effect m-l-5 annuler btnvisualise" style="position:relative; left:81%;">
+    <!-- <button type="reset" class="btn btn-default waves-effect m-l-5 annuler btnvisualise" style="position:relative; left:81%;">
         Annuler
-    </button>
+    </button> -->
 
-<button id="{{form.id}}" class="btn btn-success waves-effect waves-light valider btnvisualise" data-target="#custom-width-modal" style="position:relative; left:81%;">Valider</button>
+<button id="{{form.id}}" class="btn btn-success waves-effect waves-light valider btnvisualise" data-target="#custom-width-modal" style="position:relative; left:75%;">Simuler le formulaire</button>
 
 
 </form>
@@ -234,12 +261,12 @@ Retour
                                         </div>
                                         <div class="modal-body">
 
-                                            <p>Est ce que vous souhaitez le publier?</p>
+                                            <p>Est-ce que vous souhaitez créer des données?</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Annuler</button>
 
-                                            <a  type="button" href="{{ path('publishForm', {'id':form.id }) }}" class="btn btn-primary waves-effect waves-light" >Publier</a>
+                                            <a  type="button" href="{{ path('createData', {'url':form.url }) }}" class="btn btn-primary waves-effect waves-light" >Oui</a>
                                         </div>
                                     </div><!-- /.modal-content -->
                                 </div><!-- /.modal-dialog -->
@@ -251,16 +278,21 @@ Retour
 
 <script>
     $(document).ready(function () {
+      
+      
+        
     $(validationform).validate();
     })
 </script>
 <script>
     $(document).ready(function () {
+        $('.forms').css("color", "#188ae2");
+        $('.fa-wpforms').css("color", "#188ae2");
     $(validationform).validate();
     if(($('.sectionVisualise').length) ==0){
 $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 errorMessage"><div class="alert alert-icon alert-danger alert-dismissible fade in" role="alert"><button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
         '<span aria-hidden="true">×</span></button><i class="mdi mdi-block-helper"></i>Votre formulaire est vide! veillez le remplir avec des sections!</div></div><div class="col-md-1"></div>');
-      
+        
         $('.valider').attr("disabled", true);
         $('.annuler').attr("disabled", true);
     }
@@ -270,12 +302,13 @@ $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 errorMe
       labels.push($(this).text());
      
     });
+    console.log(labels);
       
       function checkValue(arr){
         var status = 'Not exist';
        
         for(var i=0; i<arr.length-1; i++){
-            for(var j=1; j<arr.length; j++){
+            for(var j=i+1; j<arr.length; j++){
          if(arr[i]==arr[j]){
              status='exist';
              break;
@@ -283,19 +316,23 @@ $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 errorMe
 
             }
         }
-      console.log(status)
+      
       if (status=='exist'){
 
-    $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 warningmessage"><div class="alert alert-icon alert-warning alert-dismissible fade in" role="alert"><button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-        '<span aria-hidden="true">×</span></button><i class="mdi mdi-alert"></i>Il existe deux champs ou plus qui ont le même label!</div></div><div class="col-md-1"></div>');
+    $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 warningmessage"><div class="alert alert-icon alert-warning alert-dismissible fade in" role="alert" style="width: 1282px; left: -85px;"><button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+        '<span aria-hidden="true">×</span></button><i class="mdi mdi-alert"></i><strong>Il existe deux champs ou plus qui ont le même label!</strong></div></div><div class="col-md-1"></div>');
+        
       }
+        
         return status;
       }
+   
       checkValue(labels);
       
       // visualise Form
 // show modal when form is valid
   $(document).on('click', '.valider', function () {
+    document.documentElement.scrollTop = 0;
   if($('.warningmessage').length!=0)
   $('.warningmessage').remove();
          
@@ -308,19 +345,36 @@ $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 errorMe
             return;
         }       
     });
-    console.log($('.alert').length)
+    
     if(empty=='true' ){
        
         $('.errorMessage').remove();
         
-    $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 errorMessage"><div class="alert alert-icon alert-danger alert-dismissible fade in" role="alert"><button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+    $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 errorMessage"><div class="alert alert-icon alert-danger alert-dismissible fade in" role="alert" style="width: 1282px; left: -85px;"><button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
         '<span aria-hidden="true">×</span></button><i class="mdi mdi-block-helper"></i>Votre formulaire comporte au moins une section vide! veillez la/les remplir avec des champs ou bien la/les supprimer!</div></div><div class="col-md-1"></div>');
+        $('.alert-warning').css('left','26px');
         
     }
 
     else if ($(validationform).validate().checkForm() ){
-       
-        $('#custom-width-modal').modal('toggle');
+        $('.validMessage').remove();
+    $('.wrapper').prepend('<div class="col-md-1"></div><div class="col-md-10 validMessage"><div class="alert alert-icon alert-success alert-dismissible fade in" role="alert" style="width: 1282px; left: -85px;"><button style="display:block;" type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+'<span aria-hidden="true">×</span></button><i class="mdi mdi-check-all"></i><strong>Votre formulaire est valide!&nbsp;<strong>Est-ce que vous souhaitez le partager?&nbsp; <a href="{{ path('publishForm', {'id':form.id }) }}"  class="alert-link">Cliquer ici</a><br>Nb: Un formulaire partagé n&apos;est plus modifiable.</div></div><div class="col-md-1"></div>');
+    $('.alert-warning').css('left','26px');
+    var url = document.URL;
+    var slugIndex = url.lastIndexOf('/');
+        if (url.substr(slugIndex) !== '') {
+            url = url.substring(slugIndex + 1, url.length);
+        }
+    $.ajax({
+
+        url: Routing.generate('validateForm'),
+        data: {
+            url: url,   
+        },
+        
+        type: 'POST'
+    })
     }
     else {
         $(this).removeAttr('data-toggle');

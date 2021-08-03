@@ -39,6 +39,16 @@ class ConstraintValidation
      */
     private $html;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $placeholder;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $contrainte_fr;
+
     public function __construct()
     {
         $this->constraintElement = new ArrayCollection();
@@ -127,6 +137,30 @@ class ConstraintValidation
     public function setHtml(string $html): self
     {
         $this->html = $html;
+
+        return $this;
+    }
+
+    public function getPlaceholder(): ?string
+    {
+        return $this->placeholder;
+    }
+
+    public function setPlaceholder(string $placeholder): self
+    {
+        $this->placeholder = $placeholder;
+
+        return $this;
+    }
+
+    public function getContrainteFr(): ?string
+    {
+        return $this->contrainte_fr;
+    }
+
+    public function setContrainteFr(string $contrainte_fr): self
+    {
+        $this->contrainte_fr = $contrainte_fr;
 
         return $this;
     }

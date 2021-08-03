@@ -9,7 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=MultipleElementRepository::class)
  */
 class MultipleElement
-{
+{   
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -73,4 +75,11 @@ class MultipleElement
 
         return $this;
     }
+
+    public function __toString() {
+        return (string) $this->value;
+    }
+ 
+
+
 }

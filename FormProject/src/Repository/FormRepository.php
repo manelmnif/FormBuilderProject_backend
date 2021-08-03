@@ -25,6 +25,7 @@ class FormRepository extends ServiceEntityRepository
         $q = $this->createQueryBuilder('f')
         ->join('f.user', 'user')
         ->where("user.id = :id")
+        ->andWhere("f.status = 0")
         ->orderBy('f.id' ,'DESC')
         ->setParameter('id', $id);
         
@@ -44,6 +45,19 @@ class FormRepository extends ServiceEntityRepository
 
         return  $q->getQuery()->getResult();
     }
+
+    public function search($item)  {
+        
+        $q = $this->createQueryBuilder('form')
+        ->where("form.name LIKE :name")
+        ->setParameter('name', '%'.$item.'%')
+        ->getQuery()
+        ->execute();
+
+       
+    }
+
+
 
 
     // /**

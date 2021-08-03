@@ -8,6 +8,7 @@ use App\Entity\Element;
 use App\Repository\ConstraintValidationElementRepository;
 use App\Repository\ConstraintValidationRepository;
 use App\Repository\ElementRepository;
+use App\Repository\FormDataRepository;
 use App\Repository\SectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -140,7 +141,7 @@ class ElementController extends AbstractFOSRestController
                     }
                 }
             }
-            //down
+            // down
             else {
                 foreach ($elements as $element) {
                     if ($element->getOrdre() > $initialOrderElementSort && $element->getOrdre() <= $finalOrderElementSort) {
@@ -172,22 +173,32 @@ class ElementController extends AbstractFOSRestController
      */
     public function updateSettingsElement(Request $request, ElementRepository $elementRepository, ElementTypeRepository $elementTypeRepository, constraintValidationRepository $constraintValidationRepository, ConstraintValidationElementRepository $constraintValidationElementRepository)
     {
+        $elementType = $elementTypeRepository->findOneBy([
+            'id' => $request->request->get('elementType'),
+        ]);
+        // select multiple choice or unique choice
+        $multiple = $request->get('multiple');
         $element = $request->get('elementField');
         $element = $elementRepository->findOneBy([
             'name' => $element,
         ]);
+        $classe = $request->get('classe');
         $label = $request->get('label');
+        if($elementType->getType()=="Text" || $elementType->getType()=="Text Area" || $elementType->getType()=="Number" || $elementType->getType()=="Date" || $elementType->getType()=="E-mail"){
         $placeholder = $request->get('placeholder');
+        
+    }
+        else $placeholder ='null';
 
+        $element->setMultiple($multiple);
         $element->setLabel($label);
         $element->setPlaceholder($placeholder);
+        $element->setClasse($classe);
 
         $this->entityManager->persist($element);
        // $this->entityManager->flush();
 
-        $elementType = $elementTypeRepository->findOneBy([
-            'id' => $request->request->get('elementType'),
-        ]);
+
         $constraints = $constraintValidationRepository->findConstraintByElementTypeTest($elementType);
         $values = $request->request->get('value');
 
@@ -235,10 +246,9 @@ class ElementController extends AbstractFOSRestController
     /**
      * @Route(name="updateElementOrder", path="/updateorderelement", options={"expose"=true}, methods="POST")
      */
-    public function updateOrder(Request $request, ElementRepository $elementRepository, SectionRepository $sectionRepository, ElementTypeRepository $elementTypeRepository)
+    public function updateOrder(Request $request, ElementRepository $elementRepository, SectionRepository $sectionRepository, ElementTypeRepository $elementTypeRepository, FormDataRepository $formDataRepository)
     {
         $isDelete = $request->get('isDelete');
-
 
         if ($isDelete == "true") {
             $order = $request->get('orderElement');
@@ -247,8 +257,18 @@ class ElementController extends AbstractFOSRestController
                 'name' => $element,
             ]);
 
-
+            
             $this->getDoctrine()->getManager()->remove($element);
+            //remove formData after removing element
+            /*$form= $element->getSection()->getForm()->getId();
+            $formsData = $formDataRepository->getFormsDataByForm($form);
+            
+            foreach($formsData as $formData){
+                $this->getDoctrine()->getManager()->remove($formData);
+            }*/
+            $form= $element->getSection()->getForm();
+            $form->setValidate('0');
+            $this->entityManager->persist($form);
             $sectionId = $element->getSection()->getId();
             $elements = $elementRepository->getElementBySectionOrder($sectionId, $order);
 
@@ -290,4 +310,29 @@ class ElementController extends AbstractFOSRestController
 
     
     }
+
+     /**
+     * @Route(name="setMultiple", path="/setmultiple", options={"expose"=true}, methods="GET")
+     */
+    public function setMultiple( ElementRepository $elementRepository)
+    {
+    
+     
+        $elements = $elementRepository->getElements();
+
+        $json = json_encode(array(
+            'elements' => $elements,
+          
+        ));
+
+        $response = new JsonResponse();
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent($json);
+        return $response;
+    
+
+    
+    }
+
+
 }

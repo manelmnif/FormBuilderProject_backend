@@ -116,8 +116,9 @@ class ElementData
 
         return $this;
     }
-
+// to return the value in twig  element.elementData
     public function __toString() {
         return (string) $this->value;
     }
+ 
 }

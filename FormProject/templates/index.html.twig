@@ -1,41 +1,64 @@
 {% extends 'template.html.twig' %}
-{% block title %}Création - Formulaire{% endblock %}
+{% block title %}Personnalisation du formulaire{% endblock %}
 {% block content %}
     {% block body %}
+
+
+
+
+    <div class="col-md-12" style="right: -25px;">
+    <div class="col-md-10">
+<h3 class="page-title">Personnalisation du formulaire</h3> <br></div>
+<br><br>
+    
+    <div class="card-box" style="width: 962px; position: unset; margin-left: 24%; margin-top: 5px;">
+    
+    <div class="row">
+    <div class="col-md-8">
+<h4 class="page-title">{{form.name}}</h4>
+<br>
+    
+   
+<p>{{form.description}}</p>
+</div>
+<div class="col-md-2"> </div>
+<div class="col-md-2"> 
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+{% set url = app.request.attributes.get('_route_params')['url'] %}
+
+<a href="{{ path('visualiseForm', {'url':url }) }}" style="width: 210px; left: -60%;" class="btn btn-lg btn-success btn-block waves-effect m-t-20 waves-light">
+
+<i class="fa fa-eye"></i>
+Visualiser le formulaire                                                 
+</a>
+</div>
+</div></div>
+</div>
             <div class="container">
-            
                 <div class="row">
                     <div class="col-sm-12">
                   
                             <div class="row">  
                                 <div class="col-lg-3 col-md-4">
-                                {% set currentPath = path(app.request.attributes.get('_route'),
-                                app.request.attributes.get('_route_params')) %}
-                           {% set url = app.request.attributes.get('_route_params')['url'] %}
-                            
-                                
-                                    <div class="text-center card-box" style="position: fixed; width: 309px; left:5%; top:20%;">
+                             
+                                    <div class="text-center card-box" style="position: fixed; width: 309px; left: 35px; top: 173px; height: 435px;">
                                         <div class="member-card">
-
-                                            <a href="javascript:;" data-toggle="modal" data-target="#add-category" class="btn btn-lg btn-danger btn-block waves-effect m-t-20 waves-light btn-section">
+                                   
+                                            <a href="javascript:;" data-toggle="modal" data-target="#add-category" class="btn btn-lg btn-danger btn-block waves-effect m-t-20 waves-light btn-section" style="top: -24px;">
                                                 <i class="fa fa-plus"></i>
                                                 Créer une nouvelle section                                                  
                                             </a>
-                                            <div id="external-events" class="m-t-20 nav">
+                                            <div id="external-events" class="m-t-20 nav" style="position: relative; top: -48px;">
                                                 <br>
 
                                                     {% for elementType in elementTypes %}
 
                                                         <div data-elementType="{{ elementType.type }}" data-type="{{ elementType.typeHtml }}" balise="{{ elementType.baliseHtml }}" id="{{ elementType.id }}" class="external-event bg-success form_bal_textfield" data-class="bg-success" style="position: relative; ">
                                                             <a href="javascript:;">
-                                                                <i class="mdi mdi-message-text-outline m-r-10 vertical-middle"></i>
-                                                                &nbsp;
-                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                
-                                                                                                                                
-                                                                {{ elementType.type }}
+                                                                <i class="{{elementType.icone}}"></i>
+                                                                &nbsp;                                                              
+                                                                {{ elementType.typeFr }}
                                                             </div>
-                                                        
                                                         {% endfor %}
                                                     </div>
 
@@ -48,17 +71,17 @@
                                         <!-- end col -->
 
                                         <div class="col-md-8 ">
-
-                                            <div class="card-box form_builder_area ui-sortable">
+                            
+                                            <div class="card-box form_builder_area ui-sortable" style="width: 961px; margin-left: -30px; top: -1px;">
                              
-
+                                       
                                              
                                                 {% for section in sections %}
                                                
                                                     <div id="sortable" data-field="{{ section.name }}" data-block="{{ section.ordre }}" class="block_{{ section.name }} block ">
                                                         <div class="col-md-12 block_hover" data-field="{{ section.name }}">
                                                             <div class="form-group " style="margin-top: 20px; margin-bottom: -10px;">
-                                                                  <input id="{{section.name}}" class="titre" placeholder="Titre de la section" style="border:none; font-family:Garamond, serif; font-weight: bold; font-size: 30px; color: black; ">
+                                <input id="{{section.name}}" class="titre" {% if section.title =="" %} placeholder="Titre de la section" {% else %} value="{{section.title}}"{% endif %} style="border:none; font-family:Garamond, serif; font-weight: bold; font-size: 30px; color: black; ">
                                                             <div class="pull-right">
                                                             <a class="table-action-btn h3">
                                                                         <i class="mdi mdi-close-box-outline text-danger remove_block removehover_{{ section.name }}" data-field="{{ section.name }}"></i>
@@ -70,8 +93,8 @@
 
                                                                     {% for element in section.elements %}
                                                                             <!-- start Text Field -->
-                                                                            {% if element.elementType.type == "Text Field" or element.elementType.type == "Number" %}
-                                                                        <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" >
+                                                                            {% if element.elementType.type == "Text" or element.elementType.type == "Number" %}
+                                                                        <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" style="height:85px;" >
                                                                             <div class="form-group" data-field="{{ element.name }}">
                                                                                 <div class="  pull-right">
                                                                                     <div>
@@ -96,6 +119,8 @@
                                                                                             <input id="placeholder{{ element.name }}" type="{{ element.elementType.typeHtml }}" name="" placeholder="{{ element.placeholder }}" class="form-control "></div>
                                                                                         </div>
                                                                                     </div>
+
+                                                                                 
                                                                                   
                                                                                 </div>
                                                                                 <br>
@@ -120,7 +145,7 @@
                                                                                                         <div class="col-md-12">
                                                                                                             <div class="form-group">
                                                                                                                 <label id="{{ element.name }}" for="name">
-                                                                                                                    Label                                                                                                                    
+                                                                                                                    Titre du champ                                                                                                                
                                                                                                                 </label>
                                                                                                                 <input  required type="text" class="form-control " id="inputLabel{{ element.name }}" value="{{ element.label }}"></div>
                                                                                                             </div>
@@ -130,6 +155,22 @@
                                                                                                                         Placeholder                                                                                                                              
                                                                                                                     </label>
                                                                                                                     <input type="text" class="form-control" id="inputPlaceholder{{ element.name }}" value="{{ element.placeholder }}"></div>
+                                                                                                                </div>
+
+                                                                                                                <div class="col-md-12">
+                                                                                                                <div class="form-group">
+                                                                                                                
+                                                                                                                    <label id="{{ element.name }}" for="name">
+                                                                                                                    Taille du champ                                                                                                                             
+                                                                                                                    </label>&nbsp; <div style="display: inline-block;" class="content">    
+                                                                                                                </div>
+                                                                                                                    <select class="select1" id="inputPosition_{{element.name}}">
+                                                                                                             <option {% if element.classe == 'col-md-12' %}  selected {% endif %}>Une colonne par ligne</option>
+                                                                                                            <option  {% if element.classe == 'col-md-6' %} selected {% endif %}  >Deux colonnes par ligne</option>
+                                                                                                        <option {% if element.classe == 'col-md-4' %}  selected {% endif %}>Trois colonnes par ligne</option>
+                                                                                                    <option {% if element.classe == 'col-md-3' %}  selected {% endif %} >Quatre colonnes par ligne</option>
+                                                                                                                    </select>
+                                                                                            </div>
                                                                                                                 </div>
 
                                                                                                                 {% set  validations = element.getConstraintValidationByType %}
@@ -142,15 +183,15 @@
 
                                                                                                                     {% if validation.html != 'checkbox' %}
                                                                                                                   
-                                                                                                                        <div class="col-md-12">
+                                                                                                                        <div class="col-md-6">
                                                                                                                             <div class="form-group">
                                                                                                                                 <label class="control-label">
-                                                                                                                                    {{ validation.contrainte }}
+                                                                                                                                    {{ validation.contrainte|trans({} , 'message') }}
 
                                                                                                                                 </label>
-                                                                                                                                <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}{{ i }}" elementtype="{{ element.elementType.id }}" data-field="{{ element.name }}" type="input" class="form-control input contrainte{{element.name}}">
-                                                                                                                            <label  class="error text-error " for="form_name" style =" display :none; ">la valeur de maxlength doit être supérieur à la valeur de minlength!</label>
-                                                                                                                        <label  class="error number-error " for="form_name" style =" display :none; ">la valeur de max doit être supérieur à la valeur de min!</label>
+                                                                                                                                <input placeholder="{{validation.contrainte}}" type="number" value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}{{ i }}" elementtype="{{ element.elementType.id }}" data-field="{{ element.name }}" type="input" class="form-control input contrainte{{element.name}}">
+                                                                                                                            <label  class="error text-error " for="form_name" style =" display :none; ">La valeur de la longueur maximale doit être supérieur à la valeur de la longueur minimale!</label>
+                                                                                                                        <label  class="error number-error " for="form_name" style =" display :none; ">La valeur du maximum doit être supérieur à la valeur du minimum!</label>
                                                                                                                     </div>
                                                                                                                             
                                                                                                                             </div>
@@ -160,27 +201,27 @@
                                                                                                                                
                                                                                                                                     <input value="{% if validationValues is not null %}{{ validationValues.value }}{% else%}1{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% else %}4{% endif %}" id="inputConstraint{{ element.name }}" type="checkbox" {% if validationValues is not null %} {% if validationValues.value == '1' %} checked {% endif %} {% endif %}>
                                                                                                                                     
-                                                                                                                                    <label for="checkbox1">
-                                                                                                                                            {{ validation.contrainte }}
+                                                                                                                                        <label for="checkbox1">
+                                                                                                                                            {{ validation.contrainte |trans({} , 'message') }}
                                                                                                                                         </label>
                                                                                                                                     </div>
                                                                                                                                 </div>
                                                                                                                             {% endif %}
                                                                                                                             {% set i = i+1 %}
                                                                                                                         {% endfor %}
-                                                                                                                        
+                                                                                                                       
 
                                                                                                                      <center>
-                                                                                                                   
-                                                                                                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                                                                                                        <div >
+                                                                                                                            <button style="top:29px;" type="button" class="btn btn-default waves-effect" data-dismiss="modal">
                                                                                                                                 Fermer                                                                                                                                                                                                                                                                    
                                                                                                                                                                                                                                                             
                                                                                                                             </button>
 
-                                                                                                                            <button elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
+                                                                                                                            <button style="top:29px;" elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
                                                                                                                                 Enregistrer                                                                                                                                           
                                                                                                                             </button>
-                                                                                                                       
+                                                                                                                        </div>
                                                                                                                         </center>
                                                                                                                 </div>   </form>
                                                                                                             </div>
@@ -192,7 +233,7 @@
                                                                                               <!--end TextField -->
                                                                                                     <!-- start Textarea -->
                                                                             {% if element.elementType.type == "Text Area" %}
-                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" >
+                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" style="height:140px;" >
                                                                                 <div class="form-group" data-field="{{ element.name }}">
                                                                                     <div class="  pull-right">
                                                                                         <div>
@@ -241,7 +282,7 @@
                                                                                                             <div class="col-md-12">
                                                                                                                 <div class="form-group">
                                                                                                                     <label id="{{ element.name }}" for="name">
-                                                                                                                        Label                                                                                                                    
+                                                                                                                        Titre du champ                                                                                                                
                                                                                                                     </label>
                                                                                                                     <input  required type="text" class="form-control " id="inputLabel{{ element.name }}" value="{{ element.label }}"></div>
                                                                                                                 </div>
@@ -252,6 +293,21 @@
                                                                                                                         </label>
                                                                                                                         <input type="text" class="form-control" id="inputPlaceholder{{ element.name }}" value="{{ element.placeholder }}"></div>
                                                                                                                     </div>
+                                                                                                                    
+                                                                                                                <div class="col-md-12">
+                                                                                                                <div class="form-group">
+                                                                                                                    <label id="{{ element.name }}" for="name">
+                                                                                                                    Taille du champ                                                                                                                            
+                                                                                                                    </label>&nbsp; <div style="display: inline-block;" class="content">    
+                                                                                                                </div>
+                                                                                                                <select class="select1" id="inputPosition_{{element.name}}">
+                                                                                                            <option {% if element.classe == 'col-md-12' %}  selected {% endif %}>Une colonne par ligne</option>
+                                                                                                           <option  {% if element.classe == 'col-md-6' %} selected {% endif %}  >Deux colonnes par ligne</option>
+                                                                                                       <option {% if element.classe == 'col-md-4' %}  selected {% endif %}>Trois colonnes par ligne</option>
+                                                                                                   <option {% if element.classe == 'col-md-3' %}  selected {% endif %} >Quatre colonnes par ligne</option>
+                                                                                                                   </select>
+                                                                                            </div>
+                                                                                                                </div>
     
                                                                                                                     {% set  validations = element.getConstraintValidationByType %}
     
@@ -263,15 +319,15 @@
     
                                                                                                                         {% if validation.html != 'checkbox' %}
                                                                                                                       
-                                                                                                                            <div class="col-md-12">
+                                                                                                                            <div class="col-md-6">
                                                                                                                                 <div class="form-group">
                                                                                                                                     <label class="control-label">
-                                                                                                                                        {{ validation.contrainte }}
+                                                                                                                                    {{ validation.contrainte |trans({} , 'message') }}
     
                                                                                                                                     </label>
-                                                                                                                                    <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}{{ i }}" elementtype="{{ element.elementType.id }}" data-field="{{ element.name }}" type="input" class="form-control input contrainte{{element.name}}">
-                                                                                                                                <label  class="error text-error " for="form_name" style =" display :none; ">la valeur de maxlength doit être supérieur à la valeur de minlength!</label>
-                                                                                                                            <label  class="error number-error " for="form_name" style =" display :none; ">la valeur de max doit être supérieur à la valeur de min!</label>
+                                                                                                                                    <input placeholder="{{validation.contrainte}}" value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}{{ i }}" elementtype="{{ element.elementType.id }}" data-field="{{ element.name }}" type="input" class="form-control input contrainte{{element.name}}">
+                                                                                                                                <label  class="error text-error " for="form_name" style =" display :none; ">La valeur de la longueur maximale doit être supérieur à la valeur de la longueur minimale!</label>
+                                                                                                                            <label  class="error number-error " for="form_name" style =" display :none; ">La valeur du maximum doit être supérieur à la valeur du minimum!</label>
                                                                                                                         </div>
                                                                                                                                 
                                                                                                                                 </div>
@@ -282,7 +338,7 @@
                                                                                                                                         <input value="{% if validationValues is not null %}{{ validationValues.value }}{% else%}1{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% else %}4{% endif %}" id="inputConstraint{{ element.name }}" type="checkbox" {% if validationValues is not null %} {% if validationValues.value == '1' %} checked {% endif %} {% endif %}>
                                                                                                                                         
                                                                                                                                         <label for="checkbox1">
-                                                                                                                                                {{ validation.contrainte }}
+                                                                                                                                        {{ validation.contrainte |trans({} , 'message') }}
                                                                                                                                             </label>
                                                                                                                                         </div>
                                                                                                                                     </div>
@@ -293,12 +349,12 @@
     
                                                                                                                          <center>
                                                                                                                        
-                                                                                                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                                                                                                                <button style="top:29px;" type="button" class="btn btn-default waves-effect" data-dismiss="modal">
                                                                                                                                     Fermer                                                                                                                                                                                                                                                                    
                                                                                                                                                                                                                                                                 
                                                                                                                                 </button>
     
-                                                                                                                                <button elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
+                                                                                                                                <button style="top:29px;" elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
                                                                                                                                     Enregistrer                                                                                                                                           
                                                                                                                                 </button>
                                                                                                                            
@@ -313,7 +369,7 @@
                                                                                                   <!--end Textarea -->
                                                                                                      <!-- start Date -->
                                                                             {% if element.elementType.type == "Date" %}
-                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" >
+                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" style="height:85px;" >
                                                                                 <div class="form-group" data-field="{{ element.name }}">
                                                                                     <div class="  pull-right">
                                                                                         <div>
@@ -363,7 +419,7 @@
                                                                                                             <div class="col-md-12">
                                                                                                                 <div class="form-group">
                                                                                                                     <label id="{{ element.name }}" for="name">
-                                                                                                                        Label                                                                                                                    
+                                                                                                                        Titre du champ                                                                                                                   
                                                                                                                     </label>
                                                                                                                     <input  required type="text" class="form-control " id="inputLabel{{ element.name }}" value="{{ element.label }}"></div>
                                                                                                                 </div>
@@ -374,6 +430,21 @@
                                                                                                                         </label>
                                                                                                                         <input type="text" class="form-control" id="inputPlaceholder{{ element.name }}" value="{{ element.placeholder }}"></div>
                                                                                                                     </div>
+                                                                                                                    
+                                                                                                                <div class="col-md-12">
+                                                                                                                <div class="form-group">
+                                                                                                                    <label id="{{ element.name }}" for="name">
+                                                                                                                    Taille du champ                                                                                                                             
+                                                                                                                    </label>&nbsp; <div style="display: inline-block;" class="content">    
+                                                                                                                </div>
+                                                                                                                <select class="select1" id="inputPosition_{{element.name}}">
+                                                                                                            <option {% if element.classe == 'col-md-12' %}  selected {% endif %}>Une colonne par ligne</option>
+                                                                                                           <option  {% if element.classe == 'col-md-6' %} selected {% endif %}  >Deux colonnes par ligne</option>
+                                                                                                       <option {% if element.classe == 'col-md-4' %}  selected {% endif %}>Trois colonnes par ligne</option>
+                                                                                                   <option {% if element.classe == 'col-md-3' %}  selected {% endif %} >Quatre colonnes par ligne</option>
+                                                                                                                   </select>
+                                                                                            </div>
+                                                                                                                </div>
     
                                                                                                                     {% set  validations = element.getConstraintValidationByType %}
     
@@ -388,7 +459,7 @@
                                                                                                                             <div class="col-md-12">
                                                                                                                                 <div class="form-group">
                                                                                                                                     <label class="control-label">
-                                                                                                                                        {{ validation.contrainte }}
+                                                                                                                                    {{ validation.contrainte |trans({} , 'message') }}
     
                                                                                                                                     </label>
                                                                                                                                     <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}{{ i }}" elementtype="{{ element.elementType.id }}" data-field="{{ element.name }}" type="input" class="form-control input contrainte{{element.name}}">
@@ -404,7 +475,7 @@
                                                                                                                                         <input value="{% if validationValues is not null %}{{ validationValues.value }}{% else%}1{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% else %}4{% endif %}" id="inputConstraint{{ element.name }}" type="checkbox" {% if validationValues is not null %} {% if validationValues.value == '1' %} checked {% endif %} {% endif %}>
                                                                                                                                         
                                                                                                                                         <label for="checkbox1">
-                                                                                                                                                {{ validation.contrainte }}
+                                                                                                                                               {{ validation.contrainte |trans({} , 'message') }}
                                                                                                                                             </label>
                                                                                                                                         </div>
                                                                                                                                     </div>
@@ -415,12 +486,12 @@
     
                                                                                                                          <center>
                                                                                                                        
-                                                                                                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                                                                                                                <button style="top:29px;" type="button" class="btn btn-default waves-effect" data-dismiss="modal">
                                                                                                                                     Fermer                                                                                                                                                                                                                                                                    
                                                                                                                                                                                                                                                                 
                                                                                                                                 </button>
     
-                                                                                                                                <button elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
+                                                                                                                                <button style="top:29px;" elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
                                                                                                                                     Enregistrer                                                                                                                                           
                                                                                                                                 </button>
                                                                                                                            
@@ -435,18 +506,18 @@
                                                                                                   <!--end Date -->
                                                                                                      <!-- start Checkbox -->
                                                                             {% if element.elementType.type == "Checkbox" %}
-                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" >
+                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" style="height:85px;" >
                                                                            
-                                                                                    <div class="  pull-right">
-                                                                                        <div>
+                                                                                    <div class="pull-right">
+                                                                                        
                                                                                             <a class="table-action-btn h3">
                                                                                                 <i class="mdi mdi-settings-box text-success btn-elmt" id="openModalButton" data-toggle="modal" data-target="#con-close-modal_{{ element.name }}" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"></i>
                                                                                             </a>
                                                                                             <a class="table-action-btn h3">
                                                                                                 <i class="mdi mdi-close-box-outline text-danger remove_bal_field" data-field="{{ element.name }}"></i>
                                                                                             </a>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    
+                                                                                    </div><br>
                                                                          
                                                                                
     
@@ -475,18 +546,29 @@
     
                                                                                                             <div class="col-md-12">
                                                                                                                 <div class="form-group">
-                                                                                                                    <label id="{{ element.name }}" for="name">
-                                                                                                                        Label                                                                                                                    
-                                                                                                                    </label>
+                                                                                                                   
+                                                                                                                    <label id="label{{ element.name }}" class="control-label labelform">
+                                                                                                                    Titre du champ
+                            
+                                                                                                                </label> 
                                                                                                                     <input  required type="text" class="form-control " id="inputLabel{{ element.name }}" value="{{ element.label }}"></div>
                                                                                                                 </div>
+                                                                                                            
                                                                                                                 <div class="col-md-12">
-                                                                                                                    <div class="form-group">
-                                                                                                                        <label id="{{ element.name }}" for="name">
-                                                                                                                            Placeholder                                                                                                                              
-                                                                                                                        </label>
-                                                                                                                        <input type="text" class="form-control" id="inputPlaceholder{{ element.name }}" value="{{ element.placeholder }}"></div>
-                                                                                                                    </div>
+                                                                                                                <div class="form-group">
+                                                                                                                    <label id="{{ element.name }}" for="name">
+                                                                                                                    Taille du champ                                                                                                                              
+                                                                                                                    </label>&nbsp; <div style="display: inline-block;" class="content">    
+                                                                                                                </div>
+                                                                                                                <select class="select1" id="inputPosition_{{element.name}}">
+                                                                                                            <option {% if element.classe == 'col-md-12' %}  selected {% endif %}>Une colonne par ligne</option>
+                                                                                                           <option  {% if element.classe == 'col-md-6' %} selected {% endif %}  >Deux colonnes par ligne</option>
+                                                                                                       <option {% if element.classe == 'col-md-4' %}  selected {% endif %}>Trois colonnes par ligne</option>
+                                                                                                   <option {% if element.classe == 'col-md-3' %}  selected {% endif %} >Quatre colonnes par ligne</option>
+                                                                                                                   </select>
+                                                                                            </div>
+                                                                                                                </div>
+                                                                                                                
     
                                                                                                                     {% set  validations = element.getConstraintValidationByType %}
     
@@ -528,12 +610,12 @@
     
                                                                                                                          <center>
                                                                                                                        
-                                                                                                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                                                                                                                <button style="top:29px;" type="button" class="btn btn-default waves-effect" data-dismiss="modal">
                                                                                                                                     Fermer                                                                                                                                                                                                                                                                    
                                                                                                                                                                                                                                                                 
                                                                                                                                 </button>
     
-                                                                                                                                <button elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
+                                                                                                                                <button style="top:29px;" elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
                                                                                                                                     Enregistrer                                                                                                                                           
                                                                                                                                 </button>
                                                                                                                            
@@ -548,7 +630,7 @@
                                                                                                   <!--end Checkbox -->
                                                                                                    <!-- start Email -->
                                                                             {% if element.elementType.type == "E-mail" %}
-                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" >
+                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" style="height:85px;" >
                                                                                 <div class="form-group" data-field="{{ element.name }}">
                                                                                     <div class="  pull-right">
                                                                                         <div>
@@ -597,7 +679,7 @@
                                                                                                             <div class="col-md-12">
                                                                                                                 <div class="form-group">
                                                                                                                     <label id="{{ element.name }}" for="name">
-                                                                                                                        Label                                                                                                                    
+                                                                                                                        Titre du champ                                                                                                                    
                                                                                                                     </label>
                                                                                                                     <input  required type="text" class="form-control " id="inputLabel{{ element.name }}" value="{{ element.label }}"></div>
                                                                                                                 </div>
@@ -608,6 +690,21 @@
                                                                                                                         </label>
                                                                                                                         <input type="text" class="form-control" id="inputPlaceholder{{ element.name }}" value="{{ element.placeholder }}"></div>
                                                                                                                     </div>
+                                                                                                                    
+                                                                                                                <div class="col-md-12">
+                                                                                                                <div class="form-group">
+                                                                                                                    <label id="{{ element.name }}" for="name">
+                                                                                                                    Taille du champ                                                                                                                            
+                                                                                                                    </label>&nbsp; <div style="display: inline-block;" class="content">    
+                                                                                                                </div>
+                                                                                                                <select class="select1" id="inputPosition_{{element.name}}">
+                                                                                                            <option {% if element.classe == 'col-md-12' %}  selected {% endif %}>Une colonne par ligne</option>
+                                                                                                           <option  {% if element.classe == 'col-md-6' %} selected {% endif %}  >Deux colonnes par ligne</option>
+                                                                                                       <option {% if element.classe == 'col-md-4' %}  selected {% endif %}>Trois colonnes par ligne</option>
+                                                                                                   <option {% if element.classe == 'col-md-3' %}  selected {% endif %} >Quatre colonnes par ligne</option>
+                                                                                                                   </select>
+                                                                                            </div>
+                                                                                                                </div>
     
                                                                                                                     {% set  validations = element.getConstraintValidationByType %}
     
@@ -622,7 +719,7 @@
                                                                                                                             <div class="col-md-12">
                                                                                                                                 <div class="form-group">
                                                                                                                                     <label class="control-label">
-                                                                                                                                        {{ validation.contrainte }}
+                                                                                                                                    {{ validation.contrainte |trans({} , 'message') }}
     
                                                                                                                                     </label>
                                                                                                                                     <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}{{ i }}" elementtype="{{ element.elementType.id }}" data-field="{{ element.name }}" type="input" class="form-control input contrainte{{element.name}}">
@@ -638,7 +735,7 @@
                                                                                                                                         <input value="{% if validationValues is not null %}{{ validationValues.value }}{% else%}1{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% else %}4{% endif %}" id="inputConstraint{{ element.name }}" type="checkbox" {% if validationValues is not null %} {% if validationValues.value == '1' %} checked {% endif %} {% endif %}>
                                                                                                                                         
                                                                                                                                         <label for="checkbox1">
-                                                                                                                                                {{ validation.contrainte }}
+                                                                                                                                        {{ validation.contrainte |trans({} , 'message') }}
                                                                                                                                             </label>
                                                                                                                                         </div>
                                                                                                                                     </div>
@@ -649,12 +746,12 @@
     
                                                                                                                          <center>
                                                                                                                        
-                                                                                                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                                                                                                                <button style="top:29px;" type="button" class="btn btn-default waves-effect" data-dismiss="modal">
                                                                                                                                     Fermer                                                                                                                                                                                                                                                                    
                                                                                                                                                                                                                                                                 
                                                                                                                                 </button>
     
-                                                                                                                                <button elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
+                                                                                                                                <button style="top:29px;" elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
                                                                                                                                     Enregistrer                                                                                                                                           
                                                                                                                                 </button>
                                                                                                                            
@@ -667,9 +764,9 @@
                                                                                                     </div>
                                                                                                 {% endif %}
                                                                                                   <!--end email  -->
-                                                                                                      <!-- start dropdown list -->
+                                                                                                      <!-- start dropdown list  -->
                                                                             {% if element.elementType.type == "Dropdown List" %}
-                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" >
+                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" style="height:85px;">
                                                                                 <div class="form-group" data-field="{{ element.name }}">
                                                                                     <div class="  pull-right">
                                                                                         <div>
@@ -691,7 +788,7 @@
                                                                                 </p> 
                                                                                         <div class="row">
                                                                                             <div class="col-md-12">
-                                                                                                <select id="placeholder{{ element.name }}" type="{{ element.elementType.typeHtml }}" name="" placeholder="{{ element.placeholder }}" class="form-control ">
+                                                                                                <select class="select" id="placeholder{{ element.name }}" type="{{ element.elementType.typeHtml }}" name="" placeholder="{{ element.placeholder }}" class="form-control ">
                                                                                                 {% set  multipleElements = element.multipleElements %}
                                                                                                 {% for multipleElement in multipleElements %}
                                                                                                    <option>{{multipleElement.value}}</option>
@@ -723,21 +820,208 @@
                                                                                                             <div class="col-md-12">
                                                                                                                 <div class="form-group">
                                                                                                                     <label id="{{ element.name }}" for="name">
-                                                                                                                        Label                                                                                                                    
+                                                                                                                        Titre du champ                                                                                                                    
+                                                                                                                    </label>
+                                                                                                                    <input  required type="text" class="form-control " id="inputLabel{{ element.name }}" value="{{ element.label }}">
+                                                                                                                
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="row">
+                                                                                                        <div class="col-md-12">
+                                                                                                        <div class="form-group">
+                                                                                                            <label id="{{ element.name }}" for="name">
+                                                                                                            Taille du champ                                                                                                                         
+                                                                                                            </label>&nbsp; <div style="display: inline-block;" class="content">    
+                                                                                                        </div>
+                                                                                                        <select class="select1" id="inputPosition_{{element.name}}">
+                                                                                                    <option {% if element.classe == 'col-md-12' %}  selected {% endif %}>Une colonne par ligne</option>
+                                                                                                   <option  {% if element.classe == 'col-md-6' %} selected {% endif %}  >Deux colonnes par ligne</option>
+                                                                                               <option {% if element.classe == 'col-md-4' %}  selected {% endif %}>Trois colonnes par ligne</option>
+                                                                                           <option {% if element.classe == 'col-md-3' %}  selected {% endif %} >Quatre colonnes par ligne</option>
+                                                                                                           </select>
+                                                                                    </div>
+                                                                                                        </div></div>
+                                                                                                               
+                                                                                                        
+                                                                                                                    {% set  validations = element.getConstraintValidationByType %}
+    
+                                                                                                                    {% set i = 0 %}
+                                                                                                                    {% for validation in validations %}
+                                                                                                                        {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                                                       
+                                                                                                             
+    
+                                                                                                                        {% if validation.html != 'checkbox' %}
+                                                                                                                        <div class="row">
+                                                                                                                            <div class="col-md-12">
+                                                                                                                                <div class="form-group">
+                                                                                                                                    <label class="control-label">
+                                                                                                                                    {{ validation.contrainte |trans({} , 'message') }}
+    
+                                                                                                                                    </label>
+                                                                                                                                    <input value="{% if validationValues is not null %}{{ validationValues.value }}{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% endif %}" id="inputConstraint{{ element.name }}{{ i }}" elementtype="{{ element.elementType.id }}" data-field="{{ element.name }}" type="input" class="form-control input contrainte{{element.name}}">
+                                                                                                                                <label  class="error text-error " for="form_name" style =" display :none; ">la valeur de maxlength doit être supérieur à la valeur de minlength!</label>
+                                                                                                                            <label  class="error number-error " for="form_name" style =" display :none; ">la valeur de max doit être supérieur à la valeur de min!</label>
+                                                                                                                        </div>
+                                                                                                                                
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                            {% else %}
+                                                                                                                            <div class="row">
+                                                                                                                                <div class="col-md-12">
+                                                                                                                                    <div class="checkbox checkbox-primary">
+                                                                                                                                   
+                                                                                                                                        <input value="{% if validationValues is not null %}{{ validationValues.value }}{% else%}1{% endif %}" name="{% if validationValues is not null %}{{ validationValues.constraintValidation.id }}{% else %}4{% endif %}" id="inputConstraint{{ element.name }}" type="checkbox" {% if validationValues is not null %} {% if validationValues.value == '1' %} checked {% endif %} {% endif %}>
+                                                                                                                                        
+                                                                                                                                        <label for="checkbox1">
+                                                                                                                                        {{ validation.contrainte |trans({} , 'message') }}
+                                                                                                                                            </label>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                </div>
+                                                                                                                                {% endif %}
+                                                                                                                                {% set i = i+1 %}
+                                                                                                                            {% endfor %}
+                                                                                                                        <div class="form-group">
+                                                                                                                    <label>Option:</label>
+                                                                                                                    <div class="radio">
+                                                                                                                    <input {% if element.multiple != "Multiple"%} checked="checked" {% endif %} type="radio" name="option" id="optionU" value="Unique" required="" data-parsley-multiple="option">
+                                                                                                            <label for="optionU">Choix unique</label>
+                                                                                                        </div>
+                                                                                                    <div class="radio">
+                                                                                                <input {% if element.multiple == "Multiple" %} checked="checked" {% endif %} type="radio" name="option" id="optionM" value="Multiple" data-parsley-multiple="option"><label for="optionM">Choix multiple</label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    
+                                                                                
+                                                                            
+                                                                                                                        <div class="row ">
+                                                                                                                    <div class="col-md-8 ">
+                                                                                                                    {% set  multipleElements = element.multipleElements %}
+                                                                                                                           
+                                                                                                                <div class="form-group choice{{element.name}}">
+                                                                                                                       
+                                                                                                            <label>Les Options</label>&nbsp;&nbsp;&nbsp;<a class="table-action-btn h3"><i class="mdi mdi-plus-box text-info addChoice" data-field="{{element.name}}" ></i></a>
+                                                                                                                        {% for multipleElement in multipleElements %}
+                                                                                                                        <div class="row dropdown_{{multipleElement.name}}" data-dropdown-field="{{multipleElement.name}}">
+                                                                                                                    <div class="col-md-8">
+                                                                                                               <br> <input value="{{multipleElement.value}}" data-name="choice_{{element.name}}" dropdownfield="{{multipleElement.name}}" data_field="{{element.name}}" id="{{multipleElement.name}}" type="text" class="form-control choice option{{element.name}}" placeholder="Choix">
+                                                                                                            </div> <div class="col-md-4"><a class="table-action-btn h3"><i class="mdi mdi-close-box-outline text-danger remove_choice" data-dropdown-field="{{multipleElement.name}}"></i></a></div>
+                                                                                                       
+                                                                                            </div>
+                                                                                        {% endfor %}
+                                                                                        </div>
+                                                                                  
+                                                                                    </div>
+                                                                                </div>
+                                                                                              <br>                                
+    
+                                                                                                                         <center>
+                                                                                                                       
+                                                                                                                                <button style="top:29px;" type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                                                                                                                    Fermer                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                
+                                                                                                                                </button>
+    
+                                                                                                                                <button style="top:29px;" elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
+                                                                                                                                    Enregistrer                                                                                                                                           
+                                                                                                                                </button>
+                                                                                                                           
+                                                                                                                            </center>
+                                                                                                                    </div> 
+                                                                                                                  </form>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+    
+                                                                                                    </div>
+                                                                                                {% endif %}
+                                                                                                  <!--end dropdown list -->
+
+                                                                                                    <!-- start Multiple Checkbox -->
+                                                                            {% if element.elementType.type == "Multiple Checkbox" %}
+                                                                            <div class="li_{{ element.name }} form_builder_field elmt ui-sortable-handle" data-field="{{ element.name }}" order-elmt="{{ element.ordre }}" style="height:140px;">
+                                                                                <div class="form-group" data-field="{{ element.name }}">
+                                                                                    <div class="pull-right">
+                                                                                        <div>
+                                                                                            <a class="table-action-btn h3">
+                                                                                                <i class="mdi mdi-settings-box text-success btn-elmt" id="openModalButton" data-toggle="modal" data-target="#con-close-modal_{{ element.name }}" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"></i>
+                                                                                            </a>
+                                                                                            <a class="table-action-btn h3">
+                                                                                                <i class="mdi mdi-close-box-outline text-danger remove_bal_field" data-field="{{ element.name }}"></i>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div>
+    
+                                                                                    <div class="form-group m-l-15 form_elmt">
+                                                                                        <label id="label{{ element.name }}" class="control-label labelform">
+                                                                                            {{ element.label }}
+    
+                                                                                </label> 
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12">
+                                                                                            {% set  validations = element.getConstraintValidationByType %}
+                                                                                            {% set i = 0 %}
+                                                                                            {% set  multipleElements = element.multipleElements %}
+                                                                                            {% for multipleElement in multipleElements %}
+                                                                                                    <div class="checkbox checkbox-primary">
+                                                                                                <input {% for validation in validations %}
+                                                                                            {% set  validationValues = element.getConstraintValidationByElement(validation) %}
+                                                                                          
+                                                                                        {% if validationValues is not null %}{% if validationValues.value is not null and  validationValues.value != ""  %}{% if validation.contrainte != "required"  %} {{ validation.contrainte }}  ="{{ validationValues.value }}"{% elseif validationValues.value =="1" %}{{ validation.contrainte }}  ="{{ validationValues.value }}"{% endif %}{% endif %}{% endif %}
+                                                                                    {% endfor %} 
+                                                                                name="validationform[{{element.label}}]" class="form-control inputerror" type="checkbox" > <label>{{multipleElement.value}}</label></div>
+                                                                                       
+                                                                                {% endfor %}</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                      
+                                                                                    </div>
+                                                                                    <br>
+    
+                                                                                        <div id="con-close-modal_{{ element.name }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                                                            <div class="modal-dialog">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header">
+                                                                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="display:block;">
+                                                                                                            ×                                                                                                        
+                                                                                                        </button>
+                                                                                                        <h4 class="modal-title">
+                                                                                                        <center>
+                                                                                                            Parametrage du champ   
+                                                                                                        </center>                                                                                                    
+                                                                                                        </h4>
+                                                                                                    </div>
+                                                                                                    <form id="form_{{ element.name }}" class="modal-body-form{{ element.name }}" name="validationform">
+    
+                                                                                                    <div class=" modal-body modal-body{{ element.name }} custom-modal-text text-left">
+                                                                                                    <div class="row">
+                                                                                                            <div class="col-md-12">
+                                                                                                                <div class="form-group">
+                                                                                                                    <label id="{{ element.name }}" for="name">
+                                                                                                                        Titre du champ                                                                                                                   
                                                                                                                     </label>
                                                                                                                     <input  required type="text" class="form-control " id="inputLabel{{ element.name }}" value="{{ element.label }}"></div>
                                                                                                                 </div>
                                                                                                             </div>
-                                                                                                                <div class="row">
+                                                                                                            <div class="row">
                                                                                                                 <div class="col-md-12">
-                                                                                                                    <div class="form-group">
-                                                                                                                        <label id="{{ element.name }}" for="name">
-                                                                                                                            Placeholder                                                                                                                              
-                                                                                                                        </label>
-                                                                                                                        <input type="text" class="form-control" id="inputPlaceholder{{ element.name }}" value="{{ element.placeholder }}"></div>
-                                                                                                                    </div>
+                                                                                                                <div class="form-group">
+                                                                                                                    <label id="{{ element.name }}" for="name">
+                                                                                                                    Taille du champ                                                                                                                             
+                                                                                                                    </label>&nbsp; <div style="display: inline-block;" class="content">    
                                                                                                                 </div>
-    
+                                                                                                                <select class="select1" id="inputPosition_{{element.name}}">
+                                                                                                            <option {% if element.classe == 'col-md-12' %}  selected {% endif %}>Une colonne par ligne</option>
+                                                                                                           <option  {% if element.classe == 'col-md-6' %} selected {% endif %}  >Deux colonnes par ligne</option>
+                                                                                                       <option {% if element.classe == 'col-md-4' %}  selected {% endif %}>Trois colonnes par ligne</option>
+                                                                                                   <option {% if element.classe == 'col-md-3' %}  selected {% endif %} >Quatre colonnes par ligne</option>
+                                                                                                                   </select>
+                                                                                            </div>
+                                                                                                                </div></div>
                                                                                                                     {% set  validations = element.getConstraintValidationByType %}
     
                                                                                                                     {% set i = 0 %}
@@ -779,19 +1063,20 @@
                                                                                                                             {% endfor %}
                                                                                                                         <div class="row ">
                                                                                                                     <div class="col-md-8 ">
+                                                                                                                   
                                                                                                                     {% set  multipleElements = element.multipleElements %}
                                                                                                                            
                                                                                                                 <div class="form-group choice{{element.name}}">
                                                                                                                        
                                                                                                             <label>Les Options</label>&nbsp;&nbsp;&nbsp;<a class="table-action-btn h3"><i class="mdi mdi-plus-box text-info addChoice" data-field="{{element.name}}" ></i></a>
-                                                                                                                        {% for multipleElement in multipleElements %}
-                                                                                                                        <div class="row dropdown_{{multipleElement.name}}" data-dropdown-field="{{multipleElement.name}}">
-                                                                                                                    <div class="col-md-8">
-                                                                                                               <br> <input value="{{multipleElement.value}}" data-name="choice_{{element.name}}" dropdownfield="{{multipleElement.name}}" data_field="{{element.name}}" id="{{multipleElement.name}}" type="text" class="form-control choice option{{element.name}}" placeholder="Choix">
-                                                                                                            </div> <div class="col-md-4"><a class="table-action-btn h3"><i class="mdi mdi-close-box-outline text-danger remove_choice" data-dropdown-field="{{multipleElement.name}}"></i></a></div>
-                                                                                                       
-                                                                                            </div>
-                                                                                        {% endfor %}
+                                                                                                                {% for multipleElement in multipleElements %}
+                                                                                                                <div class="row dropdown_{{multipleElement.name}}" data-dropdown-field="{{multipleElement.name}}">
+                                                                                                            <div class="col-md-8">
+                                                                                                       <br> <input value="{{multipleElement.value}}" data-name="choice_{{element.name}}" dropdownfield="{{multipleElement.name}}" data_field="{{element.name}}" id="{{multipleElement.name}}" type="text" class="form-control choice option{{element.name}}" placeholder="Choix">
+                                                                                                    </div> <div class="col-md-4"><a class="table-action-btn h3"><i class="mdi mdi-close-box-outline text-danger remove_choice" data-dropdown-field="{{multipleElement.name}}"></i></a></div>
+                                                                                               
+                                                                                    </div>
+                                                                                {% endfor %}
                                                                                         </div>
                                                                                   
                                                                                     </div>
@@ -800,12 +1085,12 @@
     
                                                                                                                          <center>
                                                                                                                        
-                                                                                                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">
+                                                                                                                                <button style="top:29px;" type="button" class="btn btn-default waves-effect" data-dismiss="modal">
                                                                                                                                     Fermer                                                                                                                                                                                                                                                                    
                                                                                                                                                                                                                                                                 
                                                                                                                                 </button>
     
-                                                                                                                                <button elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
+                                                                                                                                <button style="top:29px;" elementTypeName="{{element.elementType.type}}" elementtype="{{ element.elementType.id }}" type="button"  class="btn btn-info waves-effect waves-light btnElmt" data-field="{{ element.name }}"  >
                                                                                                                                     Enregistrer                                                                                                                                           
                                                                                                                                 </button>
                                                                                                                            
@@ -817,7 +1102,7 @@
     
                                                                                                     </div>
                                                                                                 {% endif %}
-                                                                                                  <!--end dropdown list -->
+                                                                                                  <!--end Multiple Checkbox -->
                                                                                                   
 
                                                                                             {% endfor %}
@@ -827,53 +1112,49 @@
                                                                                       
                                                                                     </div>
                                                                                 </div>
-                                                                              
+                                                                          
+
                                                                             {% endfor %}
                                                                         
-
-                                                                            
+                                                                  
                                                                         <!-- end col -->
-                                                                
                                                                     
                                                                     </div>
+                                                              
+                                                                
 
                                                                 </div>
+                                                          
                                                             </div>
-
                                                           
                                                         </div>
-
+                                                
                                                     </div>
-
                                                     <!-- End row -->
-                                                </div>
 
+                                                </div>
                                             
-                                        	
                                             </div>
 
+                                       
+                                      
 
 
                                         
                                         </div>
-                                        
-
+                                    
+                                   
                                     </div>
-                             
-                                <button onclick="topFunction()" class="btn btn-icon waves-effect waves-light btn-success m-b-5 btnright" id="top" style="top:44%; height:38px; "><i class="ion-arrow-up-a"></i></button>
-                          <br><br>
-                        <a type="button" href="{{ path('visualiseForm', {'url':url }) }}" class="btn btn-icon waves-effect waves-light btn-success m-b-5 btnright" style="top:52%; height:38px;"> <i class="ion-ios7-eye"></i> </a>
-                        <br><br>
-                        <button onclick="downFunction()" class="btn btn-icon waves-effect waves-light btn-success m-b-5 btnright" id="down" style="top:60%; height:38px;"><i class="ion-arrow-down-a"></i></button>
-                           
-                    </div>
-                              
-                                </div>
-
-                            </div>
+                                
                          
+                    </div>
+              
+                                </div>
+                           
+                           
+                            </div>
+                        
                         </div>
-
                   
                   
 
@@ -883,34 +1164,41 @@
                                                 {% endblock %}
                                                 
                                                 {% block javascript %}
-
-
+                                                <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+                                           
+                                            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                                                <script>
+                                                    $(document).ready(function() {
+                                                    
+                                                        $(".content").html('<div id="magilla" href="#" title="" ><i class="mdi mdi-information mdi-18px" data-toggle="popover"></i> </div>');
+                                                         $(".content #magilla").tooltip({ content: '<img src="{{ asset('assets/images/taille.png') }}" />' }); 
+                                                  
+                                                      });
+                                                    </script>
                                                 <script>
                                                     $(document).ready(function () {
                                                     $(validationform).validate();
+                                                   
                                                     })
-//Get the button:
-mybutton = document.getElementById("top");
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
+                                                    
+                                                    $('.forms').css("color", "#188ae2");
+                                                    $('.fa-wpforms').css("color", "#188ae2");
 
 
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
-
- //Get the button:
- mybutton = document.getElementById("down");
-
- // When the user scrolls down 20px from the top of the document, show the button
- window.onscroll = function() {scrollFunction()};
- // When the user clicks on the button, scroll to the top of the document
- function downFunction() {
- 
-   document.documentElement.scrollTop = 100000; // For Chrome, Firefox, IE and Opera
  }
+
+ var $loading = $('#loading').hide();
+ $(document)
+   .ajaxStart(function () {
+     $loading.show();
+   })
+   .ajaxStop(function () {
+     $loading.hide();
+   });
                                                     </script>
+                                                   
+                                                       
+                                                    
 
                                                     {% endblock %}
                                                 

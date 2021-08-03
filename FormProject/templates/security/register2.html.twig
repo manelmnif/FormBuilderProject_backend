@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Inscription</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('Login_v11/images/icons/favicon.ico') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('Login_v11/vendor/bootstrap/css/bootstrap.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('Login_v11/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('Login_v11/fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('Login_v11/vendor/animate/animate.css') }}">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('Login_v11/vendor/css-hamburgers/hamburgers.min.css') }}">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('Login_v11/vendor/select2/select2.min.css') }}">
+<!--===============================================================================================-->
+   <link rel="stylesheet" type="text/css" href="{{ asset('Login_v11/css/util.css') }}">
+   <link rel="stylesheet" type="text/css" href="{{ asset('Login_v11/css/main.css') }}">
+<!--===============================================================================================-->
+</head>
+<body>
+   
+	<div class="limiter">
+    
+		<div class="container-login100">
+       
+			<div style="height: 654px;" class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
+           
+            {{ form_start(form, {'atr' : {'class' : 'form-horizontal', 'action': 'security_registration'}} ) }}
+                                      
+            <div class="form-group ">
+
+					<span style="margin-top:-31px" class="login100-form-title p-b-55">
+						<img style="width: 136px;" src="Login_V11/images/Logo FV v1.png" >
+					</span>
+                   
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Valid email is required: ex@abc.xyz">
+                    {{ form_widget(form.email, {'attr' : {'class' :'input100', 'placeholder' : 'Email'}})}}
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-envelope"></span>
+						</span>
+					</div>
+
+                    <div class="wrap-input100 validate-input m-b-16" >
+                    {{ form_widget(form.username, {'attr' : {'class' :'input100', 'placeholder' : 'Nom d`utilisateur'}})}}
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <span class="lnr lnr-user"></span>
+                    </span>
+                </div>
+
+					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+                    {{ form_widget(form.password.first, {'attr' : {'class' :'input100', 'placeholder' : 'Mot de passe'}})}}
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<span class="lnr lnr-lock"></span>
+						</span>
+					</div>
+
+                    <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+                    {{ form_widget(form.password.second, {'attr' : {'class' :'input100', 'placeholder' : 'Confirmer le mot de passe'}})}}
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <span class="lnr lnr-lock"></span>
+                    </span>
+                </div>
+
+					
+
+					<div class="container-login100-form-btn p-t-25">
+						<button type="button" style="height: 54px;" class="login100-form-btn">
+							S'inscrire
+						</button>
+					</div>
+
+					<div class="text-center w-full p-t-10">
+						
+                <p class="text-muted">Vous avez déjà un compte ?</p>
+						<a class="txt1 bo1 hov1" href="{{ path('login')}}">
+							Se connecter
+						</a>
+					</div>
+                    {{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+
+
+
+
+<!--===============================================================================================-->
+    <script src="{{ asset('Login_V11/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+	<script>
+		$(document).ready(function(){
+		// Get value on button click and show alert
+		$(".login100-form-btn").click(function(){
+			//e.preventDefault();
+			var user_password_first = $("#user_password_first").val();
+			var user_password_second = $("#user_password_second").val();
+			if(user_password_first != user_password_second){
+			
+			$('.login100-form-title').after('<label id="validationform[]-error" style="color: #f36a68; margin-top:-31px;" for="validationform[]">Mots de passes non conformes</label>');
+			}
+			else {
+				$('.login100-form-btn').attr('type','submit');
+				
+			}
+			
+		});
+	});
+	</script>
+<!--===============================================================================================-->
+    <script src="{{ asset('Login_V11/vendor/bootstrap/js/popper.js') }}"></script>
+    <script src="{{ asset('Login_V11/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<!--===============================================================================================-->
+    <script src="{{ asset('Login_V11/vendor/select2/select2.min.js') }}"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+    <script src="{{ asset('Login_V11/js/main.js') }}"></script>
+
+
+</body>
+</html>

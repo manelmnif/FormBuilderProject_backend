@@ -33,6 +33,7 @@ class FormData
 
     /**
      * @ORM\OneToMany(targetEntity=ElementData::class, mappedBy="formData")
+     * @ORM\JoinColumn(onDelete="CASCADE") 
      */
     private $elementData;
 
@@ -115,5 +116,18 @@ class FormData
         $this->refForm = $refForm;
 
         return $this;
+    }
+
+    public function getCode() {
+
+        $number = sprintf('%04d', $this->id);
+        return 'F'.$number;
+    }
+
+    public function getUser() {
+
+        $users = ['Ahmed WAHABI', 'Manel Mnif', 'Administrateur'];
+        $key = array_rand($users);
+        return $users[$key];
     }
 }

@@ -12,10 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\FormType;
 use App\Repository\ElementRepository;
+use App\Repository\FormDataRepository;
 use App\Repository\UserRepository;
-use Symfony\Component\ErrorHandler\Error\UndefinedMethodError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class FormController extends AbstractFOSRestController
@@ -51,19 +52,39 @@ class FormController extends AbstractFOSRestController
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
     }
-
+  
     /**
      * @Route(name="getForms", path="/forms/list")
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function getForm(FormRepository $formRepository, Request $request, UserRepository $userRepository, SectionRepository $sectionRepository, PaginatorInterface $paginator)
+    public function getForm(FormRepository $formRepository, Request $request, UserRepository $userRepository, FormDataRepository $formDataRepository, PaginatorInterface $paginator)
     {
-        
-        //getFormsByUser
-        $id = 1;
-        $forms = $formRepository->getForms($id);
-        
+      $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+      $userco = $this->getUser();
+      $userId = $this->getUser()->getId();
+  
+       //getFormsByUser
+       //$id = 1;
+       /* $formSearch = new Form();
+        $search = $this->createFormBuilder($formSearch)
+        ->add('name', TextType::class)
+        ->getForm();
+
+        $search->handleRequest($request);
+        if ($search->isSubmitted() && $search->isValid()) {
+          $item=$formSearch->getName();
+          $forms=$formRepository->search($item);
+         
+        }
+        else {
+          $forms =$formRepository->getForms($id);
+        }*/
+
+
+      
+       // $forms = $formRepository->getForms($id);
+       $forms =$formRepository->getForms($userId);
   // Paginate the results of the query
   $formsPaginator = $paginator->paginate(
     // Doctrine Query, not results
@@ -71,13 +92,14 @@ class FormController extends AbstractFOSRestController
     // Define the page parameter
     $request->query->getInt('page', 1),
     // Items per page
-    5
+    10
 );
+
         // add new form
         $formulaire = new Form();
         $form = $this->createForm(FormType::class, $formulaire);
             
-            $user = $userRepository->findOneBy(array('id' => $id));
+            $user = $userRepository->findOneBy(array('id' => $userId));
             $formulaire->setUser($user);
           
           
@@ -86,16 +108,16 @@ class FormController extends AbstractFOSRestController
         if ($form->isSubmitted() && $form->isValid()) {
  
             $em = $this->getDoctrine()->getManager();
+            $formulaire->setStatus("0");
+            $formulaire->setNumber(0);
+            $formulaire->setValidate("0");
             $em->persist($formulaire);
             $em->flush();
+            $url = $formulaire->getUrl();
+            //$this->addFlash('success', 'formulaire enregistré');
 
-            $this->addFlash('success', 'formulaire enregistré');
-            return $this->redirectToRoute('getForms');
+            return $this->redirectToRoute('indexArray', ['url' => $url]);
         }
-       
-        
-       
-
         return $this->render('formulaire/indexForm.html.twig',array
         ('forms' => $formsPaginator,
         'form' => $form->createView()));
@@ -104,7 +126,7 @@ class FormController extends AbstractFOSRestController
 
   
    /**
-     * @Route(name="visualiseForm", path="/visualise/{url}", options={"expose"=true}, methods="GET")
+     * @Route(name="visualiseForm", path="/visualiseForm/{url}", options={"expose"=true}, methods="GET")
      */
     public function visualiseForm( ElementRepository $elementRepository, SectionRepository $sectionRepository, string $url,  FormRepository $formRepository)
     {
@@ -123,31 +145,39 @@ class FormController extends AbstractFOSRestController
      /**
      * @Route(name="publishForm", path="/publishForm/{id}")
      */
-    public function publishForm(FormRepository $formRepository, SectionRepository $sectionRepository, int $id)
+    public function publishForm(FormRepository $formRepository, SectionRepository $sectionRepository, int $id, FormDataRepository $formDataRepository)
     {
        // $id = $request->request->get('id');
         $form = $formRepository->findOneBy(array('id' => $id));
         $sections = $sectionRepository->getSectionByForm($form->getUrl());
         $empty = "false";
 
-        foreach($sections as $section)
+       /* foreach($sections as $section)
         {
                if($section->getElements()->toArray() == []){
                 $empty = "true";
                 break;
             }
-        }
+        }*/
         
-      if( $empty == "false"){
-        $form->setStatus('1');
+    //  if( $empty == "false"){
+      //  $form->setStatus('1');
+     //   $this->entityManager->persist($form);
+       /* $idForm = $form->getId(); 
+        $formsData = $formDataRepository->getFormsDataByForm($idForm);
+        foreach($formsData as $formData){
+          $this->getDoctrine()->getManager()->remove($formData);
+          $this->entityManager->persist($form);
+        }*/
 
+        $form->setStatus('1');
         $this->entityManager->persist($form);
         $this->entityManager->flush();
-      }
-      else{
-        $this->addFlash('failure', 'Votre formulaire comporte une section vide! veillez la remplir avec des champs ou bien la supprimer!');
+  //    }
+    //  else{
+        //$this->addFlash('failure', 'Votre formulaire comporte une section vide! veillez la remplir avec des champs ou bien la supprimer!');
 
-      }
+    //  }
 
 
       // redirects to the "homepage" route
@@ -155,6 +185,8 @@ class FormController extends AbstractFOSRestController
         
    
     }
+
+     
     
     /**
      * @Route(name="deleteForm", path="/deleteForm/{id}")
@@ -226,7 +258,7 @@ class FormController extends AbstractFOSRestController
     // Define the page parameter
     $request->query->getInt('page', 1),
     // Items per page
-    5
+    10
 );
       
 
@@ -236,7 +268,22 @@ class FormController extends AbstractFOSRestController
 
     }
 
-  
+      /**
+     * @Route(name="validateForm", path="/validateform", options={"expose"=true}, methods="POST")
+     */
+    public function validateForm(Request $request, FormRepository $formRepository)
+    {
+        $url = $request->request->get('url');
+        $form = $formRepository->findOneBy(array('url' => $url));
+      
+        $form->setValidate('1');
+        $this->entityManager->persist($form);
+        $this->entityManager->flush();
+
+        return new JsonResponse([
+          'message' => "Formulaire valide",
+      ]);
+    }
  
     }
 

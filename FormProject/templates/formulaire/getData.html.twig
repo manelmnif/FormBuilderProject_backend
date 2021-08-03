@@ -1,8 +1,37 @@
 {% extends 'template.html.twig' %}
-{% block title %}Data - list{% endblock %}
+{% block title %}Les données du formulaire{% endblock %}
 {% block content %}
     {% block body %}
+ 
+
+    <div class="col-md-12" style="right: -25px;">
+    <div class="col-md-10">
+<h3 class="page-title">Les données du formulaire</h3><br></div>
+<br><br>
     
+    <div class="card-box" style="width:1282px;">
+    
+    <div class="row">
+    <div class="col-md-8">
+<h4 class="page-title">{{form.name}}</h4>
+<br>
+    
+   
+<p>{{form.description}}</p>
+</div>
+<div class="col-md-2"> </div>
+<div class="col-md-2"> 
+{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+{% set url = app.request.attributes.get('_route_params')['url'] %}
+
+<a href="{{ path('createData', {'url':form.url }) }}" style="width:210px; left:-10%;" class="btn btn-lg btn-success btn-block waves-effect m-t-20 waves-light">
+
+<i class="fa fa-plus "></i>
+Remplir le formulaire                                             
+</a>
+</div>
+</div></div>
+</div>
         <div class="container">
 
             <!-- Page-Title -->
@@ -11,34 +40,22 @@
 
                     <br>
                         <br>
-                            <h4 class="page-title">
-                              Les Données du formulaire {{form.name}}
-                            </h4>
-                            <br></div>
+                         
+                           
                         </div>
+                               
+                        </div>
+                        
                         <!-- end page title end breadcrumb -->
-                        <div class="card-box">
+                       
+                      
                         <div class="row">
-                            <div class="col-sm-8">
-                                <form role="form">
-                                    <div class="form-group search-box">
-                                        <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
-                                            <button type="submit" class="btn btn-search">
-                                                <i class="fa fa-search"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-sm-4">
-                                    <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" href="{{ path('createData', {'url':form.url }) }}" >
-                                        <i class="md md-add"></i>
-                                        Remplir mon formulaire
-                                    </a>
-                                </div>
+                          
+                               
                             </div>
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div class="card-box">
+                            <div class="col-lg-12" style="left: -47px;">
+                                <div class="card-box" style=" width: 1282px;">
                                     <div class="row">
                                         <div class="col-sm-8">
                                            
@@ -53,18 +70,18 @@
                                                  
                                                     <tr>
                                                         <th>
-                                                            nom du formulaire
+                                                            Code de saisie
                                                         </th>
                                                         <th>
-                                                           date 
+                                                           Date de saisie
                                                         </th>
-                                                        {% for element in elements %}
+                                                    
                                                         <th>
-                                                            {{ element.label }}
+                                                          Utilisateur
                                                         </th>
-                                                    {% endfor %}  
+                                                 
                                                     <th>
-                                                     Action
+                                                     Actions
                                                      </th>
                                                     </tr>
 
@@ -80,37 +97,29 @@
                                                        
                                                                 <td>
 
-                                                                    {{ dataForm.name }}
+                                                                    {{ dataForm.code }}
                                                                 </td>
                                                                 <td>
 
                                                                     {{ dataForm.date | date("d/m/Y") }}
                                                                 </td>
-                                                                   {% for element in elements %}
-                                                                    
-                                                   
-                                                   
-                                                              
+                                                                 
                                                                 <td>
-                                                                    {% set  elementDataValues = element.elementData %}
-                                                                    {% for elementDataValue in elementDataValues %}
-                                                                   {% if elementDataValue.formData.id == dataForm.id %}
-                                                                    {{elementDataValue }}
-                                                                {% endif %}
-                                                                {% endfor %}
+                                                                    {{ dataForm.user }}
                                                                 </td>
                                                           
-                                                        {% endfor %}
+                                                       
                                                         <td>
-                                                            <a href="#" class="table-action-btn h4 " id="{{ dataForm.id }}" data-toggle="tooltip" title="Supprimer" data-placement="top">
-                                                        <i  class="mdi mdi-close-box-outline text-danger"  data-toggle="modal" data-target="#panel-modal_{{dataForm.id}}" ></i>
-                                                    </a>
-                                                    <a  href="{{ path('editData', {'url':form.url,'idFormData': dataForm.id }) }}" class="table-action-btn h4" data-toggle="tooltip" title="Modifier" data-placement="top">
+                                                           
+                                                    <a  href="{{ path('editData', {'url':form.url,'idFormData': dataForm.id }) }}" class="table-action-btn h3" data-toggle="tooltip" title="Modifier" data-placement="top">
 
                                                 <i  class="mdi mdi-pencil-box-outline text-success" ></i>
 
                                  
                                             </a>
+                                            <a href="#" class="table-action-btn h3 " id="{{ dataForm.id }}" data-toggle="tooltip" title="Supprimer" data-placement="top">
+                                        <i  class="mdi mdi-delete text-danger"  data-toggle="modal" data-target="#panel-modal_{{dataForm.id}}" ></i>
+                                    </a>
                                                         </td>
                                                       
                                                 
@@ -137,7 +146,7 @@
                                                 <h3 class="panel-title">ATTENTION</h3>
                                             </div>
                                             <div class="panel-body">
-                                                <p>Cette action est irréversible. Êtes-vous sûr de bien vouloir supprimer ce formulaire?</p>
+                                                <p>Cette action est irréversible. Êtes-vous sûr de bien vouloir supprimer cette saisie?</p>
                                             </div>
                                         
                                         <center><p><button class="cancel btn btn-lg btn-default btn-md waves-effect btn-sm m-b-5" tabindex="2" style="display: inline-block;" data-dismiss="modal">Annuler</button> 
@@ -148,7 +157,7 @@
                                         </div>
                                     </div><!-- /.modal-content -->
                                 </div><!-- /.modal-dialog -->
-                            </div>
+                            
         {% endfor %}
 
                                             {% endblock %}
@@ -156,7 +165,10 @@
                                         {% endblock %}
                                         {% block javascript %}
                                         <script>
+                                            $('.bublished-forms').css("color", "#188ae2");
+                                            $('.fa-share-alt').css("color", "#188ae2");
                                             $(document).ready(function(){
                                               $('[data-toggle="tooltip"]').tooltip();   
                                             });
+                                        
                                             </script>       {% endblock %}

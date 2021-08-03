@@ -33,7 +33,7 @@ class Form
     private $description;
 
     /**
-     * @Gedmo\Slug(fields={ "name" , "date"})
+     * @Gedmo\Slug(fields={ "name" , "id"})
      * @ORM\Column(type="string", length=255)
      */
     private $url;
@@ -60,6 +60,16 @@ class Form
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $status;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $number;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $validate;
 
     public function __construct()
     {
@@ -169,6 +179,30 @@ class Form
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function getValidate(): ?string
+    {
+        return $this->validate;
+    }
+
+    public function setValidate(string $validate): self
+    {
+        $this->validate = $validate;
 
         return $this;
     }

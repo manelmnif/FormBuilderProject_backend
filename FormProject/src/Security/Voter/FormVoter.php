@@ -12,7 +12,7 @@ class FormVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['EDIT','DELETE','UPDATE_ELEMENTS','CREATE_DATA'])
+        return in_array($attribute, ['EDIT','DELETE','UPDATE_ELEMENTS','CREATE_DATA','VALIDATE_FORM'])
             && $subject instanceof Form;
     }
 
@@ -38,9 +38,14 @@ class FormVoter extends Voter
             case 'CREATE_DATA':
                 return $form->getStatus() == '1';
                 break;
+            case 'VALIDATE_FORM':
+                return $form->getValidate() == '1';
+                break;
 
         }
 
         return false;
     }
+
+   
 }

@@ -5,18 +5,23 @@
     {% block body %}
    
         <div class="container">
-    
 
             <!-- Page-Title -->
             <div class="row">
                 <div class="col-sm-12">
-
                     <br>
                         <br>
-                            <h4 class="page-title">
-                                Mes Formulaires
-                            </h4>
+                            <h4 class="page-title" >
+                                Mes formulaires
+                           
+                               
+                            <a id="openModalButton" data-toggle="modal" data-target="#con-close-modal" class="btn btn-success btn-md waves-effect waves-light m-b-30 pull-right"  style="" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a">
+                                <i class="fa fa-plus "></i>
+                                Créer un formulaire
+                            </a>
+                        </h4>
                             <br></div>
+                                 
                         </div>
                         <!-- end page title end breadcrumb -->
 
@@ -24,22 +29,14 @@
                             <div class="col-lg-12">
                                 <div class="card-box">
                                     <div class="row">
-                                        <div class="col-sm-8">
-                                            <form role="form">
-                                                <div class="form-group search-box">
-                                                    <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
-                                                        <button type="submit" class="btn btn-search">
-                                                            <i class="fa fa-search"></i>
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <a id="openModalButton" data-toggle="modal" data-target="#con-close-modal" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a">
-                                                    <i class="md md-add"></i>
-                                                    Créer un formulaire
-                                                </a>
-                                            </div>
+                                    {#     <div class="col-sm-8">
+                                       {{ form_start(search) }}
+                                        {{ form_widget(search) }}   
+                    <button class="btn">  {{button_name|default('rechercher')}}</button>
+                    {{form_end(search)}} 
+                                          
+                                            </div> #}
+                                          
                                         </div>
 
                                         <div class="table-responsive">
@@ -49,7 +46,7 @@
                                                     <tr>
 
                                                         <th>
-                                                            Nom
+                                                            Titre
                                                         </th>
                                                         <th>
                                                             Description
@@ -57,9 +54,10 @@
                                                         <th>
                                                             Date de création
                                                         </th>
+                                                       
 
                                                         <th>
-                                                            Action
+                                                            Actions
                                                         </th>
                                                     </tr>
 
@@ -74,7 +72,7 @@
 
                                                                     {{ form.name }}
                                                                 </td>
-                                                                <td>
+                                                                <td style="max-width: 350px;">
 
                                                                     {{ form.description }}
                                                                 </td>
@@ -83,28 +81,41 @@
                                                                     {{ form.date | date("d/m/Y") }}
                                                                 </td>
 
-                                                                <td>
+                                                               
+
+                                                                <td style="width:175px; position:relative;">
                                                               
-                                                                    <a  href="#" class="table-action-btn h4" data-toggle="tooltip" title="Modifier" data-placement="top">
+                                                                    <a  href="#" class="table-action-btn h3" data-toggle="tooltip" title="Modifier les informations" data-placement="top">
                                                                         <i  class="mdi mdi-pencil-box-outline text-success"  id="openModalButton" data-toggle="modal" data-target="#con-close-modal_{{form.id}}" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"></i>
                                                                     </a>
 
-                                                                    <a href="#" class="table-action-btn h4 " id="{{ form.id }}" data-toggle="tooltip" title="Supprimer" data-placement="top">
-                                                                        <i  class="mdi mdi-close-box-outline text-danger"  data-toggle="modal" data-target="#panel-modal_{{form.id}}" ></i>
-                                                                    </a>
+                                                                    
                                                               
                                                                      {% if is_granted('UPDATE_ELEMENTS', form) %}
-                                                                    <a href="{{ path('indexArray', {'url':form.url }) }}" class="table-action-btn h4" data-toggle="tooltip" title="Créer" data-placement="top">
-                                                                        <i class="mdi mdi-arrow-right-bold-hexagon-outline
+                                                                    <a href="{{ path('indexArray', {'url':form.url }) }}" class="table-action-btn h3" data-toggle="tooltip" title="Personnaliser le formulaire" data-placement="top">
+                                                                        <i class="mdi mdi-puzzle
                                                                              text-info"></i>
                                                                     </a>
                                                                      {% endif %}
                                                                      {% if is_granted('CREATE_DATA', form) %}
-																	<a  href="{{ path('getData', {'url':form.url }) }}" class="table-action-btn h4" data-toggle="tooltip" title="Créer Data" data-placement="top">
+																	<a  href="{{ path('getData', {'url':form.url }) }}" class="table-action-btn h3" data-toggle="tooltip" title="Créer Data" data-placement="top">
 																<i  class="mdi mdi-database text-info"></i>
 															</a>
+                                                            
+                                                          
                                                         {% endif %}
+                                                        <a  href="{{ path('visualiseForm', {'url':form.url }) }}" class="table-action-btn h3" data-toggle="tooltip" title="Visualiser le formualaire" data-placement="top">
+                                                    <i  class="mdi mdi-eye text-warning"></i>
+                                                </a>
+                                                {% if is_granted('VALIDATE_FORM', form) %}
+                                                <a  href="#" class="table-action-btn h3" data-toggle="tooltip" title="Partager le formualaire" data-placement="top">
+                                            <i  class="mdi mdi-share" data-toggle="modal" data-target="#publish-modal_{{form.id}}"></i>
+                                        </a>
+                                    {% endif %}
 
+                                        <a href="#" class="table-action-btn h3" id="{{ form.id }}" data-toggle="tooltip" title="Supprimer le formulaire" data-placement="top">
+                                                                        <i  class="mdi mdi-delete text-danger"  data-toggle="modal" data-target="#panel-modal_{{form.id}}" ></i>
+                                                                    </a>
                                                                 </td>
 
                                                             </tr>
@@ -148,6 +159,32 @@
                                 </div><!-- /.modal-dialog -->
                             </div>
         {% endfor %}
+          <!-- Modal Publish-->
+          {% for form in forms %}
+          <div id="publish-modal_{{form.id}}" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-right: 17px;">
+                                  <div class="modal-dialog">
+                                      <div class="modal-content p-0 b-0">
+                                          <div class="panel panel-color panel-success">
+                                              <div class="panel-heading">
+                                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="display:block;">×</button>
+                                                  <h3 class="panel-title">Publication</h3>
+                                              </div>
+                                              <div class="panel-body">
+                                                  <p>Êtes-vous sûr de bien vouloir publier ce formulaire?
+                                                 <br> Nb: Un formulaire partagé n&apos;est plus modifiable.</p>
+                                              </div>
+                                          
+                                          <center><p><button class="cancel btn btn-lg btn-default btn-md waves-effect btn-sm m-b-5" tabindex="2" style="display: inline-block;" data-dismiss="modal">Annuler</button> 
+                                              
+                                          <a href="{{ path('publishForm', {'id':form.id }) }}" class="confirm btn btn-lg btn-success btn-md waves-effect waves-light btn-sm m-b-5 remove_form" >Publier</a>
+                                        
+                                  </p></center>
+                                          </div>
+                                      </div><!-- /.modal-content -->
+                                  </div><!-- /.modal-dialog -->
+                              </div>
+          {% endfor %}
+                             
                                                    
                                                 <!-- Modal Edit-->
                                                {% for form in forms %}
@@ -160,7 +197,7 @@
                                                                     ×
                                                                 </button>
                                                                 <h4 class="modal-title">
-                                                                    Modifier le formulaire
+                                                                    Modifier les informations du formulaire
                                                                 </h4>
                                                             </div>
 
@@ -173,9 +210,9 @@
 
                                                                         <div class="form-group">
                                                                             <label>
-                                                                                Nom
+                                                                                Titre
                                                                             </label>
-                                                                            <input id="name_{{form.id}}" type="text" name="form[name]" required="required" class="form-control" placeholder="name" value="{{form.name}}">
+                                                                            <input id="name_{{form.id}}" type="text" name="form[name]" required="required" class="form-control" placeholder="Titre du formulaire" value="{{form.name}}">
                                                                             												
                                                                                                                                 
                                                                         </div>
@@ -189,7 +226,7 @@
                                                                             <label for="name">
                                                                                 Description
                                                                             </label>
-                                                                            <textarea id="description_{{form.id}}" name="form[description]" required="required" class="form-control autogrow" placeholder="description" >{{form.description}}</textarea>
+                                                                            <textarea id="description_{{form.id}}" name="form[description]" required="required" class="form-control autogrow" placeholder="Description du formulaire" >{{form.description}}</textarea>
                                                                                                                                 
                                                                         </div>
                                                                     </div>
@@ -236,9 +273,9 @@
 
                                                                         <div class="form-group">
                                                                             <label>
-                                                                                Nom
+                                                                                Titre
                                                                             </label>
-                                                                            {{ form_widget(form.name, {'attr' : {'class' :'form-control', 'placeholder' : 'name', 'name' : 'name' }}
+                                                                            {{ form_widget(form.name, {'attr' : {'class' :'form-control', 'placeholder' : 'Titre du formulaire', 'name' : 'name' }}
                                                                             ) }}
                                                                             												
                                                                                                                                 
@@ -253,7 +290,7 @@
                                                                             <label for="name">
                                                                                 Description
                                                                             </label>
-                                                                            {{ form_widget(form.description, {'attr' : {'class' :'form-control autogrow', 'placeholder' : 'description' }}
+                                                                            {{ form_widget(form.description, {'attr' : {'class' :'form-control autogrow', 'placeholder' : 'Description du formulaire' }}
                                                                             ) }}
                                                                                                                                 
                                                                         </div>

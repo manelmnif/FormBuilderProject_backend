@@ -74,6 +74,11 @@ class Element
      */
     private $multipleElements;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $multiple;
+
    
 
     public function __construct()
@@ -305,6 +310,18 @@ class Element
               $multipleElement->setElement(null);
           }
       }
+
+      return $this;
+  }
+
+  public function getMultiple(): ?string
+  {
+      return $this->multiple;
+  }
+
+  public function setMultiple(?string $multiple): self
+  {
+      $this->multiple = $multiple;
 
       return $this;
   }

@@ -1,0 +1,6 @@
+input_only_number: Autoriser seulement la saisie des chiffres
+required: Champ obligatoire
+maxlength: Longueur maximale
+minlength: Longueur minimale
+Max: Maximum
+Min: Minimum

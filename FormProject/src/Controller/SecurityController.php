@@ -44,9 +44,9 @@ class SecurityController extends AbstractController
     {
         $error = $utils->getLastAuthenticationError();
         $lastUserName = $utils->getLastUsername();
-        
+       
 
-        return $this->render('security/login.html.twig',[
+        return $this->render('security/login2.html.twig',[
             'error' => $error,
             'last_username' => $lastUserName
         ]);
@@ -55,20 +55,14 @@ class SecurityController extends AbstractController
     
      /**
      * @Route("/logout", name="logout")
-     * @throws Exception
      */
     public function logout(): void
     {
         throw new Exception('This should never be reached!');
     }
 
-      /**
-     * @Route("/register", name="security_registration")
-     * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param TokenStorageInterface $tokenStorage
-     * @return RedirectResponse|Response
-     */
+   
+
      /**
      * @Route("/register", name="security_registration")
      * @param Request $request
@@ -95,12 +89,12 @@ class SecurityController extends AbstractController
             $token = new UsernamePasswordToken($user, $user->getPassword(), 'main', $user->getRoles());
             $tokenStorage->setToken($token);
 
-            $this->addFlash('success', 'You have been successfully registered! Congratulations');
-            return $this->redirectToRoute('index');
+           
+            return $this->redirectToRoute('login');
         }
  
         return $this->render(
-            'security/register.html.twig',
+            'security/register2.html.twig',
             array('form' => $form->createView())
         );
     }
@@ -125,19 +119,11 @@ class SecurityController extends AbstractController
     public function test(Request $request, UserRepository $userRepository)
     {
      
-        $name = "pita";
-        
-       // $test = new Test();
-       // $test->setName($name);
-        //$model->setUser($user);
-        
-       // $this->entityManager->persist($test);
-        $this->entityManager->flush();
-
-        return new JsonResponse([
-            'message' => "hihi",
+        return $this->render(
+            'security/login2.html.twig');
+     
            
-        ]);
+
      
     }
 

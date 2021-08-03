@@ -54,6 +54,16 @@ class ElementType
      */
     private $typeHtml;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $icone;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $typeFr;
+
     public function __construct()
     {
         $this->element = new ArrayCollection();
@@ -176,6 +186,30 @@ class ElementType
     public function setTypeHtml(?string $typeHtml): self
     {
         $this->typeHtml = $typeHtml;
+
+        return $this;
+    }
+
+    public function getIcone(): ?string
+    {
+        return $this->icone;
+    }
+
+    public function setIcone(string $icone): self
+    {
+        $this->icone = $icone;
+
+        return $this;
+    }
+
+    public function getTypeFr(): ?string
+    {
+        return $this->typeFr;
+    }
+
+    public function setTypeFr(string $typeFr): self
+    {
+        $this->typeFr = $typeFr;
 
         return $this;
     }

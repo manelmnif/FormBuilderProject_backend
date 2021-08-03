@@ -47,4 +47,15 @@ class MultipleElementRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findIdByMultipleValue($element, $value)  {
+        
+        $q = $this->createQueryBuilder('multipleElementValue')
+        ->where("multipleElementValue.element = :element")
+        ->andWhere("multipleElementValue.value = :value")
+        ->setParameter('element', $element)
+        ->setParameter('value', $value);
+        
+
+        return  $q->getQuery()->getResult();
+    }
 }
